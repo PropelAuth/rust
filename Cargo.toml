@@ -1,10 +1,10 @@
 [package]
 name = "propelauth"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["support@propelauth.com"]
 description = "A Rust crate for managing authentication and authorization with support for multi-tenant / B2B products, powered by PropelAuth"
 keywords = ["authentication", "auth", "authorization", "b2b", "tenant"]
-categories = ["authentication", "auth", "authorization"]
+categories = ["authentication"]
 homepage = "https://www.propelauth.com"
 license = "MIT"
 edition = "2018"
@@ -16,7 +16,7 @@ serde_json = "^1.0"
 thiserror = "^1.0"
 url = "^2.2"
 uuid = { version = "^1.0", features = ["serde"] }
-reqwest = "~0.9"
+reqwest = { version = "^0.11", features = ["blocking", "json"] }
 jsonwebtoken = "8.1.1"
 [dev-dependencies]
 openssl = "0.10.43"
