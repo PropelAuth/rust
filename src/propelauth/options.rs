@@ -1,6 +1,6 @@
 use crate::models::AuthTokenVerificationMetadata;
 
-pub struct BaseAuthOptions {
+pub struct AuthOptionsWithTokenVerification {
     pub auth_url: String,
     pub api_key: String,
 
@@ -11,7 +11,12 @@ pub struct BaseAuthOptions {
     ///  per-request fetch.
     /// You can specify the token verification metadata manually,
     ///  which you can obtain from your PropelAuth project.
-    pub manual_token_verification_metadata: Option<AuthTokenVerificationMetadata>,
+    pub manual_token_verification_metadata: AuthTokenVerificationMetadata,
+}
+
+pub struct AuthOptions {
+    pub auth_url: String,
+    pub api_key: String,
 }
 
 #[derive(Debug, Clone, PartialEq)]
