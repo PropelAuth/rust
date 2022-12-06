@@ -116,7 +116,6 @@
 //! You can also get the full `auth` struct and make API calls with it:
 //!
 //! ```rust
-//! // Extension(auth) is useful for making API requests
 //! #[post("/magic_link")]
 //! async fn make_req(auth: web::Data<PropelAuth>) -> impl Responder {
 //!     let magic_link = auth.user().create_magic_link(CreateMagicLinkRequest {
