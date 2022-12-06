@@ -9,3 +9,6 @@ extern crate url;
 pub mod apis;
 pub mod models;
 pub mod propelauth;
+
+#[cfg(feature = "axum")]
+pub mod axum;
