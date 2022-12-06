@@ -32,7 +32,7 @@
 //! Then, add PropelAuthLayer to your Router:
 //!
 //! ```rust
-//! let layer = PropelAuthLayer::new(auth);
+//! let auth_layer = PropelAuthLayer::new(auth);
 //!
 //! let app = Router::new()
 //!     .route("/whoami", get(whoami))
@@ -128,8 +128,6 @@
 //! ```
 //!
 //! ## Other
-//!
-//! Want us to add support for another framework? Reach out at support@propelauth.com
 //!
 //! After initializing `auth`, you can verify [access tokens](https://docs.propelauth.com/overview/access-token/) by passing in the Authorization header (formatted `Bearer TOKEN`):
 //!
