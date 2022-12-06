@@ -1,11 +1,12 @@
 use crate::propelauth::auth::PropelAuth;
-use crate::propelauth::errors::UnauthorizedError;
+use crate::propelauth::errors::{UnauthorizedError, UnauthorizedOrForbiddenError};
 use crate::propelauth::token_models::User;
 use axum::async_trait;
 use axum::extract::FromRequestParts;
 use axum::http::header::AUTHORIZATION;
 use axum::http::request::Parts;
 use axum::http::StatusCode;
+use axum::response::IntoResponse;
 use axum::{body::Body, http::Request, response::Response};
 use std::future::Future;
 use std::pin::Pin;
@@ -92,5 +93,24 @@ where
             let response: Response = future.await?;
             Ok(response)
         })
+    }
+}
+
+impl IntoResponse for UnauthorizedError {
+    fn into_response(self) -> Response {
+        (StatusCode::UNAUTHORIZED, "Unauthorized").into_response()
+    }
+}
+
+impl IntoResponse for UnauthorizedOrForbiddenError {
+    fn into_response(self) -> Response {
+        match self {
+            UnauthorizedOrForbiddenError::Unauthorized(_) => {
+                (StatusCode::UNAUTHORIZED, "Unauthorized").into_response()
+            }
+            UnauthorizedOrForbiddenError::Forbidden(_) => {
+                (StatusCode::FORBIDDEN, "Forbidden").into_response()
+            }
+        }
     }
 }
