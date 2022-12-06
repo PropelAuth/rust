@@ -1,4 +1,7 @@
+use crate::propelauth::errors::DetailedForbiddenError;
+use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
 use serde::{Deserialize, Serialize};
+use std::collections::hash_map::{Keys, Values};
 use std::collections::HashMap;
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Default)]
@@ -12,6 +15,76 @@ pub struct User {
      *  this is their original ID from that system. */
     #[serde(default)]
     pub legacy_user_id: Option<String>,
+}
+
+impl User {
+    pub fn validate_org_membership(
+        &self,
+        required_org: RequiredOrg,
+        user_requirements_in_org: UserRequirementsInOrg,
+    ) -> Result<OrgMemberInfo, DetailedForbiddenError> {
+        let org_member_info = self
+            .get_org(required_org)
+            .ok_or(DetailedForbiddenError::UserIsNotInOrg)?;
+
+        match user_requirements_in_org {
+            UserRequirementsInOrg::None => Ok(org_member_info.clone()),
+            UserRequirementsInOrg::IsRole(required_role) => {
+                if org_member_info.is_role(required_role) {
+                    Ok(org_member_info.clone())
+                } else {
+                    Err(DetailedForbiddenError::UserRoleDoesntMatch)
+                }
+            }
+            UserRequirementsInOrg::IsAtLeastRole(minimum_required_role) => {
+                if org_member_info.is_at_least_role(minimum_required_role) {
+                    Ok(org_member_info.clone())
+                } else {
+                    Err(DetailedForbiddenError::UserRoleDoesntMatch)
+                }
+            }
+            UserRequirementsInOrg::HasPermission(permission) => {
+                if org_member_info.has_permission(permission) {
+                    Ok(org_member_info.clone())
+                } else {
+                    Err(DetailedForbiddenError::UserMissingPermission)
+                }
+            }
+            UserRequirementsInOrg::HasAllPermissions(permissions) => {
+                if org_member_info.has_all_permissions(permissions) {
+                    Ok(org_member_info.clone())
+                } else {
+                    Err(DetailedForbiddenError::UserMissingPermission)
+                }
+            }
+        }
+    }
+
+    pub fn get_org(&self, org: RequiredOrg) -> Option<&OrgMemberInfo> {
+        match org {
+            RequiredOrg::OrgId(required_org_id) => {
+                self.org_id_to_org_member_info.get(required_org_id)
+            }
+            RequiredOrg::OrgName(required_org_name) => {
+                self.get_all_orgs().find(|org_member_info| {
+                    org_member_info.org_name == required_org_name
+                        || org_member_info.url_safe_org_name == required_org_name
+                })
+            }
+        }
+    }
+
+    pub fn get_all_orgs(&self) -> Values<'_, String, OrgMemberInfo> {
+        self.org_id_to_org_member_info.values()
+    }
+
+    pub fn get_all_org_ids(&self) -> Keys<'_, String, OrgMemberInfo> {
+        self.org_id_to_org_member_info.keys()
+    }
+
+    pub fn get_num_orgs(&self) -> usize {
+        self.org_id_to_org_member_info.len()
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]

@@ -1,11 +1,10 @@
 use crate::models::AuthTokenVerificationMetadata;
 use crate::propelauth::errors::{
-    DetailedAuthError, DetailedForbiddenError, UnauthorizedError, UnauthorizedOrForbiddenError,
+    DetailedAuthError, UnauthorizedError, UnauthorizedOrForbiddenError,
 };
 use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
-use crate::propelauth::token_models::{OrgMemberInfo, User, UserAndOrgMemberInfo};
+use crate::propelauth::token_models::{User, UserAndOrgMemberInfo};
 use jsonwebtoken::{decode, Algorithm, DecodingKey, Validation};
-use std::collections::HashMap;
 
 pub struct TokenService<'a> {
     pub(crate) token_verification_metadata: &'a AuthTokenVerificationMetadata,
@@ -28,76 +27,12 @@ impl TokenService<'_> {
         user_requirements_in_org: UserRequirementsInOrg,
     ) -> Result<UserAndOrgMemberInfo, UnauthorizedOrForbiddenError> {
         let user = self.validate_authorization_header(authorization_header)?;
-        let org_member_info = Self::validate_org_access_and_get_member_info(
-            &user,
-            required_org,
-            user_requirements_in_org,
-        )?;
+        let org_member_info =
+            user.validate_org_membership(required_org, user_requirements_in_org)?;
         Ok(UserAndOrgMemberInfo {
             user,
             org_member_info,
         })
-    }
-
-    fn validate_org_access_and_get_member_info(
-        user: &User,
-        required_org: RequiredOrg,
-        user_requirements_in_org: UserRequirementsInOrg,
-    ) -> Result<OrgMemberInfo, DetailedForbiddenError> {
-        let org_member_info =
-            Self::get_user_info_in_org(required_org, &user.org_id_to_org_member_info)
-                .ok_or(DetailedForbiddenError::UserIsNotInOrg)?;
-
-        match user_requirements_in_org {
-            UserRequirementsInOrg::None => Ok(org_member_info),
-            UserRequirementsInOrg::IsRole(required_role) => {
-                if org_member_info.is_role(required_role) {
-                    Ok(org_member_info)
-                } else {
-                    Err(DetailedForbiddenError::UserRoleDoesntMatch)
-                }
-            }
-            UserRequirementsInOrg::IsAtLeastRole(minimum_required_role) => {
-                if org_member_info.is_at_least_role(minimum_required_role) {
-                    Ok(org_member_info)
-                } else {
-                    Err(DetailedForbiddenError::UserRoleDoesntMatch)
-                }
-            }
-            UserRequirementsInOrg::HasPermission(permission) => {
-                if org_member_info.has_permission(permission) {
-                    Ok(org_member_info)
-                } else {
-                    Err(DetailedForbiddenError::UserMissingPermission)
-                }
-            }
-            UserRequirementsInOrg::HasAllPermissions(permissions) => {
-                if org_member_info.has_all_permissions(permissions) {
-                    Ok(org_member_info)
-                } else {
-                    Err(DetailedForbiddenError::UserMissingPermission)
-                }
-            }
-        }
-    }
-
-    fn get_user_info_in_org(
-        required_org: RequiredOrg,
-        org_id_to_org_member_info: &HashMap<String, OrgMemberInfo>,
-    ) -> Option<OrgMemberInfo> {
-        let org_member_info = match required_org {
-            RequiredOrg::OrgId(required_org_id) => {
-                org_id_to_org_member_info.get(required_org_id)?
-            }
-            RequiredOrg::OrgName(required_org_name) => {
-                org_id_to_org_member_info.values().find(|org_member_info| {
-                    org_member_info.org_name == required_org_name
-                        || org_member_info.url_safe_org_name == required_org_name
-                })?
-            }
-        };
-
-        Some((*org_member_info).clone())
     }
 
     fn extract_bearer_token(authorization_header: &str) -> Result<String, DetailedAuthError> {
@@ -270,10 +205,9 @@ mod tests {
 
     #[test]
     fn validation_checks_orgs_correctly() {
-        let org_id_to_org_member_info = get_org_id_to_org_member_info();
         let expected_user = User {
             user_id: "bf7b3bc0-739d-45a2-ba60-60655249a5b0".to_string(),
-            org_id_to_org_member_info: org_id_to_org_member_info.clone(),
+            org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
         };
         let (jwt, token_verification_metadata) =
@@ -281,11 +215,8 @@ mod tests {
         let token_service = get_token_service(&token_verification_metadata);
         let auth_header = format!("Bearer {}", jwt);
 
-        let expected_successful_response_for_org_id_1 = Ok(get_expected_org_response(
-            &expected_user,
-            &org_id_to_org_member_info,
-            "org_id_1",
-        ));
+        let expected_successful_response_for_org_id_1 =
+            Ok(get_expected_org_response(&expected_user, "org_id_1"));
         for required_org in vec![OrgId("org_id_1"), OrgName("org_name_1")] {
             for requirements in vec![
                 UserRequirementsInOrg::None,
@@ -325,11 +256,8 @@ mod tests {
             }
         }
 
-        let expected_successful_response_for_org_id_2 = Ok(get_expected_org_response(
-            &expected_user,
-            &org_id_to_org_member_info,
-            "org_id_2",
-        ));
+        let expected_successful_response_for_org_id_2 =
+            Ok(get_expected_org_response(&expected_user, "org_id_2"));
         for required_org in vec![OrgId("org_id_2"), OrgName("org_name_2")] {
             for requirements in vec![
                 UserRequirementsInOrg::None,
@@ -369,11 +297,8 @@ mod tests {
             }
         }
 
-        let expected_successful_response_for_org_id_3 = Ok(get_expected_org_response(
-            &expected_user,
-            &org_id_to_org_member_info,
-            "org_id_3",
-        ));
+        let expected_successful_response_for_org_id_3 =
+            Ok(get_expected_org_response(&expected_user, "org_id_3"));
         for required_org in vec![OrgId("org_id_3"), OrgName("org_name_3")] {
             for requirements in vec![
                 UserRequirementsInOrg::None,
@@ -460,12 +385,11 @@ mod tests {
 
     fn get_expected_org_response(
         expected_user: &User,
-        org_id_to_org_member_info: &HashMap<String, OrgMemberInfo>,
         org_id: &'static str,
     ) -> UserAndOrgMemberInfo {
         UserAndOrgMemberInfo {
             user: expected_user.clone(),
-            org_member_info: org_id_to_org_member_info.get(org_id).unwrap().clone(),
+            org_member_info: expected_user.get_org(OrgId(org_id)).unwrap().clone(),
         }
     }
 
