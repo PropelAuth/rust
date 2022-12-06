@@ -11,6 +11,7 @@ use url::Url;
 
 /// The main entrypoint of this library.
 /// All authentication, authorization and API requests starts from this struct
+#[derive(Debug, Clone)]
 pub struct PropelAuth {
     config: Configuration,
     token_verification_metadata: AuthTokenVerificationMetadata,

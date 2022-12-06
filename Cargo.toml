@@ -21,6 +21,8 @@ jsonwebtoken = "8.1.1"
 axum = { version = "^0.6", optional = true }
 tower = { version = "^0.4", optional = true }
 
+actix-web = { version = "4", optional = true }
+
 [dependencies.reqwest]
 version = "^0.11"
 features = ["json", "multipart"]
@@ -30,3 +32,4 @@ openssl = "0.10.43"
 
 [features]
 axum = ["dep:axum", "dep:tower"]
+actix4 = ["dep:actix-web"]

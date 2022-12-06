@@ -12,3 +12,6 @@ pub mod propelauth;
 
 #[cfg(feature = "axum")]
 pub mod axum;
+
+#[cfg(feature = "actix4")]
+mod actix;
