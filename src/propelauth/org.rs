@@ -4,10 +4,7 @@ use crate::apis::org_service_api::{
     DisallowSamlParams, FetchOrgParams, FetchOrgsByQueryParams, FetchUsersInOrgParams,
     RemoveUserFromOrgParams, UpdateOrgParams,
 };
-use crate::models::{
-    AddUserToOrgRequest, ChangeUserRoleInOrgRequest, CreateOrgRequest, CreateOrgResponse,
-    FetchOrgsResponse, RemoveUserFromOrgRequest, UpdateOrgRequest, UserPagedResponse,
-};
+use crate::models::{AddUserToOrgRequest, ChangeUserRoleInOrgRequest, CreateOrgRequest, CreateOrgResponse, FetchOrgResponse, FetchOrgsResponse, RemoveUserFromOrgRequest, UpdateOrgRequest, UserPagedResponse};
 use crate::propelauth::errors::{
     CreateOrgError, ErrorsWithNotFound, FetchOrgsByQueryError, FetchUsersInOrgError,
     OrgMissingOrRoleError, UpdateOrgError,
@@ -20,7 +17,7 @@ pub struct OrgService<'a> {
 
 impl OrgService<'_> {
     /// Fetch an organization by it's ID
-    pub async fn fetch_org(&self, org_id: String) -> Result<(), ErrorsWithNotFound> {
+    pub async fn fetch_org(&self, org_id: String) -> Result<FetchOrgResponse, ErrorsWithNotFound> {
         if !is_valid_id(&org_id) {
             return Err(ErrorsWithNotFound::NotFound);
         }
@@ -38,8 +35,7 @@ impl OrgService<'_> {
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
                 )
-            })?;
-        Ok(())
+            })
     }
 
     /// Fetch and page over organizations
