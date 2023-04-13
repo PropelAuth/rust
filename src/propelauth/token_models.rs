@@ -1,8 +1,11 @@
-use crate::propelauth::errors::DetailedForbiddenError;
-use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
-use serde::{Deserialize, Serialize};
 use std::collections::hash_map::{Keys, Values};
 use std::collections::HashMap;
+
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+
+use crate::propelauth::errors::DetailedForbiddenError;
+use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Default)]
 pub struct User {
@@ -15,6 +18,13 @@ pub struct User {
      *  this is their original ID from that system. */
     #[serde(default)]
     pub legacy_user_id: Option<String>,
+
+    #[serde(default)]
+    pub impersonated_user_id: Option<String>,
+
+    #[serde(default)]
+    pub metadata: HashMap<String, String>,
+
 }
 
 impl User {
@@ -85,12 +95,17 @@ impl User {
     pub fn get_num_orgs(&self) -> usize {
         self.org_id_to_org_member_info.len()
     }
+
+    pub fn is_impersonated(&self) -> bool {
+        self.impersonated_user_id.is_some()
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct OrgMemberInfo {
     pub org_id: String,
     pub org_name: String,
+    pub org_metadata: HashMap<String, Value>,
     pub url_safe_org_name: String,
     pub user_role: String,
     pub inherited_user_roles_plus_current_role: Vec<String>,
