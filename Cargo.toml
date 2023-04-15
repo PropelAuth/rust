@@ -1,6 +1,6 @@
 [package]
 name = "propelauth"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["support@propelauth.com"]
 description = "A Rust crate for managing authentication and authorization with support for multi-tenant / B2B products, powered by PropelAuth"
 keywords = ["authentication", "auth", "authorization", "b2b", "tenant"]
@@ -10,18 +10,16 @@ license = "MIT"
 edition = "2018"
 
 [dependencies]
+actix-web = { version = "4", optional = true }
+axum = { version = "^0.6", optional = true }
+jsonwebtoken = "8.1.1"
 serde = "^1.0"
 serde_derive = "^1.0"
 serde_json = "^1.0"
 thiserror = "^1.0"
+tower = { version = "^0.4", optional = true }
 url = "^2.2"
 uuid = { version = "^1.0", features = ["serde"] }
-jsonwebtoken = "8.1.1"
-
-axum = { version = "^0.6", optional = true }
-tower = { version = "^0.4", optional = true }
-
-actix-web = { version = "4", optional = true }
 
 [dependencies.reqwest]
 version = "^0.11"

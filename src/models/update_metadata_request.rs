@@ -11,6 +11,10 @@
 
 
 
+use std::collections::HashMap;
+
+use serde_json::Value;
+
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct UpdateMetadataRequest {
     #[serde(rename = "username", skip_serializing_if = "Option::is_none")]
@@ -21,6 +25,8 @@ pub struct UpdateMetadataRequest {
     pub last_name: Option<String>,
     #[serde(rename = "picture_url", skip_serializing_if = "Option::is_none")]
     pub picture_url: Option<String>,
+    #[serde(rename = "metadata", skip_serializing_if = "Option::is_none")]
+    pub metadata: Option<HashMap<String, Value>>,
 }
 
 impl UpdateMetadataRequest {
@@ -30,6 +36,7 @@ impl UpdateMetadataRequest {
             first_name: None,
             last_name: None,
             picture_url: None,
+            metadata: None,
         }
     }
 }

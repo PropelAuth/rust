@@ -11,6 +11,10 @@
 
 
 
+use std::collections::HashMap;
+
+use serde_json::Value;
+
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct UserMetadata {
     #[serde(rename = "user_id")]
@@ -40,9 +44,13 @@ pub struct UserMetadata {
     #[serde(rename = "last_active_at")]
     pub last_active_at: i64,
     #[serde(rename = "org_id_to_org_info", skip_serializing_if = "Option::is_none")]
-    pub org_id_to_org_info: Option<::std::collections::HashMap<String, crate::models::UserInOrg>>,
+    pub org_id_to_org_info: Option<HashMap<String, crate::models::UserInOrg>>,
     #[serde(rename = "legacy_user_id", skip_serializing_if = "Option::is_none")]
     pub legacy_user_id: Option<String>,
+    #[serde(rename = "impersonated_user_id", skip_serializing_if = "Option::is_none")]
+    pub impersonated_user_id: Option<String>,
+    #[serde(rename = "metadata", skip_serializing_if = "Option::is_none")]
+    pub metadata: Option<HashMap<String, Value>>,
 }
 
 impl UserMetadata {
@@ -63,6 +71,8 @@ impl UserMetadata {
             last_active_at,
             org_id_to_org_info: None,
             legacy_user_id: None,
+            impersonated_user_id: None,
+            metadata: None,
         }
     }
 }

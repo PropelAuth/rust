@@ -1,10 +1,11 @@
+use jsonwebtoken::{Algorithm, decode, DecodingKey, Validation};
+
 use crate::models::AuthTokenVerificationMetadata;
 use crate::propelauth::errors::{
     DetailedAuthError, UnauthorizedError, UnauthorizedOrForbiddenError,
 };
 use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
 use crate::propelauth::token_models::{User, UserAndOrgMemberInfo};
-use jsonwebtoken::{decode, Algorithm, DecodingKey, Validation};
 
 pub struct TokenService<'a> {
     pub(crate) token_verification_metadata: &'a AuthTokenVerificationMetadata,
@@ -64,6 +65,12 @@ impl TokenService<'_> {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashMap;
+    use std::time::SystemTime;
+
+    use jsonwebtoken::{Algorithm, encode, EncodingKey, Header};
+    use openssl::rsa::Rsa;
+
     use crate::models::AuthTokenVerificationMetadata;
     use crate::propelauth::errors::{
         DetailedAuthError, DetailedForbiddenError, UnauthorizedError, UnauthorizedOrForbiddenError,
@@ -72,10 +79,6 @@ mod tests {
     use crate::propelauth::options::UserRequirementsInOrg;
     use crate::propelauth::token::TokenService;
     use crate::propelauth::token_models::{OrgMemberInfo, User, UserAndOrgMemberInfo};
-    use jsonwebtoken::{encode, Algorithm, EncodingKey, Header};
-    use openssl::rsa::Rsa;
-    use std::collections::HashMap;
-    use std::time::SystemTime;
 
     const ISSUER: &'static str = "https://testissuer.propelauthtest.com";
 
@@ -108,6 +111,8 @@ mod tests {
             user_id: "bf7b3bc0-739d-45a2-ba60-60655249a5b0".to_string(),
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
+            impersonated_user_id: None,
+            metadata: HashMap::new(),
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -209,6 +214,8 @@ mod tests {
             user_id: "bf7b3bc0-739d-45a2-ba60-60655249a5b0".to_string(),
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
+            impersonated_user_id: None,
+            metadata: HashMap::new(),
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -364,6 +371,8 @@ mod tests {
             user_id: "bf7b3bc0-739d-45a2-ba60-60655249a5b0".to_string(),
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
+            impersonated_user_id: None,
+            metadata: HashMap::new(),
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -443,6 +452,7 @@ mod tests {
             OrgMemberInfo {
                 org_id: "org_id_1".to_string(),
                 org_name: "org_name_1".to_string(),
+                org_metadata: HashMap::new(),
                 url_safe_org_name: "org_name_1".to_string(),
                 user_role: "Owner".to_string(),
                 inherited_user_roles_plus_current_role: vec![
@@ -458,6 +468,7 @@ mod tests {
             OrgMemberInfo {
                 org_id: "org_id_2".to_string(),
                 org_name: "org_name_2".to_string(),
+                org_metadata: HashMap::new(),
                 url_safe_org_name: "org_name_2".to_string(),
                 user_role: "Admin".to_string(),
                 inherited_user_roles_plus_current_role: vec![
@@ -472,6 +483,7 @@ mod tests {
             OrgMemberInfo {
                 org_id: "org_id_3".to_string(),
                 org_name: "org_name_3".to_string(),
+                org_metadata: HashMap::new(),
                 url_safe_org_name: "org_name_3".to_string(),
                 user_role: "Member".to_string(),
                 inherited_user_roles_plus_current_role: vec!["Member".to_string()],
