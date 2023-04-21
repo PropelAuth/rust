@@ -14,6 +14,14 @@ pub struct User {
     #[serde(default)]
     pub org_id_to_org_member_info: HashMap<String, OrgMemberInfo>,
 
+    pub email: String,
+    #[serde(default)]
+    pub first_name: Option<String>,
+    #[serde(default)]
+    pub last_name: Option<String>,
+    #[serde(default)]
+    pub username: Option<String>,
+
     /** If you used our migration APIs to migrate this user from a different system,
      *  this is their original ID from that system. */
     #[serde(default)]
