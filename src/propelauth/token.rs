@@ -1,4 +1,4 @@
-use jsonwebtoken::{Algorithm, decode, DecodingKey, Validation};
+use jsonwebtoken::{decode, Algorithm, DecodingKey, Validation};
 
 use crate::models::AuthTokenVerificationMetadata;
 use crate::propelauth::errors::{
@@ -68,7 +68,7 @@ mod tests {
     use std::collections::HashMap;
     use std::time::SystemTime;
 
-    use jsonwebtoken::{Algorithm, encode, EncodingKey, Header};
+    use jsonwebtoken::{encode, Algorithm, EncodingKey, Header};
     use openssl::rsa::Rsa;
 
     use crate::models::AuthTokenVerificationMetadata;
@@ -109,6 +109,10 @@ mod tests {
     fn validation_gets_user_with_orgs_back() {
         let expected_user = User {
             user_id: "bf7b3bc0-739d-45a2-ba60-60655249a5b0".to_string(),
+            email: "easteregg@propelauth.com".to_string(),
+            first_name: Some("Easter".to_string()),
+            last_name: Some("Egg".to_string()),
+            username: None,
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
             impersonated_user_id: None,
@@ -129,6 +133,10 @@ mod tests {
             expected_user.org_id_to_org_member_info
         );
         assert_eq!(user.legacy_user_id, expected_user.legacy_user_id);
+        assert_eq!(user.email, expected_user.email);
+        assert_eq!(user.first_name, expected_user.first_name);
+        assert_eq!(user.last_name, expected_user.last_name);
+        assert_eq!(user.username, expected_user.username);
     }
 
     #[test]
@@ -212,6 +220,10 @@ mod tests {
     fn validation_checks_orgs_correctly() {
         let expected_user = User {
             user_id: "bf7b3bc0-739d-45a2-ba60-60655249a5b0".to_string(),
+            email: "easteregg@propelauth.com".to_string(),
+            first_name: Some("Easter".to_string()),
+            last_name: None,
+            username: None,
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
             impersonated_user_id: None,
@@ -369,6 +381,10 @@ mod tests {
     fn org_validation_can_throw_unauthorized() {
         let expected_user = User {
             user_id: "bf7b3bc0-739d-45a2-ba60-60655249a5b0".to_string(),
+            email: "easteregg@propelauth.com".to_string(),
+            first_name: None,
+            last_name: None,
+            username: None,
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
             impersonated_user_id: None,
@@ -416,6 +432,10 @@ mod tests {
             exp,
             iss: ISSUER.to_string(),
             user_id: user.user_id,
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            username: user.username,
             org_id_to_org_member_info: user.org_id_to_org_member_info,
             legacy_user_id: user.legacy_user_id,
         };
@@ -499,9 +519,18 @@ mod tests {
         exp: i64,
         iss: String,
         user_id: String,
-        #[serde(skip_serializing_if = "HashMap::is_empty")]
-        pub org_id_to_org_member_info: HashMap<String, OrgMemberInfo>,
+
+        email: String,
         #[serde(skip_serializing_if = "Option::is_none")]
-        pub legacy_user_id: Option<String>,
+        first_name: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        last_name: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        username: Option<String>,
+
+        #[serde(skip_serializing_if = "HashMap::is_empty")]
+        org_id_to_org_member_info: HashMap<String, OrgMemberInfo>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        legacy_user_id: Option<String>,
     }
 }
