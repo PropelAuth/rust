@@ -17,6 +17,8 @@ pub struct FetchOrgResponse {
     pub org_id: String,
     #[serde(rename = "name")]
     pub name: String,
+    #[serde(rename = "max_users", skip_serializing_if = "Option::is_none")]
+    pub max_users: Option<i64>,
 }
 
 impl FetchOrgResponse {
@@ -24,6 +26,7 @@ impl FetchOrgResponse {
         FetchOrgResponse {
             org_id,
             name,
+            max_users: None,
         }
     }
 }
