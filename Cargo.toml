@@ -21,6 +21,7 @@ thiserror = "^1.0"
 tower = { version = "^0.4", optional = true }
 url = "^2.2"
 uuid = { version = "^1.0", features = ["serde"] }
+hex = "0.4.3"
 
 [dependencies.reqwest]
 version = "^0.11"

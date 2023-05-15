@@ -4,6 +4,7 @@
  * For consistency with the rest of this codebase, this file matches the output of the terrible openapi generator.
  */
 
+use hex;
 use reqwest;
 
 use crate::apis::ResponseContent;
@@ -147,6 +148,10 @@ pub async fn fetch_archived_api_keys(configuration: &configuration::Configuratio
 }
 
 pub async fn fetch_api_key(configuration: &configuration::Configuration, api_key_id: String) -> Result<crate::models::FetchApiKeyResponse, Error<ApiKeyError>> {
+    if hex::decode(&api_key_id).is_err() {
+        return Err(Error::Params("Invalid API key ID format".to_string()));
+    }
+
     let client = &configuration.client;
 
     let uri = format!("{}/api/backend/v1/end_user_api_keys/{}", configuration.base_path, api_key_id);
@@ -205,6 +210,10 @@ pub async fn create_api_key(configuration: &configuration::Configuration, params
 }
 
 pub async fn update_api_key(configuration: &configuration::Configuration, api_key_id: String, params: UpdateApiKeyParams) -> Result<crate::models::SuccessfulResponse, Error<ApiKeyError>> {
+    if hex::decode(&api_key_id).is_err() {
+        return Err(Error::Params("Invalid API key ID format".to_string()));
+    }
+
     let client = &configuration.client;
 
     let uri = format!("{}/api/backend/v1/end_user_api_keys/{}", configuration.base_path, api_key_id);
@@ -235,6 +244,10 @@ pub async fn update_api_key(configuration: &configuration::Configuration, api_ke
 }
 
 pub async fn delete_api_key(configuration: &configuration::Configuration, api_key_id: String) -> Result<crate::models::SuccessfulResponse, Error<ApiKeyError>> {
+    if hex::decode(&api_key_id).is_err() {
+        return Err(Error::Params("Invalid API key ID format".to_string()));
+    }
+
     let client = &configuration.client;
 
     let uri = format!("{}/api/backend/v1/end_user_api_keys/{}", configuration.base_path, api_key_id);
@@ -263,6 +276,10 @@ pub async fn delete_api_key(configuration: &configuration::Configuration, api_ke
 }
 
 pub async fn validate_api_key(configuration: &configuration::Configuration, params: ValidateApiKeyParams) -> Result<crate::models::ValidateApiKeyResponse, Error<ApiKeyError>> {
+    if hex::decode(&params.api_key_token).is_err() {
+        return Err(Error::Params("Invalid API key ID format".to_string()));
+    }
+
     let client = &configuration.client;
 
     let uri = format!("{}/api/backend/v1/end_user_api_keys/validate", configuration.base_path);

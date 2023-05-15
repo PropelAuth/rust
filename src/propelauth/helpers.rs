@@ -9,6 +9,7 @@ where
         Error::Reqwest(_) => return unexpected_error,
         Error::Serde(_) => return unexpected_error,
         Error::Io(_) => return unexpected_error,
+        Error::Params(_) => return unexpected_error,
         Error::ResponseError(response_content) => {
             map(response_content.status, response_content.entity)
         }
