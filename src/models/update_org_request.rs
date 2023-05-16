@@ -21,6 +21,8 @@ pub struct UpdateOrgRequest {
     pub name: Option<String>,
     #[serde(rename = "can_setup_saml", skip_serializing_if = "Option::is_none")]
     pub can_setup_saml: Option<bool>,
+    #[serde(rename = "max_users", skip_serializing_if = "Option::is_none")]
+    pub max_users: Option<i32>,
     #[serde(rename = "metadata", skip_serializing_if = "Option::is_none")]
     pub metadata: Option<HashMap<String, Value>>,
 }
@@ -30,9 +32,8 @@ impl UpdateOrgRequest {
         UpdateOrgRequest {
             name: None,
             can_setup_saml: None,
+            max_users: None,
             metadata: None,
         }
     }
 }
-
-
