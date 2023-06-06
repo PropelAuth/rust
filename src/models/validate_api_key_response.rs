@@ -22,6 +22,20 @@ impl ValidateApiKeyResponse {
 }
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
+pub struct ValidatePersonalApiKeyResponse {
+    pub metadata: Option<serde_json::Value>,
+    pub user_metadata: UserMetadata,
+}
+
+#[derive(Clone, Debug, PartialEq, Deserialize)]
+pub struct ValidateOrgApiKeyResponse {
+    pub metadata: Option<serde_json::Value>,
+    pub user_metadata: Option<UserMetadata>,
+    pub org_metadata: OrgInternalMetadata,
+    pub user_role_in_org: Option<OrgRole>,
+}
+
+#[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct OrgInternalMetadata {
     pub org_id: Uuid,
     pub org_name: String,

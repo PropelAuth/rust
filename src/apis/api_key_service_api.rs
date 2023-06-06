@@ -43,13 +43,15 @@ pub struct ValidateApiKeyParams {
     pub api_key_token: String,
 }
 
-/// struct for typed errors on the api keys service
+// struct for typed errors on the api keys service
 #[derive(Debug, Clone, Deserialize)]
 #[serde(untagged)]
 pub enum ApiKeyError {
     BadRequest(crate::models::BadUpdateOrgRequest),
+    InvalidIntegrationAPIKey,
     InvalidAPIKey,
-    InvalidEndUserAPIKey,
+    InvalidPersonalAPIKey,
+    InvalidOrgAPIKey,
     NotFound,
     UnknownValue(serde_json::Value),
     UnknownError,
