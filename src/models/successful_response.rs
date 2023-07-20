@@ -23,6 +23,11 @@ impl SuccessfulResponse {
             message: None,
         }
     }
+    pub fn new_with_message(message: String) -> SuccessfulResponse {
+        SuccessfulResponse {
+            message: Some(message),
+        }
+    }
 }
 
 

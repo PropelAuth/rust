@@ -58,6 +58,8 @@ pub mod fetch_orgs_response;
 pub use self::fetch_orgs_response::FetchOrgsResponse;
 pub mod fetch_users_order_by;
 pub use self::fetch_users_order_by::FetchUsersOrderBy;
+pub mod invite_user_to_org_request;
+pub use self::invite_user_to_org_request::InviteUserToOrgRequest;
 pub mod magic_link;
 pub use self::magic_link::MagicLink;
 pub mod migrate_user_request;
