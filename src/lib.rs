@@ -37,7 +37,7 @@
 //! let app = Router::new()
 //!     .route("/whoami", get(whoami))
 //!     .route("/org/:org_name/whoami", get(org_whoami))
-//!     .layer(layer); // <-- here
+//!     .layer(auth_layer); // <-- here
 //! ```
 //!
 //! You can then take `User` in as an argument, which will look for an [access token](https://docs.propelauth.com/overview/access-token/) in the Authorization header.
