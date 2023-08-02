@@ -11,6 +11,9 @@
 
 
 
+use std::collections::HashMap;
+use serde_json::Value;
+
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct CreateUserRequest {
     #[serde(rename = "email")]
@@ -27,6 +30,8 @@ pub struct CreateUserRequest {
     pub first_name: Option<String>,
     #[serde(rename = "last_name", skip_serializing_if = "Option::is_none")]
     pub last_name: Option<String>,
+    #[serde(rename = "properties", skip_serializing_if = "Option::is_none")]
+    pub properties: Option<HashMap<String, Value>>,
 }
 
 impl CreateUserRequest {
@@ -39,6 +44,7 @@ impl CreateUserRequest {
             username: None,
             first_name: None,
             last_name: None,
+            properties: None,
         }
     }
 }
