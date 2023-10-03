@@ -114,6 +114,18 @@ pub enum UpdatePasswordError {
 }
 
 #[derive(Error, Debug, PartialEq, Clone)]
+pub enum ClearPasswordError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Not found")]
+    NotFound,
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
 pub enum MigrateUserError {
     #[error("Invalid API Key")]
     InvalidApiKey,
