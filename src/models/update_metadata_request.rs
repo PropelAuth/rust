@@ -29,6 +29,8 @@ pub struct UpdateMetadataRequest {
     pub metadata: Option<HashMap<String, Value>>,
     #[serde(rename = "properties", skip_serializing_if = "Option::is_none")]
     pub properties: Option<HashMap<String, Value>>,
+    #[serde(rename = "update_password_required", skip_serializing_if = "Option::is_none")]
+    pub update_password_required: Option<bool>,
 }
 
 impl UpdateMetadataRequest {
@@ -40,6 +42,7 @@ impl UpdateMetadataRequest {
             picture_url: None,
             metadata: None,
             properties: None,
+            update_password_required: None,
         }
     }
 }
