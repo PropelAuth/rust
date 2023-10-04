@@ -15,14 +15,14 @@ pub struct CreateAccessTokenParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateAccessTokenError {
-    Status400(serde_json::Value),
+    Status400(crate::models::BadCreateAccessTokenError),
     Status401(serde_json::Value),
     Status404(serde_json::Value),
     UnknownValue(serde_json::Value),
 }
 
 
-pub async fn create_access_tokne(configuration: &configuration::Configuration, params: CreateAccessTokenParams) -> Result<crate::models::CreateAccessTokenResponse, Error<CreateAccessTokenError>> {
+pub async fn create_access_token(configuration: &configuration::Configuration, params: CreateAccessTokenParams) -> Result<crate::models::CreateAccessTokenResponse, Error<CreateAccessTokenError>> {
     let local_var_configuration = configuration;
 
     // unbox the parameters

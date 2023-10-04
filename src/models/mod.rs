@@ -90,3 +90,5 @@ pub mod create_access_token_response;
 pub use self::create_access_token_response::CreateAccessTokenResponse;
 pub mod create_access_token_request;
 pub use self::create_access_token_request::CreateAccessTokenRequest;
+pub mod bad_create_access_token_error;
+pub use self::bad_create_access_token_error::BadCreateAccessTokenError;
