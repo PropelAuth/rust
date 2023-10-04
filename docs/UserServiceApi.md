@@ -22,6 +22,7 @@ All URIs are relative to _http://localhost_
 | [**update_user_metadata**](UserServiceApi.md#update_user_metadata)         | **PUT** /api/backend/v1/user/{user_id}               |
 | [**update_user_password**](UserServiceApi.md#update_user_password)         | **PUT** /api/backend/v1/user/{user_id}/password      |
 | [**clear_user_password**](UserServiceApi.md#clear_user_password)           | **PUT** /api/backend/v1/user/{user_id}/clear_passwrd |
+| [**invite_user_to_org**](UserServiceApi.md#invite_user_to_org)             | **POST** /api/backend/v1/org/invite_user             |
 
 ## create_magic_link
 
@@ -470,6 +471,16 @@ All URIs are relative to _http://localhost_
 | Name        | Type       | Description | Required   | Notes |
 | ----------- | ---------- | ----------- | ---------- | ----- |
 | **user_id** | **String** |             | [required] |
+
+## invite_user_to_org
+
+> crate::models::SuccessfulResponse invite_user_to_org(invite_user_to_org_request)
+
+### Parameters
+
+| Name                           | Type                                                    | Description | Required   | Notes |
+| ------------------------------ | ------------------------------------------------------- | ----------- | ---------- | ----- |
+| **invite_user_to_org_request** | [**InviteUserToOrgRequest**](InviteUserToOrgRequest.md) |             | [required] |
 
 ### Return type
 
