@@ -98,6 +98,7 @@ impl PropelAuth {
         }
     }
 
+    /// API requests related to access tokens.
     pub fn access_token(&self) -> AccessTokenService {
         AccessTokenService {
             config: &self.config,
