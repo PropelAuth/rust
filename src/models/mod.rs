@@ -86,3 +86,7 @@ pub mod usernames_query;
 pub use self::usernames_query::UsernamesQuery;
 pub mod validate_api_key_response;
 pub use self::validate_api_key_response::ValidateApiKeyResponse;
+pub mod create_access_token_response;
+pub use self::create_access_token_response::CreateAccessTokenResponse;
+pub mod create_access_token_request;
+pub use self::create_access_token_request::CreateAccessTokenRequest;
