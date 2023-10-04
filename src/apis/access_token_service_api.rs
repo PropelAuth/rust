@@ -31,7 +31,7 @@ pub async fn create_access_token(configuration: &configuration::Configuration, p
     let local_var_client = &local_var_configuration.client;
 
     let local_var_uri_str = format!("{}/api/backend/v1/access_token", local_var_configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
