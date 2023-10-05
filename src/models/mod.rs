@@ -86,3 +86,5 @@ pub mod usernames_query;
 pub use self::usernames_query::UsernamesQuery;
 pub mod validate_api_key_response;
 pub use self::validate_api_key_response::ValidateApiKeyResponse;
+pub mod create_org_saml_connection_link_response;
+pub use self::create_org_saml_connection_link_response::CreateOrgSamlConnectionLinkResponse;
