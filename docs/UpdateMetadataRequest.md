@@ -8,7 +8,7 @@
 | **first_name**               | Option<**String**>                 |             | [optional] |
 | **last_name**                | Option<**String**>                 |             | [optional] |
 | **picture_url**              | Option<**String**>                 |             | [optional] |
-| **metadat**                  | Option<**HashMap<String, Value>**> |             | [optional] |
+| **metadata**                 | Option<**HashMap<String, Value>**> |             | [optional] |
 | **properties**               | Option<**HashMap<String, Value>**> |             | [optional] |
 | **update_password_required** | Option<**bool**>                   |             | [optional] |
 
