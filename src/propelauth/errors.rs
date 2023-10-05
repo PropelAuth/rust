@@ -1,7 +1,7 @@
 use crate::models::{
     BadCreateMagicLinkRequest, BadCreateOrgRequest, BadCreateUserRequest, BadFetchOrgQuery,
     BadFetchUsersByQuery, BadFetchUsersInOrgQuery, BadMigrateUserRequest, BadUpdateOrgRequest,
-    BadUpdatePasswordRequest, BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest,
+    BadUpdatePasswordRequest, BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest, BadCreateAccessTokenError,
 };
 use thiserror::Error;
 
@@ -114,6 +114,18 @@ pub enum UpdatePasswordError {
 }
 
 #[derive(Error, Debug, PartialEq, Clone)]
+pub enum ClearPasswordError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Not found")]
+    NotFound,
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
 pub enum MigrateUserError {
     #[error("Invalid API Key")]
     InvalidApiKey,
@@ -201,6 +213,21 @@ pub enum FetchOrgsByQueryError {
 
     #[error("Unexpected exception, please try again")]
     UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
+pub enum CreateAccessTokenError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+
+    #[error("Not found")]
+    NotFound,
+
+    #[error("Bad request")]
+    BadRequest(BadCreateAccessTokenError),
 }
 
 #[derive(Error, Debug, Eq, PartialEq, Copy, Clone)]
