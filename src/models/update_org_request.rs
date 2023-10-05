@@ -25,6 +25,15 @@ pub struct UpdateOrgRequest {
     pub max_users: Option<i32>,
     #[serde(rename = "metadata", skip_serializing_if = "Option::is_none")]
     pub metadata: Option<HashMap<String, Value>>,
+    #[serde(rename = "domain", skip_serializing_if = "Option::is_none")]
+    pub domain: Option<String>,
+    #[serde(rename = "autojoin_by_domain", skip_serializing_if = "Option::is_none")]
+    pub autojoin_by_domain: Option<bool>,
+    #[serde(rename = "restrict_to_domain", skip_serializing_if = "Option::is_none")]
+    pub restrict_to_domain: Option<bool>,
+    // TODO: This should be added once supported in the FE.
+    // #[serde(rename = "require_2fa_by", skip_serializing_if = "Option::is_none")]
+    // pub require_2fa_by: Option<chrono::DateTime<chrono::Utc>>,
 }
 
 impl UpdateOrgRequest {
@@ -34,6 +43,10 @@ impl UpdateOrgRequest {
             can_setup_saml: None,
             max_users: None,
             metadata: None,
+            domain: None,
+            autojoin_by_domain: None,
+            restrict_to_domain: None,
+            // require_2fa_by: None,
         }
     }
 }
