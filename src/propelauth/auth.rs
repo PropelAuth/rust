@@ -10,6 +10,7 @@ use crate::propelauth::options::{AuthOptions, AuthOptionsWithTokenVerification};
 use crate::propelauth::org::OrgService;
 use crate::propelauth::token::TokenService;
 use crate::propelauth::user::UserService;
+use crate::propelauth::access_token::AccessTokenService;
 
 /// The main entrypoint of this library.
 /// All authentication, authorization and API requests starts from this struct
@@ -94,6 +95,13 @@ impl PropelAuth {
         TokenService {
             token_verification_metadata: &self.token_verification_metadata,
             issuer: &self.issuer,
+        }
+    }
+
+    /// API requests related to access tokens.
+    pub fn access_token(&self) -> AccessTokenService {
+        AccessTokenService {
+            config: &self.config,
         }
     }
 }
