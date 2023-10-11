@@ -719,7 +719,7 @@ pub async fn delete_org(
     let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(|e| Error::from(e))
+        serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<DeleteOrgError> =
             serde_json::from_str(&local_var_content).ok();
