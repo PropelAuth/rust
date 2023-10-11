@@ -1,7 +1,7 @@
-use std::collections::HashMap;
-use serde_json::Value;
-use uuid::Uuid;
 use crate::models::UserMetadata;
+use serde_json::Value;
+use std::collections::HashMap;
+use uuid::Uuid;
 
 pub type OrgRole = String;
 
@@ -16,8 +16,22 @@ pub struct ValidateApiKeyResponse {
 }
 
 impl ValidateApiKeyResponse {
-    pub fn new(metadata: Option<serde_json::Value>, user_metadata: Option<UserMetadata>, org_metadata: Option<OrgInternalMetadata>, user_role_in_org: Option<OrgRole>, user_id: Option<String>, org_id: Option<String>) -> Self {
-        Self { metadata, user_metadata, org_metadata, user_role_in_org, user_id, org_id }
+    pub fn new(
+        metadata: Option<serde_json::Value>,
+        user_metadata: Option<UserMetadata>,
+        org_metadata: Option<OrgInternalMetadata>,
+        user_role_in_org: Option<OrgRole>,
+        user_id: Option<String>,
+        org_id: Option<String>,
+    ) -> Self {
+        Self {
+            metadata,
+            user_metadata,
+            org_metadata,
+            user_role_in_org,
+            user_id,
+            org_id,
+        }
     }
 }
 
@@ -69,4 +83,3 @@ pub struct OrgRoleDefinition {
 }
 
 pub type MetadataHashOfValue = HashMap<String, Value>;
-

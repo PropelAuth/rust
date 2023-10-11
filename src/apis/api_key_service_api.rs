@@ -58,11 +58,16 @@ pub enum ApiKeyError {
     UnexpectedExceptionWithSDK,
 }
 
-
-pub async fn fetch_current_api_keys(configuration: &configuration::Configuration, params: ApiKeyQueryParams) -> Result<crate::models::FetchApiKeysPagedResponse, Error<ApiKeyError>> {
+pub async fn fetch_current_api_keys(
+    configuration: &configuration::Configuration,
+    params: ApiKeyQueryParams,
+) -> Result<crate::models::FetchApiKeysPagedResponse, Error<ApiKeyError>> {
     let client = &configuration.client;
 
-    let uri = format!("{}/api/backend/v1/end_user_api_keys", configuration.base_path);
+    let uri = format!(
+        "{}/api/backend/v1/end_user_api_keys",
+        configuration.base_path
+    );
     let mut req_builder = client.request(reqwest::Method::GET, uri.as_str());
 
     // assemble the query parameters
@@ -99,15 +104,25 @@ pub async fn fetch_current_api_keys(configuration: &configuration::Configuration
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
         Err(Error::ResponseError(error))
     }
 }
 
-pub async fn fetch_archived_api_keys(configuration: &configuration::Configuration, params: ApiKeyQueryParams) -> Result<crate::models::FetchApiKeysPagedResponse, Error<ApiKeyError>> {
+pub async fn fetch_archived_api_keys(
+    configuration: &configuration::Configuration,
+    params: ApiKeyQueryParams,
+) -> Result<crate::models::FetchApiKeysPagedResponse, Error<ApiKeyError>> {
     let client = &configuration.client;
 
-    let uri = format!("{}/api/backend/v1/end_user_api_keys/archived", configuration.base_path);
+    let uri = format!(
+        "{}/api/backend/v1/end_user_api_keys/archived",
+        configuration.base_path
+    );
     let mut req_builder = client.request(reqwest::Method::GET, uri.as_str());
 
     // assemble the query parameters
@@ -144,19 +159,29 @@ pub async fn fetch_archived_api_keys(configuration: &configuration::Configuratio
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
         Err(Error::ResponseError(error))
     }
 }
 
-pub async fn fetch_api_key(configuration: &configuration::Configuration, api_key_id: String) -> Result<crate::models::FetchApiKeyResponse, Error<ApiKeyError>> {
+pub async fn fetch_api_key(
+    configuration: &configuration::Configuration,
+    api_key_id: String,
+) -> Result<crate::models::FetchApiKeyResponse, Error<ApiKeyError>> {
     if hex::decode(&api_key_id).is_err() {
         return Err(Error::Params("Invalid API key ID format".to_string()));
     }
 
     let client = &configuration.client;
 
-    let uri = format!("{}/api/backend/v1/end_user_api_keys/{}", configuration.base_path, api_key_id);
+    let uri = format!(
+        "{}/api/backend/v1/end_user_api_keys/{}",
+        configuration.base_path, api_key_id
+    );
     let mut req_builder = client.request(reqwest::Method::GET, uri.as_str());
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -176,15 +201,25 @@ pub async fn fetch_api_key(configuration: &configuration::Configuration, api_key
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
         Err(Error::ResponseError(error))
     }
 }
 
-pub async fn create_api_key(configuration: &configuration::Configuration, params: CreateApiKeyParams) -> Result<crate::models::CreateApiKeyResponse, Error<ApiKeyError>> {
+pub async fn create_api_key(
+    configuration: &configuration::Configuration,
+    params: CreateApiKeyParams,
+) -> Result<crate::models::CreateApiKeyResponse, Error<ApiKeyError>> {
     let client = &configuration.client;
 
-    let uri = format!("{}/api/backend/v1/end_user_api_keys", configuration.base_path);
+    let uri = format!(
+        "{}/api/backend/v1/end_user_api_keys",
+        configuration.base_path
+    );
     let mut req_builder = client.request(reqwest::Method::POST, uri.as_str());
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -206,19 +241,30 @@ pub async fn create_api_key(configuration: &configuration::Configuration, params
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
         Err(Error::ResponseError(error))
     }
 }
 
-pub async fn update_api_key(configuration: &configuration::Configuration, api_key_id: String, params: UpdateApiKeyParams) -> Result<crate::models::SuccessfulResponse, Error<ApiKeyError>> {
+pub async fn update_api_key(
+    configuration: &configuration::Configuration,
+    api_key_id: String,
+    params: UpdateApiKeyParams,
+) -> Result<crate::models::SuccessfulResponse, Error<ApiKeyError>> {
     if hex::decode(&api_key_id).is_err() {
         return Err(Error::Params("Invalid API key ID format".to_string()));
     }
 
     let client = &configuration.client;
 
-    let uri = format!("{}/api/backend/v1/end_user_api_keys/{}", configuration.base_path, api_key_id);
+    let uri = format!(
+        "{}/api/backend/v1/end_user_api_keys/{}",
+        configuration.base_path, api_key_id
+    );
     let mut req_builder = client.request(reqwest::Method::PATCH, uri.as_str());
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -240,19 +286,29 @@ pub async fn update_api_key(configuration: &configuration::Configuration, api_ke
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
         Err(Error::ResponseError(error))
     }
 }
 
-pub async fn delete_api_key(configuration: &configuration::Configuration, api_key_id: String) -> Result<crate::models::SuccessfulResponse, Error<ApiKeyError>> {
+pub async fn delete_api_key(
+    configuration: &configuration::Configuration,
+    api_key_id: String,
+) -> Result<crate::models::SuccessfulResponse, Error<ApiKeyError>> {
     if hex::decode(&api_key_id).is_err() {
         return Err(Error::Params("Invalid API key ID format".to_string()));
     }
 
     let client = &configuration.client;
 
-    let uri = format!("{}/api/backend/v1/end_user_api_keys/{}", configuration.base_path, api_key_id);
+    let uri = format!(
+        "{}/api/backend/v1/end_user_api_keys/{}",
+        configuration.base_path, api_key_id
+    );
     let mut req_builder = client.request(reqwest::Method::DELETE, uri.as_str());
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -272,19 +328,29 @@ pub async fn delete_api_key(configuration: &configuration::Configuration, api_ke
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
         Err(Error::ResponseError(error))
     }
 }
 
-pub async fn validate_api_key(configuration: &configuration::Configuration, params: ValidateApiKeyParams) -> Result<crate::models::ValidateApiKeyResponse, Error<ApiKeyError>> {
+pub async fn validate_api_key(
+    configuration: &configuration::Configuration,
+    params: ValidateApiKeyParams,
+) -> Result<crate::models::ValidateApiKeyResponse, Error<ApiKeyError>> {
     if hex::decode(&params.api_key_token).is_err() {
         return Err(Error::Params("Invalid API key ID format".to_string()));
     }
 
     let client = &configuration.client;
 
-    let uri = format!("{}/api/backend/v1/end_user_api_keys/validate", configuration.base_path);
+    let uri = format!(
+        "{}/api/backend/v1/end_user_api_keys/validate",
+        configuration.base_path
+    );
     let mut req_builder = client.request(reqwest::Method::POST, uri.as_str());
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -306,7 +372,11 @@ pub async fn validate_api_key(configuration: &configuration::Configuration, para
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
         Err(Error::ResponseError(error))
     }
 }

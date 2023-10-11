@@ -1,3 +1,4 @@
+pub mod access_token;
 pub mod api_key;
 pub mod auth;
 pub mod errors;
@@ -7,4 +8,3 @@ pub mod org;
 pub mod token;
 pub mod token_models;
 pub mod user;
-pub mod access_token;
