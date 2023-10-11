@@ -236,8 +236,8 @@ mod tests {
 
         let expected_successful_response_for_org_id_1 =
             Ok(get_expected_org_response(&expected_user, "org_id_1"));
-        for required_org in vec![OrgId("org_id_1"), OrgName("org_name_1")] {
-            for requirements in vec![
+        for required_org in [OrgId("org_id_1"), OrgName("org_name_1")] {
+            for requirements in [
                 UserRequirementsInOrg::None,
                 UserRequirementsInOrg::IsRole("Owner"),
                 UserRequirementsInOrg::IsAtLeastRole("Owner"),
@@ -255,7 +255,7 @@ mod tests {
                 assert_eq!(result, expected_successful_response_for_org_id_1);
             }
 
-            for requirements in vec![
+            for requirements in [
                 UserRequirementsInOrg::IsRole("Admin"),
                 UserRequirementsInOrg::IsRole("Member"),
                 UserRequirementsInOrg::IsRole("fake"),
@@ -277,7 +277,7 @@ mod tests {
 
         let expected_successful_response_for_org_id_2 =
             Ok(get_expected_org_response(&expected_user, "org_id_2"));
-        for required_org in vec![OrgId("org_id_2"), OrgName("org_name_2")] {
+        for required_org in [OrgId("org_id_2"), OrgName("org_name_2")] {
             for requirements in vec![
                 UserRequirementsInOrg::None,
                 UserRequirementsInOrg::IsRole("Admin"),
@@ -295,7 +295,7 @@ mod tests {
                 assert_eq!(result, expected_successful_response_for_org_id_2);
             }
 
-            for requirements in vec![
+            for requirements in [
                 UserRequirementsInOrg::IsRole("Owner"),
                 UserRequirementsInOrg::IsRole("Member"),
                 UserRequirementsInOrg::IsRole("fake"),
@@ -318,8 +318,8 @@ mod tests {
 
         let expected_successful_response_for_org_id_3 =
             Ok(get_expected_org_response(&expected_user, "org_id_3"));
-        for required_org in vec![OrgId("org_id_3"), OrgName("org_name_3")] {
-            for requirements in vec![
+        for required_org in [OrgId("org_id_3"), OrgName("org_name_3")] {
+            for requirements in [
                 UserRequirementsInOrg::None,
                 UserRequirementsInOrg::IsRole("Member"),
                 UserRequirementsInOrg::IsAtLeastRole("Member"),
@@ -335,7 +335,7 @@ mod tests {
                 assert_eq!(result, expected_successful_response_for_org_id_3);
             }
 
-            for requirements in vec![
+            for requirements in [
                 UserRequirementsInOrg::IsRole("Owner"),
                 UserRequirementsInOrg::IsRole("Admin"),
                 UserRequirementsInOrg::IsRole("fake"),
@@ -357,7 +357,7 @@ mod tests {
             }
         }
 
-        for required_org in vec![
+        for required_org in [
             OrgId("fake"),
             OrgId("idk"),
             OrgName("hihi"),
