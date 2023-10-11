@@ -80,7 +80,7 @@ mod tests {
     use crate::propelauth::token::TokenService;
     use crate::propelauth::token_models::{OrgMemberInfo, User, UserAndOrgMemberInfo};
 
-    const ISSUER: &'static str = "https://testissuer.propelauthtest.com";
+    const ISSUER: &str = "https://testissuer.propelauthtest.com";
 
     #[test]
     fn validation_gets_user_back() {
