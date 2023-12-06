@@ -369,8 +369,6 @@ pub async fn validate_api_key(
     let content = resp.text().await?;
 
     if !status.is_client_error() && !status.is_server_error() {
-        let s: crate::models::ValidateApiKeyResponse = serde_json::from_str(&content).unwrap();
-        println!("{:?}", s);
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
