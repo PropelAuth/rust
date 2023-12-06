@@ -189,7 +189,7 @@ impl ApiKeyService<'_> {
         Ok(ValidateOrgApiKeyResponse {
             metadata: resp.metadata,
             user_metadata: resp.user_metadata,
-            org_metadata: resp.org_metadata.unwrap(),
+            org_metadata: resp.org_metadata,
             user_role_in_org: resp.user_role_in_org,
         })
     }

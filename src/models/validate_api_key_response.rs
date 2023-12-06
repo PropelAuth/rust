@@ -45,7 +45,7 @@ pub struct ValidatePersonalApiKeyResponse {
 pub struct ValidateOrgApiKeyResponse {
     pub metadata: Option<serde_json::Value>,
     pub user_metadata: Option<UserMetadata>,
-    pub org_metadata: OrgInternalMetadata,
+    pub org_metadata: Option<OrgInternalMetadata>,
     pub user_role_in_org: Option<OrgRole>,
 }
 
