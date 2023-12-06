@@ -1,10 +1,14 @@
 use crate::apis::configuration::Configuration;
 use crate::apis::org_service_api::{
     AddUserToOrgParams, AllowOrgToEnableSamlParams, ChangeUserRoleInOrgParams, CreateOrgParams,
-    DisallowSamlParams, FetchOrgParams, FetchOrgsByQueryParams, FetchUsersInOrgParams,
-    RemoveUserFromOrgParams, UpdateOrgParams, DeleteOrgParams,
+    DeleteOrgParams, DisallowSamlParams, FetchOrgParams, FetchOrgsByQueryParams,
+    FetchUsersInOrgParams, RemoveUserFromOrgParams, UpdateOrgParams,
 };
-use crate::models::{AddUserToOrgRequest, ChangeUserRoleInOrgRequest, CreateOrgRequest, CreateOrgResponse, FetchOrgResponse, FetchOrgsResponse, RemoveUserFromOrgRequest, UpdateOrgRequest, UserPagedResponse};
+use crate::models::{
+    AddUserToOrgRequest, ChangeUserRoleInOrgRequest, CreateOrgRequest, CreateOrgResponse,
+    FetchOrgResponse, FetchOrgsResponse, RemoveUserFromOrgRequest, UpdateOrgRequest,
+    UserPagedResponse,
+};
 use crate::propelauth::errors::{
     CreateOrgError, ErrorsWithNotFound, FetchOrgsByQueryError, FetchUsersInOrgError,
     OrgMissingOrRoleError, UpdateOrgError,
@@ -273,17 +277,12 @@ impl OrgService<'_> {
         Ok(())
     }
 
-    pub async fn delete_org(
-        &self,
-        org_id: String,
-    ) -> Result<(), ErrorsWithNotFound> {
+    pub async fn delete_org(&self, org_id: String) -> Result<(), ErrorsWithNotFound> {
         if !is_valid_id(&org_id) {
             return Err(ErrorsWithNotFound::NotFound);
         }
 
-        let params = DeleteOrgParams {
-            org_id,
-        };
+        let params = DeleteOrgParams { org_id };
 
         crate::apis::org_service_api::delete_org(&self.config, params)
             .await
