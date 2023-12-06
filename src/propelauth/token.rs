@@ -472,7 +472,7 @@ mod tests {
             OrgMemberInfo {
                 org_id: "org_id_1".to_string(),
                 org_name: "org_name_1".to_string(),
-                org_metadata: HashMap::new(),
+                org: HashMap::new(),
                 url_safe_org_name: "org_name_1".to_string(),
                 user_role: "Owner".to_string(),
                 inherited_user_roles_plus_current_role: vec![
@@ -488,7 +488,7 @@ mod tests {
             OrgMemberInfo {
                 org_id: "org_id_2".to_string(),
                 org_name: "org_name_2".to_string(),
-                org_metadata: HashMap::new(),
+                org: HashMap::new(),
                 url_safe_org_name: "org_name_2".to_string(),
                 user_role: "Admin".to_string(),
                 inherited_user_roles_plus_current_role: vec![
@@ -503,7 +503,7 @@ mod tests {
             OrgMemberInfo {
                 org_id: "org_id_3".to_string(),
                 org_name: "org_name_3".to_string(),
-                org_metadata: HashMap::new(),
+                org: HashMap::new(),
                 url_safe_org_name: "org_name_3".to_string(),
                 user_role: "Member".to_string(),
                 inherited_user_roles_plus_current_role: vec!["Member".to_string()],

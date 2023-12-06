@@ -112,7 +112,7 @@ impl User {
 pub struct OrgMemberInfo {
     pub org_id: String,
     pub org_name: String,
-    pub org_metadata: HashMap<String, Value>,
+    pub org: HashMap<String, Value>,
     pub url_safe_org_name: String,
     pub user_role: String,
     pub inherited_user_roles_plus_current_role: Vec<String>,

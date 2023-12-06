@@ -8,8 +8,8 @@ pub type OrgRole = String;
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct ValidateApiKeyResponse {
     pub metadata: Option<serde_json::Value>,
-    pub user_metadata: Option<UserMetadata>,
-    pub org_metadata: Option<OrgInternalMetadata>,
+    pub user: Option<UserMetadata>,
+    pub org: Option<OrgInternalMetadata>,
     pub user_role_in_org: Option<OrgRole>,
     pub user_id: Option<String>,
     pub org_id: Option<String>,
@@ -18,16 +18,16 @@ pub struct ValidateApiKeyResponse {
 impl ValidateApiKeyResponse {
     pub fn new(
         metadata: Option<serde_json::Value>,
-        user_metadata: Option<UserMetadata>,
-        org_metadata: Option<OrgInternalMetadata>,
+        user: Option<UserMetadata>,
+        org: Option<OrgInternalMetadata>,
         user_role_in_org: Option<OrgRole>,
         user_id: Option<String>,
         org_id: Option<String>,
     ) -> Self {
         Self {
             metadata,
-            user_metadata,
-            org_metadata,
+            user,
+            org,
             user_role_in_org,
             user_id,
             org_id,
@@ -38,14 +38,14 @@ impl ValidateApiKeyResponse {
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct ValidatePersonalApiKeyResponse {
     pub metadata: Option<serde_json::Value>,
-    pub user_metadata: UserMetadata,
+    pub user: Option<UserMetadata>,
 }
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct ValidateOrgApiKeyResponse {
     pub metadata: Option<serde_json::Value>,
-    pub user_metadata: Option<UserMetadata>,
-    pub org_metadata: Option<OrgInternalMetadata>,
+    pub user: Option<UserMetadata>,
+    pub org: Option<OrgInternalMetadata>,
     pub user_role_in_org: Option<OrgRole>,
 }
 
@@ -53,10 +53,10 @@ pub struct ValidateOrgApiKeyResponse {
 pub struct OrgInternalMetadata {
     pub org_id: Uuid,
     pub org_name: String,
-    pub org_definition: OrgDefinition,
+    pub org_definition: Option<OrgDefinition>,
     pub can_setup_saml: bool,
-    pub autojoin_by_domain: bool,
-    pub restrict_to_domain: bool,
+    pub autojoin_by_domain: Option<bool>,
+    pub restrict_to_domain: Option<bool>,
     pub domain: Option<String>,
     //pub require_2fa_by: Option<chrono::DateTime<chrono::Utc>>,
     pub max_users: Option<i32>,

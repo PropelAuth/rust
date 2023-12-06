@@ -173,7 +173,7 @@ impl ApiKeyService<'_> {
 
         Ok(ValidatePersonalApiKeyResponse {
             metadata: resp.metadata,
-            user_metadata: resp.user_metadata.unwrap(),
+            user: resp.user,
         })
     }
 
@@ -188,8 +188,8 @@ impl ApiKeyService<'_> {
 
         Ok(ValidateOrgApiKeyResponse {
             metadata: resp.metadata,
-            user_metadata: resp.user_metadata,
-            org_metadata: resp.org_metadata,
+            user: resp.user,
+            org: resp.org,
             user_role_in_org: resp.user_role_in_org,
         })
     }
