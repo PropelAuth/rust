@@ -40,6 +40,7 @@ impl User {
         required_org: RequiredOrg,
         user_requirements_in_org: UserRequirementsInOrg,
     ) -> Result<OrgMemberInfo, DetailedForbiddenError> {
+        tracing::debug!("Validating org membership");
         let org_member_info = self
             .get_org(required_org)
             .ok_or(DetailedForbiddenError::UserIsNotInOrg)?;
@@ -50,6 +51,7 @@ impl User {
                 if org_member_info.is_role(required_role) {
                     Ok(org_member_info.clone())
                 } else {
+                    tracing::debug!("DetailedForbiddenError::UserRoleDoesntMatch");
                     Err(DetailedForbiddenError::UserRoleDoesntMatch)
                 }
             }
@@ -57,6 +59,7 @@ impl User {
                 if org_member_info.is_at_least_role(minimum_required_role) {
                     Ok(org_member_info.clone())
                 } else {
+                    tracing::debug!("DetailedForbiddenError::UserRoleDoesntMatch");
                     Err(DetailedForbiddenError::UserRoleDoesntMatch)
                 }
             }
@@ -64,6 +67,7 @@ impl User {
                 if org_member_info.has_permission(permission) {
                     Ok(org_member_info.clone())
                 } else {
+                    tracing::debug!("DetailedForbiddenError::UserMissingPermission");
                     Err(DetailedForbiddenError::UserMissingPermission)
                 }
             }
@@ -71,6 +75,7 @@ impl User {
                 if org_member_info.has_all_permissions(permissions) {
                     Ok(org_member_info.clone())
                 } else {
+                    tracing::debug!("DetailedForbiddenError::UserMissingPermission");
                     Err(DetailedForbiddenError::UserMissingPermission)
                 }
             }

@@ -61,12 +61,7 @@ impl TokenService<'_> {
         decode::<User>(&bearer_token, &decoding_key, &validation)
             .map(|jwt| jwt.claims)
             .map_err(|error| {
-                tracing::debug!(
-                    "Token verification error :: decoding_key_bytes: {:?} validation:{:?} error:{:?}",
-                    decoding_key_bytes,
-                    validation,
-                    error
-                );
+                tracing::debug!("Token verification error {:?}", error);
                 DetailedAuthError::CannotVerifyToken
             })
     }

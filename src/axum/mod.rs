@@ -54,6 +54,7 @@ pub struct PropelAuthLayer {
 
 impl PropelAuthLayer {
     pub fn new(auth: PropelAuth) -> PropelAuthLayer {
+        tracing::debug!("PropelAuth axum layer initialized");
         PropelAuthLayer {
             auth: Arc::new(auth),
         }
