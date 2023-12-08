@@ -13,6 +13,7 @@ use std::pin::Pin;
 use std::sync::Arc;
 use std::task::{Context, Poll};
 use tower::{Layer, Service};
+use tracing::{debug, info, span};
 
 #[async_trait]
 impl<S> FromRequestParts<S> for User
@@ -25,7 +26,10 @@ where
         let auth_header = parts
             .headers
             .get(AUTHORIZATION)
-            .and_then(|header| header.to_str().ok())
+            .and_then(|header| {
+                debug!("Auth headers : {:?}", header);
+                header.to_str().ok()
+            })
             .ok_or((StatusCode::UNAUTHORIZED, "Unauthorized"))?;
 
         let auth = parts
@@ -35,7 +39,8 @@ where
 
         match auth.verify().validate_authorization_header(auth_header) {
             Ok(user) => Ok(user),
-            Err(UnauthorizedError::Unauthorized(_)) => {
+            Err(UnauthorizedError::Unauthorized(e)) => {
+                debug!("header validation error : {:?}", e);
                 Err((StatusCode::UNAUTHORIZED, "Unauthorized"))
             }
         }
