@@ -50,16 +50,25 @@ impl TokenService<'_> {
     }
 
     fn verify_token(&self, bearer_token: String) -> Result<User, DetailedAuthError> {
+        tracing::debug!("Verifying token");
+
         let decoding_key_bytes = self.token_verification_metadata.public_key_pem.as_bytes();
         let decoding_key = DecodingKey::from_rsa_pem(decoding_key_bytes)
             .map_err(|_| DetailedAuthError::InvalidPublicKey)?;
 
         let mut validation = Validation::new(Algorithm::RS256);
         validation.set_issuer(&[self.issuer]);
-
         decode::<User>(&bearer_token, &decoding_key, &validation)
             .map(|jwt| jwt.claims)
-            .map_err(|_| DetailedAuthError::CannotVerifyToken)
+            .map_err(|error| {
+                tracing::debug!(
+                    "Token verification error :: decoding_key_bytes: {:?} validation:{:?} error:{:?}",
+                    decoding_key_bytes,
+                    validation,
+                    error
+                );
+                DetailedAuthError::CannotVerifyToken
+            })
     }
 }
 
