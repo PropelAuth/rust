@@ -139,27 +139,27 @@ impl ApiKeyService<'_> {
 
     pub async fn validate_personal_api_key(&self, params: ValidateApiKeyParams) -> Result<ValidatePersonalApiKeyResponse, ApiKeyError> {
         let resp = self.validate_api_key(params).await?;
-        if resp.user_metadata.is_none() || resp.org_metadata.is_some() {
+        if resp.user.is_none() || resp.org.is_some() {
             return Err(ApiKeyError::InvalidPersonalAPIKey);
         }
 
         Ok(ValidatePersonalApiKeyResponse {
             metadata: resp.metadata,
-            user_metadata: resp.user_metadata.unwrap(),
+            user: resp.user.unwrap(),
         })
     }
 
     pub async fn validate_org_api_key(&self, params: ValidateApiKeyParams) -> Result<ValidateOrgApiKeyResponse, ApiKeyError> {
         let resp = self.validate_api_key(params).await?;
-        if resp.org_metadata.is_none() {
+        if resp.org.is_none() {
             return Err(ApiKeyError::InvalidOrgAPIKey);
         }
 
         Ok(ValidateOrgApiKeyResponse {
             metadata: resp.metadata,
-            user_metadata: resp.user_metadata,
-            org_metadata: resp.org_metadata.unwrap(),
-            user_role_in_org: resp.user_role_in_org,
+            user: resp.user,
+            org: resp.org.unwrap(),
+            user_in_org: resp.user_in_org,
         })
     }
 }
