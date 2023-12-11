@@ -22,6 +22,8 @@ where
     type Rejection = (StatusCode, &'static str);
 
     async fn from_request_parts(parts: &mut Parts, _: &S) -> Result<Self, Self::Rejection> {
+        tracing::debug!("Verifying HTTP request {:?}", parts);
+
         let auth_header = parts
             .headers
             .get(AUTHORIZATION)
@@ -34,8 +36,12 @@ where
             .ok_or((StatusCode::INTERNAL_SERVER_ERROR, "No layer found"))?;
 
         match auth.verify().validate_authorization_header(auth_header) {
-            Ok(user) => Ok(user),
+            Ok(user) => {
+                tracing::debug!("Authorized user {:?}", user);
+                Ok(user)
+            }
             Err(UnauthorizedError::Unauthorized(_)) => {
+                tracing::debug!("Unauthorized request");
                 Err((StatusCode::UNAUTHORIZED, "Unauthorized"))
             }
         }
@@ -49,6 +55,7 @@ pub struct PropelAuthLayer {
 
 impl PropelAuthLayer {
     pub fn new(auth: PropelAuth) -> PropelAuthLayer {
+        tracing::debug!("Created PropelAuthLayer for axum");
         PropelAuthLayer {
             auth: Arc::new(auth),
         }

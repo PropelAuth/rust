@@ -32,7 +32,6 @@ pub struct User {
 
     #[serde(default)]
     pub metadata: HashMap<String, String>,
-
 }
 
 impl User {
@@ -41,6 +40,12 @@ impl User {
         required_org: RequiredOrg,
         user_requirements_in_org: UserRequirementsInOrg,
     ) -> Result<OrgMemberInfo, DetailedForbiddenError> {
+        tracing::debug!(
+            "Validating user {} in org {:?} with requirements {:?}",
+            self.user_id,
+            required_org,
+            user_requirements_in_org
+        );
         let org_member_info = self
             .get_org(required_org)
             .ok_or(DetailedForbiddenError::UserIsNotInOrg)?;

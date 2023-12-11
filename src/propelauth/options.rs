@@ -1,5 +1,5 @@
 use crate::models::AuthTokenVerificationMetadata;
-
+use std::fmt;
 pub struct AuthOptionsWithTokenVerification {
     pub auth_url: String,
     pub api_key: String,
@@ -13,12 +13,31 @@ pub struct AuthOptionsWithTokenVerification {
     ///  which you can obtain from your PropelAuth project.
     pub manual_token_verification_metadata: AuthTokenVerificationMetadata,
 }
+impl fmt::Debug for AuthOptionsWithTokenVerification {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("AuthOptionsWithTokenVerification")
+            .field("auth_url", &self.auth_url)
+            .field("api_key", &"********") // Hide the actual API key
+            .field(
+                "manual_token_verification_metadata",
+                &self.manual_token_verification_metadata,
+            )
+            .finish()
+    }
+}
 
 pub struct AuthOptions {
     pub auth_url: String,
     pub api_key: String,
 }
-
+impl fmt::Debug for AuthOptions {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("AuthOptionsWithTokenVerification")
+            .field("auth_url", &self.auth_url)
+            .field("api_key", &"********") // Hide the actual API key
+            .finish()
+    }
+}
 #[derive(Debug, Clone, PartialEq)]
 pub enum RequiredOrg<'a> {
     OrgId(&'a str),
