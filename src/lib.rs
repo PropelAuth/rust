@@ -174,7 +174,7 @@ pub mod propelauth;
 
 #[cfg(feature = "axum06")]
 pub mod axum;
-#[cfg(feature = "axum07")]
+#[cfg(feature = "axum")]
 pub mod axum;
 
 #[cfg(feature = "actix4")]

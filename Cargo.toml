@@ -12,7 +12,7 @@ edition = "2018"
 [dependencies]
 actix-web = { version = "4", optional = true }
 axum_06 = { package = "axum", version = "^0.6", optional = true }
-axum_07 = { package = "axum", version = "^0.7", optional = true }
+axum = { package = "axum", version = "^0.7", optional = true }
 chrono = "0.4.23"
 jsonwebtoken = "8.1.1"
 serde = "^1.0"
@@ -33,5 +33,5 @@ openssl = "0.10.43"
 
 [features]
 axum06 = ["dep:axum_06", "dep:tower"]
-axum07 = ["dep:axum_07", "dep:tower"]
+axum = ["dep:axum", "dep:tower"]
 actix4 = ["dep:actix-web"]
