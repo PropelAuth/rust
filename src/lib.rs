@@ -172,6 +172,8 @@ pub mod apis;
 pub mod models;
 pub mod propelauth;
 
+#[cfg(feature = "axum06")]
+pub mod axum;
 #[cfg(feature = "axum")]
 pub mod axum;
 

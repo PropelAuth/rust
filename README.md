@@ -155,6 +155,9 @@ let org = user.validate_org_membership(
 
 And finally, you can make API calls directly from `auth.user()` and `auth.org()`
 
+## Tracing (WIP)
+RUST_LOG=propelauth=debug
+
 # Where do the access tokens come from?
 
 They come from your frontend.
