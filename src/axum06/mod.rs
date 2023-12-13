@@ -1,18 +1,20 @@
-use crate::propelauth::auth::PropelAuth;
-use crate::propelauth::errors::{UnauthorizedError, UnauthorizedOrForbiddenError};
-use crate::propelauth::token_models::User;
-use axum::async_trait;
-use axum::extract::FromRequestParts;
-use axum::http::header::AUTHORIZATION;
-use axum::http::request::Parts;
-use axum::http::StatusCode;
-use axum::response::IntoResponse;
-use axum::{body::Body, http::Request, response::Response};
 use std::future::Future;
 use std::pin::Pin;
 use std::sync::Arc;
 use std::task::{Context, Poll};
+
+use axum_06::{body::Body, http::Request, response::Response};
+use axum_06::async_trait;
+use axum_06::extract::FromRequestParts;
+use axum_06::http::header::AUTHORIZATION;
+use axum_06::http::request::Parts;
+use axum_06::http::StatusCode;
+use axum_06::response::IntoResponse;
 use tower::{Layer, Service};
+
+use crate::propelauth::auth::PropelAuth;
+use crate::propelauth::errors::{UnauthorizedError, UnauthorizedOrForbiddenError};
+use crate::propelauth::token_models::User;
 
 #[async_trait]
 impl<S> FromRequestParts<S> for User
