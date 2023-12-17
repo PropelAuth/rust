@@ -180,3 +180,6 @@ pub mod axum07;
 
 #[cfg(feature = "actix4")]
 pub mod actix;
+
+#[cfg(feature = "tonic010")]
+pub mod tonic010;

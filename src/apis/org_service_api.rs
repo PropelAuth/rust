@@ -582,7 +582,7 @@ pub async fn fetch_pending_invites(
     }
     if let Some(ref local_var_str) = page_number {
         local_var_req_builder =
-            local_var_req_builder.query(&[("page_number", &local_var_str.to_string())]);
+           local_var_req_builder.query(&[("page_number", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_str) = org_id {
         local_var_req_builder =
@@ -857,8 +857,7 @@ pub async fn subscribe_org_to_role_mapping(
 
     // unbox the parameters
     let org_id = params.org_id;
-    let update_org_request = params.update_org_request;
-
+let update_org_request = params.update_org_request;
     let local_var_client = &local_var_configuration.client;
 
     let local_var_uri_str = format!(
@@ -932,7 +931,7 @@ pub async fn delete_org(
     let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(|e| Error::from(e))
+        serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<DeleteOrgError> =
             serde_json::from_str(&local_var_content).ok();
