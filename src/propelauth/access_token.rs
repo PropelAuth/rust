@@ -10,7 +10,10 @@ pub struct AccessTokenService<'a> {
 }
 
 impl AccessTokenService<'_> {
-    pub async fn create_access_token(&self, params: CreateAccessTokenParams) -> Result<CreateAccessTokenResponse, CreateAccessTokenError> {
+    pub async fn create_access_token(
+        &self,
+        params: CreateAccessTokenParams,
+    ) -> Result<CreateAccessTokenResponse, CreateAccessTokenError> {
         if !is_valid_id(&params.create_access_token_request.user_id) {
             return Err(CreateAccessTokenError::NotFound);
         }

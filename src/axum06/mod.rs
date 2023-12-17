@@ -3,13 +3,13 @@ use std::pin::Pin;
 use std::sync::Arc;
 use std::task::{Context, Poll};
 
-use axum_06::{body::Body, http::Request, response::Response};
 use axum_06::async_trait;
 use axum_06::extract::FromRequestParts;
 use axum_06::http::header::AUTHORIZATION;
 use axum_06::http::request::Parts;
 use axum_06::http::StatusCode;
 use axum_06::response::IntoResponse;
+use axum_06::{body::Body, http::Request, response::Response};
 use tower::{Layer, Service};
 
 use crate::propelauth::auth::PropelAuth;

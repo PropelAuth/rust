@@ -1,15 +1,13 @@
 use reqwest;
 
+use super::{configuration, Error};
 use crate::apis::ResponseContent;
-use super::{Error, configuration};
 
 /// struct for passing parameters to the method [`create_access_token`]
 #[derive(Clone, Debug, Default)]
 pub struct CreateAccessTokenParams {
-    pub create_access_token_request: crate::models::CreateAccessTokenRequest
+    pub create_access_token_request: crate::models::CreateAccessTokenRequest,
 }
-
-
 
 /// struct for typed errors of method [`create_access_token`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -21,8 +19,10 @@ pub enum CreateAccessTokenError {
     UnknownValue(serde_json::Value),
 }
 
-
-pub async fn create_access_token(configuration: &configuration::Configuration, params: CreateAccessTokenParams) -> Result<crate::models::CreateAccessTokenResponse, Error<CreateAccessTokenError>> {
+pub async fn create_access_token(
+    configuration: &configuration::Configuration,
+    params: CreateAccessTokenParams,
+) -> Result<crate::models::CreateAccessTokenResponse, Error<CreateAccessTokenError>> {
     let local_var_configuration = configuration;
 
     // unbox the parameters
@@ -30,11 +30,16 @@ pub async fn create_access_token(configuration: &configuration::Configuration, p
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/api/backend/v1/access_token", local_var_configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+    let local_var_uri_str = format!(
+        "{}/api/backend/v1/access_token",
+        local_var_configuration.base_path
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
@@ -50,9 +55,13 @@ pub async fn create_access_token(configuration: &configuration::Configuration, p
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<CreateAccessTokenError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error: ResponseContent<CreateAccessTokenError> = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        let local_var_entity: Option<CreateAccessTokenError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error: ResponseContent<CreateAccessTokenError> = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
         Err(Error::ResponseError(local_var_error))
     }
 }
-

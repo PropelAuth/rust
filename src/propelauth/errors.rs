@@ -1,7 +1,8 @@
 use crate::models::{
-    BadCreateMagicLinkRequest, BadCreateOrgRequest, BadCreateUserRequest, BadFetchOrgQuery,
-    BadFetchUsersByQuery, BadFetchUsersInOrgQuery, BadMigrateUserRequest, BadUpdateOrgRequest,
-    BadUpdatePasswordRequest, BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest, BadCreateAccessTokenError,
+    BadCreateAccessTokenError, BadCreateMagicLinkRequest, BadCreateOrgRequest,
+    BadCreateUserRequest, BadFetchOrgQuery, BadFetchUsersByQuery, BadFetchUsersInOrgQuery,
+    BadMigrateUserRequest, BadUpdateOrgRequest, BadUpdatePasswordRequest,
+    BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest,
 };
 use thiserror::Error;
 
