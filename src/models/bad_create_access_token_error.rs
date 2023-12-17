@@ -1,4 +1,3 @@
-
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct BadCreateAccessTokenError {
     #[serde(rename = "active_org_id", skip_serializing_if = "Option::is_none")]

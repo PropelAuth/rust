@@ -5,8 +5,6 @@ pub struct CreateAccessTokenResponse {
 
 impl CreateAccessTokenResponse {
     pub fn new(access_token: String) -> Self {
-        CreateAccessTokenResponse {
-            access_token,
-        }
+        CreateAccessTokenResponse { access_token }
     }
 }

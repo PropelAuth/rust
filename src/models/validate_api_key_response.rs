@@ -1,7 +1,7 @@
-use std::collections::HashMap;
-use serde_json::Value;
-use uuid::Uuid;
 use crate::models::{UserInOrg, UserMetadata};
+use serde_json::Value;
+use std::collections::HashMap;
+use uuid::Uuid;
 
 pub type OrgRole = String;
 
@@ -39,4 +39,3 @@ pub struct OrgMetadata {
 }
 
 pub type MetadataHashOfValue = HashMap<String, Value>;
-
