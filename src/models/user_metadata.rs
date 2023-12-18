@@ -47,8 +47,6 @@ pub struct UserMetadata {
     pub org_id_to_org_info: Option<HashMap<String, crate::models::UserInOrg>>,
     #[serde(rename = "legacy_user_id", skip_serializing_if = "Option::is_none")]
     pub legacy_user_id: Option<String>,
-    #[serde(rename = "impersonated_user_id", skip_serializing_if = "Option::is_none")]
-    pub impersonated_user_id: Option<String>,
     #[serde(rename = "metadata", skip_serializing_if = "Option::is_none")]
     pub metadata: Option<HashMap<String, Value>>,
     #[serde(rename = "properties", skip_serializing_if = "Option::is_none")]
@@ -73,7 +71,6 @@ impl UserMetadata {
             last_active_at,
             org_id_to_org_info: None,
             legacy_user_id: None,
-            impersonated_user_id: None,
             metadata: None,
             properties: None,
         }

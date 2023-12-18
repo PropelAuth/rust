@@ -115,7 +115,7 @@ mod tests {
             username: None,
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
-            impersonated_user_id: None,
+            impersonator_user_id: None,
             metadata: HashMap::new(),
         };
         let (jwt, token_verification_metadata) =
@@ -226,7 +226,7 @@ mod tests {
             username: None,
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
-            impersonated_user_id: None,
+            impersonator_user_id: None,
             metadata: HashMap::new(),
         };
         let (jwt, token_verification_metadata) =
@@ -387,7 +387,7 @@ mod tests {
             username: None,
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
-            impersonated_user_id: None,
+            impersonator_user_id: None,
             metadata: HashMap::new(),
         };
         let (jwt, token_verification_metadata) =

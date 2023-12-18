@@ -28,7 +28,7 @@ pub struct User {
     pub legacy_user_id: Option<String>,
 
     #[serde(default)]
-    pub impersonated_user_id: Option<String>,
+    pub impersonator_user_id: Option<String>,
 
     #[serde(default)]
     pub metadata: HashMap<String, String>,
@@ -105,7 +105,7 @@ impl User {
     }
 
     pub fn is_impersonated(&self) -> bool {
-        self.impersonated_user_id.is_some()
+        self.impersonator_user_id.is_some()
     }
 }
 
