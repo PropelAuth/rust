@@ -56,7 +56,8 @@ pub struct FetchOrgParams {
 pub struct FetchOrgsByQueryParams {
     pub page_size: Option<i64>,
     pub page_number: Option<i64>,
-    pub order_by: Option<FetchOrgOrderBy>
+    pub order_by: Option<FetchOrgOrderBy>,
+    pub name: Option<String>,
 }
 
 /// struct for passing parameters to the method [`fetch_users_in_org`]
@@ -403,10 +404,7 @@ pub async fn fetch_orgs_by_query(configuration: &configuration::Configuration, p
     let local_var_configuration = configuration;
 
     // unbox the parameters
-    let page_size = params.page_size;
-    let page_number = params.page_number;
-    let order_by = params.order_by;
-
+    let FetchOrgsByQueryParams { page_size, page_number, order_by, name } = params;
 
     let local_var_client = &local_var_configuration.client;
 
@@ -421,6 +419,9 @@ pub async fn fetch_orgs_by_query(configuration: &configuration::Configuration, p
     }
     if let Some(ref local_var_str) = order_by {
         local_var_req_builder = local_var_req_builder.query(&[("order_by", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = name {
+        local_var_req_builder = local_var_req_builder.query(&[("name", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
