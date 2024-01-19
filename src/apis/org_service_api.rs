@@ -67,7 +67,8 @@ pub struct FetchUsersInOrgParams {
     pub page_size: Option<i64>,
     pub page_number: Option<i64>,
     /// Defaults to false
-    pub include_orgs: Option<bool>
+    pub include_orgs: Option<bool>,
+    pub role: Option<String>,
 }
 
 /// struct for passing parameters to the method [`remove_user_from_org`]
@@ -449,10 +450,13 @@ pub async fn fetch_users_in_org(configuration: &configuration::Configuration, pa
     let local_var_configuration = configuration;
 
     // unbox the parameters
-    let org_id = params.org_id;
-    let page_size = params.page_size;
-    let page_number = params.page_number;
-    let include_orgs = params.include_orgs;
+    let FetchUsersInOrgParams {
+        org_id,
+        page_size,
+        page_number,
+        include_orgs,
+        role,
+    } = params;
 
 
     let local_var_client = &local_var_configuration.client;
@@ -468,6 +472,9 @@ pub async fn fetch_users_in_org(configuration: &configuration::Configuration, pa
     }
     if let Some(ref local_var_str) = include_orgs {
         local_var_req_builder = local_var_req_builder.query(&[("include_orgs", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = role {
+        local_var_req_builder = local_var_req_builder.query(&[("role", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
