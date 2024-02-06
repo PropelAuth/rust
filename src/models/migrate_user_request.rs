@@ -39,16 +39,15 @@ pub struct MigrateUserRequest {
     pub last_name: Option<String>,
     #[serde(rename = "properties", skip_serializing_if = "Option::is_none")]
     pub properties: Option<HashMap<String, Value>>,
-    #[serde(rename = "update_password_required")]
-    pub update_password_required: bool,
+    #[serde(
+        rename = "update_password_required",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub update_password_required: Option<bool>,
 }
 
 impl MigrateUserRequest {
-    pub fn new(
-        email: String,
-        email_confirmed: bool,
-        update_password_required: bool,
-    ) -> MigrateUserRequest {
+    pub fn new(email: String, email_confirmed: bool) -> MigrateUserRequest {
         MigrateUserRequest {
             email,
             email_confirmed,
@@ -60,7 +59,7 @@ impl MigrateUserRequest {
             first_name: None,
             last_name: None,
             properties: None,
-            update_password_required,
+            update_password_required: None,
         }
     }
 }
