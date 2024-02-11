@@ -6,6 +6,7 @@ description = "A Rust crate for managing authentication and authorization with s
 keywords = ["authentication", "auth", "authorization", "b2b", "tenant"]
 categories = ["authentication"]
 homepage = "https://www.propelauth.com"
+repository = "https://github.com/PropelAuth/rust"
 license = "MIT"
 edition = "2018"
 
@@ -13,6 +14,8 @@ edition = "2018"
 actix-web = { version = "4", optional = true }
 axum_06 = { package = "axum", version = "^0.6", optional = true }
 axum_07 = { package = "axum", version = "^0.7", optional = true }
+tonic_011 = { package = "tonic", version = "^0.11", optional = true }
+hyper_1 = { package = "hyper", version = "^1", optional = true }
 chrono = "0.4.23"
 jsonwebtoken = "8.1.1"
 serde = "^1.0"
@@ -37,6 +40,7 @@ rustls = ["__reqwest", "reqwest/rustls-tls", "reqwest/http2", "reqwest/charset"]
 axum06 = ["dep:axum_06", "dep:tower"]
 axum07 = ["dep:axum_07", "dep:tower"]
 actix4 = ["dep:actix-web"]
+tonic011 = ["dep:tonic_011", "dep:tower", "dep:hyper_1"]
 __reqwest = ["reqwest/json", "reqwest/multipart"]
 
 [lib]
