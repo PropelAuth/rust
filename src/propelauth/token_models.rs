@@ -32,7 +32,6 @@ pub struct User {
 
     #[serde(default)]
     pub metadata: HashMap<String, String>,
-
 }
 
 impl User {

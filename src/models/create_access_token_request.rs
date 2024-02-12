@@ -11,7 +11,11 @@ pub struct CreateAccessTokenRequest {
 }
 
 impl CreateAccessTokenRequest {
-    pub fn new(user_id: String, duration_in_minutes: u64, with_active_org_support: bool) -> CreateAccessTokenRequest {
+    pub fn new(
+        user_id: String,
+        duration_in_minutes: u64,
+        with_active_org_support: bool,
+    ) -> CreateAccessTokenRequest {
         CreateAccessTokenRequest {
             user_id,
             active_org_id: None,
