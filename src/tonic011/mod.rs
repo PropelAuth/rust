@@ -4,10 +4,10 @@ use std::sync::Arc;
 use std::task::{Context, Poll};
 
 use hyper_014::Body;
-use tonic_010::body::BoxBody;
-use tonic_010::codegen::http::header::AUTHORIZATION;
-use tonic_010::server::NamedService;
-use tonic_010::Status;
+use tonic_011::body::BoxBody;
+use tonic_011::codegen::http::header::AUTHORIZATION;
+use tonic_011::server::NamedService;
+use tonic_011::Status;
 use tower::{Layer, Service};
 
 use crate::propelauth::auth::PropelAuth;
