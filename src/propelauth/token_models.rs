@@ -14,6 +14,9 @@ pub struct User {
     #[serde(default)]
     pub org_id_to_org_member_info: HashMap<String, OrgMemberInfo>,
 
+    #[serde(default)]
+    pub active_org_id: Option<String>,
+
     pub email: String,
     #[serde(default)]
     pub first_name: Option<String>,
@@ -23,8 +26,6 @@ pub struct User {
     pub username: Option<String>,
     #[serde(default)]
     pub properties: Option<HashMap<String, Value>>,
-    #[serde(default)]
-    pub metadata: HashMap<String, String>,
 
     /** If you used our migration APIs to migrate this user from a different system,
      *  this is their original ID from that system. */
@@ -90,6 +91,17 @@ impl User {
                 })
             }
         }
+    }
+
+    pub fn get_active_org(&self) -> Option<&OrgMemberInfo> {
+        match &self.active_org_id {
+            Some(org_id) => self.get_org(RequiredOrg::OrgId(org_id)),
+            None => None,
+        }
+    }
+
+    pub fn get_active_org_id(&self) -> Option<&String> {
+        self.active_org_id.as_ref()
     }
 
     pub fn get_all_orgs(&self) -> Values<'_, String, OrgMemberInfo> {
