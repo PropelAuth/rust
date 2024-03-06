@@ -7,9 +7,7 @@ use crate::propelauth::errors::{
     DetailedAuthError, UnauthorizedError, UnauthorizedOrForbiddenError,
 };
 use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
-use crate::propelauth::token_models::{User, UserAndOrgMemberInfo};
-
-use super::token_models::OrgMemberInfo;
+use crate::propelauth::token_models::{OrgMemberInfo, User, UserAndOrgMemberInfo};
 
 pub struct TokenService<'a> {
     pub(crate) token_verification_metadata: &'a AuthTokenVerificationMetadata,
