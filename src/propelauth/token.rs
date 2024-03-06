@@ -117,6 +117,7 @@ mod tests {
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
             metadata: HashMap::new(),
+            properties: None,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -228,6 +229,7 @@ mod tests {
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
             metadata: HashMap::new(),
+            properties: None,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -389,6 +391,7 @@ mod tests {
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
             metadata: HashMap::new(),
+            properties: None,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
