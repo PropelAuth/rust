@@ -26,6 +26,8 @@ pub struct User {
     pub username: Option<String>,
     #[serde(default)]
     pub properties: Option<HashMap<String, Value>>,
+    #[serde(default)]
+    pub metadata: HashMap<String, String>,
 
     /** If you used our migration APIs to migrate this user from a different system,
      *  this is their original ID from that system. */

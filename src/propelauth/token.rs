@@ -42,6 +42,9 @@ struct DecodedUserFromToken {
     properties: Option<HashMap<String, serde_json::Value>>,
 
     #[serde(default)]
+    metadata: HashMap<String, String>,
+
+    #[serde(default)]
     impersonator_user_id: Option<String>,
 }
 
@@ -70,6 +73,7 @@ impl Into<User> for DecodedUserFromToken {
             legacy_user_id: self.legacy_user_id,
             impersonator_user_id: self.impersonator_user_id,
             properties: self.properties,
+            metadata: self.metadata,
             active_org_id,
         }
     }
@@ -184,6 +188,7 @@ mod tests {
             impersonator_user_id: None,
             properties: None,
             active_org_id: None,
+            metadata: HashMap::new(),
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -296,6 +301,7 @@ mod tests {
             impersonator_user_id: None,
             properties: None,
             active_org_id: None,
+            metadata: HashMap::new(),
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -458,6 +464,7 @@ mod tests {
             impersonator_user_id: None,
             properties: None,
             active_org_id: None,
+            metadata: HashMap::new(),
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
