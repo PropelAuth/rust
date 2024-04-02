@@ -78,7 +78,9 @@ mod tests {
     use crate::propelauth::options::RequiredOrg::{OrgId, OrgName};
     use crate::propelauth::options::UserRequirementsInOrg;
     use crate::propelauth::token::TokenService;
-    use crate::propelauth::token_models::{OrgMemberInfo, User, UserAndOrgMemberInfo};
+    use crate::propelauth::token_models::{
+        OrgMemberInfo, OrgRoleStructure, User, UserAndOrgMemberInfo,
+    };
 
     const ISSUER: &'static str = "https://testissuer.propelauthtest.com";
 
@@ -117,6 +119,7 @@ mod tests {
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
             metadata: HashMap::new(),
+            properties: None,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -228,6 +231,7 @@ mod tests {
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
             metadata: HashMap::new(),
+            properties: None,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -389,6 +393,7 @@ mod tests {
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
             metadata: HashMap::new(),
+            properties: None,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -474,6 +479,7 @@ mod tests {
                 org_name: "org_name_1".to_string(),
                 org_metadata: HashMap::new(),
                 url_safe_org_name: "org_name_1".to_string(),
+                org_role_structure: OrgRoleStructure::SingleRoleInHierarchy,
                 user_role: "Owner".to_string(),
                 inherited_user_roles_plus_current_role: vec![
                     "Owner".to_string(),
@@ -481,6 +487,7 @@ mod tests {
                     "Member".to_string(),
                 ],
                 user_permissions: vec!["custom_permission_for_owner".to_string()],
+                additional_roles: vec![],
             },
         );
         org_id_to_org_member_info.insert(
@@ -490,12 +497,14 @@ mod tests {
                 org_name: "org_name_2".to_string(),
                 org_metadata: HashMap::new(),
                 url_safe_org_name: "org_name_2".to_string(),
+                org_role_structure: OrgRoleStructure::SingleRoleInHierarchy,
                 user_role: "Admin".to_string(),
                 inherited_user_roles_plus_current_role: vec![
                     "Admin".to_string(),
                     "Member".to_string(),
                 ],
                 user_permissions: vec!["custom_permission_for_admin".to_string()],
+                additional_roles: vec![],
             },
         );
         org_id_to_org_member_info.insert(
@@ -505,9 +514,11 @@ mod tests {
                 org_name: "org_name_3".to_string(),
                 org_metadata: HashMap::new(),
                 url_safe_org_name: "org_name_3".to_string(),
+                org_role_structure: OrgRoleStructure::SingleRoleInHierarchy,
                 user_role: "Member".to_string(),
                 inherited_user_roles_plus_current_role: vec!["Member".to_string()],
                 user_permissions: vec!["custom_permission_for_member".to_string()],
+                additional_roles: vec![],
             },
         );
         org_id_to_org_member_info
