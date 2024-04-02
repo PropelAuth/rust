@@ -34,14 +34,14 @@ impl std::str::FromStr for SocialLoginType {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "google" => Ok(SocialLoginType::Google),
-            "github" => Ok(SocialLoginType::Github),
-            "microsoft" => Ok(SocialLoginType::Microsoft),
-            "slack" => Ok(SocialLoginType::Slack),
-            "salesforce" => Ok(SocialLoginType::Salesforce),
-            "linkedin" => Ok(SocialLoginType::Linkedin),
-            "quickbooks" => Ok(SocialLoginType::Quickbooks),
-            "xero" => Ok(SocialLoginType::Xero),
+            "Google" => Ok(SocialLoginType::Google),
+            "GitHub" => Ok(SocialLoginType::Github),
+            "Microsoft" => Ok(SocialLoginType::Microsoft),
+            "Slack" => Ok(SocialLoginType::Slack),
+            "Salesforce" => Ok(SocialLoginType::Salesforce),
+            "LinkedIn" => Ok(SocialLoginType::Linkedin),
+            "QuickBooks Online" => Ok(SocialLoginType::Quickbooks),
+            "Xero" => Ok(SocialLoginType::Xero),
             _ => Err("invalid social login type".to_string()),
         }
     }
@@ -64,14 +64,14 @@ impl std::str::FromStr for IdentityProvider {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "google" => Ok(IdentityProvider::Google),
-            "rippling" => Ok(IdentityProvider::Rippling),
-            "onelogin" => Ok(IdentityProvider::OneLogin),
-            "jumpcloud" => Ok(IdentityProvider::JumpCloud),
-            "okta" => Ok(IdentityProvider::Okta),
-            "azure" => Ok(IdentityProvider::Azure),
-            "duo" => Ok(IdentityProvider::Duo),
-            "generic" => Ok(IdentityProvider::Generic),
+            "Google" => Ok(IdentityProvider::Google),
+            "Rippling" => Ok(IdentityProvider::Rippling),
+            "OneLogin" => Ok(IdentityProvider::OneLogin),
+            "JumpCloud" => Ok(IdentityProvider::JumpCloud),
+            "Okta" => Ok(IdentityProvider::Okta),
+            "Azure" => Ok(IdentityProvider::Azure),
+            "Duo" => Ok(IdentityProvider::Duo),
+            "Generic" => Ok(IdentityProvider::Generic),
             _ => Err("invalid identity provider".to_string()),
         }
     }
