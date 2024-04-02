@@ -9,6 +9,8 @@ use crate::propelauth::errors::{
 use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
 use crate::propelauth::token_models::{OrgMemberInfo, User, UserAndOrgMemberInfo};
 
+use super::token_models::LoginMethodForAccessToken;
+
 pub struct TokenService<'a> {
     pub(crate) token_verification_metadata: &'a AuthTokenVerificationMetadata,
     pub(crate) issuer: &'a str,
@@ -46,6 +48,17 @@ struct DecodedUserFromToken {
 
     #[serde(default)]
     impersonator_user_id: Option<String>,
+
+    #[serde(default = "default_login_method")]
+    login_method: LoginMethodForAccessToken,
+}
+
+fn default_login_method() -> LoginMethodForAccessToken {
+    LoginMethodForAccessToken {
+        login_method: "unknown".to_string(),
+        provider: None,
+        org_id: None,
+    }
 }
 
 impl Into<User> for DecodedUserFromToken {
@@ -75,6 +88,7 @@ impl Into<User> for DecodedUserFromToken {
             properties: self.properties,
             metadata: self.metadata,
             active_org_id,
+            login_method: self.login_method.into(),
         }
     }
 }
@@ -148,7 +162,7 @@ mod tests {
     use crate::propelauth::options::RequiredOrg::{OrgId, OrgName};
     use crate::propelauth::options::UserRequirementsInOrg;
     use crate::propelauth::token::TokenService;
-    use crate::propelauth::token_models::{OrgMemberInfo, User, UserAndOrgMemberInfo};
+    use crate::propelauth::token_models::{LoginMethod, OrgMemberInfo, User, UserAndOrgMemberInfo};
 
     const ISSUER: &'static str = "https://testissuer.propelauthtest.com";
 
@@ -189,6 +203,7 @@ mod tests {
             properties: None,
             active_org_id: None,
             metadata: HashMap::new(),
+            login_method: LoginMethod::Unknown,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -302,6 +317,7 @@ mod tests {
             properties: None,
             active_org_id: None,
             metadata: HashMap::new(),
+            login_method: LoginMethod::Unknown,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -465,6 +481,7 @@ mod tests {
             properties: None,
             active_org_id: None,
             metadata: HashMap::new(),
+            login_method: LoginMethod::Unknown,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);

@@ -7,6 +7,116 @@ use serde_json::Value;
 use crate::propelauth::errors::DetailedForbiddenError;
 use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
 
+#[derive(Debug, Deserialize, Clone, PartialEq, Default)]
+pub struct LoginMethodForAccessToken {
+    pub login_method: String,
+    #[serde(default)]
+    pub provider: Option<String>,
+    #[serde(default)]
+    pub org_id: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Hash, Eq, PartialEq, Copy, Clone)]
+#[serde(rename_all = "snake_case")]
+pub enum SocialLoginType {
+    Google,
+    Github,
+    Microsoft,
+    Slack,
+    Salesforce,
+    Linkedin,
+    Quickbooks,
+    Xero,
+}
+
+impl std::str::FromStr for SocialLoginType {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "google" => Ok(SocialLoginType::Google),
+            "github" => Ok(SocialLoginType::Github),
+            "microsoft" => Ok(SocialLoginType::Microsoft),
+            "slack" => Ok(SocialLoginType::Slack),
+            "salesforce" => Ok(SocialLoginType::Salesforce),
+            "linkedin" => Ok(SocialLoginType::Linkedin),
+            "quickbooks" => Ok(SocialLoginType::Quickbooks),
+            "xero" => Ok(SocialLoginType::Xero),
+            _ => Err("invalid social login type".to_string()),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Copy, Clone, Debug, PartialEq, Eq)]
+pub enum IdentityProvider {
+    Google,
+    Rippling,
+    OneLogin,
+    JumpCloud,
+    Okta,
+    Azure,
+    Duo,
+    Generic,
+}
+
+impl std::str::FromStr for IdentityProvider {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "google" => Ok(IdentityProvider::Google),
+            "rippling" => Ok(IdentityProvider::Rippling),
+            "onelogin" => Ok(IdentityProvider::OneLogin),
+            "jumpcloud" => Ok(IdentityProvider::JumpCloud),
+            "okta" => Ok(IdentityProvider::Okta),
+            "azure" => Ok(IdentityProvider::Azure),
+            "duo" => Ok(IdentityProvider::Duo),
+            "generic" => Ok(IdentityProvider::Generic),
+            _ => Err("invalid identity provider".to_string()),
+        }
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Default)]
+pub enum LoginMethod {
+    Password,
+    MagicLink,
+    SocialSso(SocialLoginType),
+    EmailConfirmationLink,
+    SamlSso(IdentityProvider, String),
+    Impersonation,
+    TokenGeneratedFromBackendApi,
+    #[default]
+    Unknown,
+}
+
+impl Into<LoginMethod> for LoginMethodForAccessToken {
+    fn into(self) -> LoginMethod {
+        match self.login_method.as_str() {
+            "password" => LoginMethod::Password,
+            "magic_link" => LoginMethod::MagicLink,
+            "social_sso" => LoginMethod::SocialSso(
+                self.provider
+                    .expect("provider is required for social_sso login method")
+                    .parse::<SocialLoginType>()
+                    .expect("invalid social login type for social_sso login method"),
+            ),
+            "email_confirmation_link" => LoginMethod::EmailConfirmationLink,
+            "saml_sso" => LoginMethod::SamlSso(
+                self.provider
+                    .expect("provider is required for saml_sso login method")
+                    .parse::<IdentityProvider>()
+                    .expect("invalid identity provider for saml_sso login method"),
+                self.org_id
+                    .expect("org_id is required for saml_sso login method"),
+            ),
+            "impersonation" => LoginMethod::Impersonation,
+            "generated_from_backend_api" => LoginMethod::TokenGeneratedFromBackendApi,
+            _ => LoginMethod::Unknown,
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Default)]
 pub struct User {
     pub user_id: String,
@@ -36,6 +146,9 @@ pub struct User {
 
     #[serde(default)]
     pub impersonator_user_id: Option<String>,
+
+    #[serde(default)]
+    pub login_method: LoginMethod,
 }
 
 impl User {
