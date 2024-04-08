@@ -14,6 +14,9 @@ pub struct User {
     #[serde(default)]
     pub org_id_to_org_member_info: HashMap<String, OrgMemberInfo>,
 
+    #[serde(default)]
+    pub active_org_id: Option<String>,
+
     pub email: String,
     #[serde(default)]
     pub first_name: Option<String>,
@@ -90,6 +93,17 @@ impl User {
                 })
             }
         }
+    }
+
+    pub fn get_active_org(&self) -> Option<&OrgMemberInfo> {
+        match &self.active_org_id {
+            Some(org_id) => self.get_org(RequiredOrg::OrgId(org_id)),
+            None => None,
+        }
+    }
+
+    pub fn get_active_org_id(&self) -> Option<&String> {
+        self.active_org_id.as_ref()
     }
 
     pub fn get_all_orgs(&self) -> Values<'_, String, OrgMemberInfo> {
