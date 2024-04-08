@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use jsonwebtoken::{decode, Algorithm, DecodingKey, Validation};
 
 use crate::models::AuthTokenVerificationMetadata;
@@ -5,11 +7,90 @@ use crate::propelauth::errors::{
     DetailedAuthError, UnauthorizedError, UnauthorizedOrForbiddenError,
 };
 use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
-use crate::propelauth::token_models::{User, UserAndOrgMemberInfo};
+use crate::propelauth::token_models::{OrgMemberInfo, User, UserAndOrgMemberInfo};
+
+use super::token_models::LoginMethodForAccessToken;
 
 pub struct TokenService<'a> {
     pub(crate) token_verification_metadata: &'a AuthTokenVerificationMetadata,
     pub(crate) issuer: &'a str,
+}
+
+#[derive(Debug, Deserialize, Clone, PartialEq, Default)]
+struct DecodedUserFromToken {
+    user_id: String,
+
+    email: String,
+
+    #[serde(default)]
+    first_name: Option<String>,
+
+    #[serde(default)]
+    last_name: Option<String>,
+
+    #[serde(default)]
+    username: Option<String>,
+
+    #[serde(default)]
+    org_id_to_org_member_info: Option<HashMap<String, OrgMemberInfo>>,
+
+    #[serde(default)]
+    org_member_info: Option<OrgMemberInfo>,
+
+    #[serde(default)]
+    legacy_user_id: Option<String>,
+
+    #[serde(default)]
+    properties: Option<HashMap<String, serde_json::Value>>,
+
+    #[serde(default)]
+    metadata: HashMap<String, String>,
+
+    #[serde(default)]
+    impersonator_user_id: Option<String>,
+
+    #[serde(default = "default_login_method")]
+    login_method: LoginMethodForAccessToken,
+}
+
+fn default_login_method() -> LoginMethodForAccessToken {
+    LoginMethodForAccessToken {
+        login_method: "unknown".to_string(),
+        provider: None,
+        org_id: None,
+    }
+}
+
+impl Into<User> for DecodedUserFromToken {
+    fn into(self) -> User {
+        let mut active_org_id: Option<String> = None;
+        let mut org_id_to_org_member_info = HashMap::<String, OrgMemberInfo>::new();
+        if let Some(org_member_info) = &self.org_member_info {
+            active_org_id = Some(org_member_info.org_id.clone());
+            org_id_to_org_member_info
+                .insert(org_member_info.org_id.clone(), org_member_info.clone());
+        } else {
+            if let Some(org_id_to_org_member_info_from_token) = self.org_id_to_org_member_info {
+                for (org_id, org_member_info) in org_id_to_org_member_info_from_token {
+                    org_id_to_org_member_info.insert(org_id, org_member_info);
+                }
+            }
+        }
+        User {
+            user_id: self.user_id,
+            email: self.email,
+            first_name: self.first_name,
+            last_name: self.last_name,
+            username: self.username,
+            org_id_to_org_member_info,
+            legacy_user_id: self.legacy_user_id,
+            impersonator_user_id: self.impersonator_user_id,
+            properties: self.properties,
+            metadata: self.metadata,
+            active_org_id,
+            login_method: self.login_method.into(),
+        }
+    }
 }
 
 impl TokenService<'_> {
@@ -57,9 +138,12 @@ impl TokenService<'_> {
         let mut validation = Validation::new(Algorithm::RS256);
         validation.set_issuer(&[self.issuer]);
 
-        decode::<User>(&bearer_token, &decoding_key, &validation)
-            .map(|jwt| jwt.claims)
-            .map_err(|_| DetailedAuthError::CannotVerifyToken)
+        let decoded_user =
+            decode::<DecodedUserFromToken>(&bearer_token, &decoding_key, &validation)
+                .map(|jwt| jwt.claims)
+                .map_err(|_| DetailedAuthError::CannotVerifyToken);
+
+        decoded_user.map(|decoded_user| decoded_user.into())
     }
 }
 
@@ -79,7 +163,7 @@ mod tests {
     use crate::propelauth::options::UserRequirementsInOrg;
     use crate::propelauth::token::TokenService;
     use crate::propelauth::token_models::{
-        OrgMemberInfo, OrgRoleStructure, User, UserAndOrgMemberInfo,
+        LoginMethod, OrgMemberInfo, OrgRoleStructure, User, UserAndOrgMemberInfo,
     };
 
     const ISSUER: &'static str = "https://testissuer.propelauthtest.com";
@@ -118,8 +202,10 @@ mod tests {
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
-            metadata: HashMap::new(),
             properties: None,
+            active_org_id: None,
+            metadata: HashMap::new(),
+            login_method: LoginMethod::Unknown,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -230,8 +316,10 @@ mod tests {
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
-            metadata: HashMap::new(),
             properties: None,
+            active_org_id: None,
+            metadata: HashMap::new(),
+            login_method: LoginMethod::Unknown,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
@@ -392,8 +480,10 @@ mod tests {
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
-            metadata: HashMap::new(),
             properties: None,
+            active_org_id: None,
+            metadata: HashMap::new(),
+            login_method: LoginMethod::Unknown,
         };
         let (jwt, token_verification_metadata) =
             get_jwt_and_token_verification_metadata(expected_user.clone(), 24);

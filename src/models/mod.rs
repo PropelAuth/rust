@@ -90,6 +90,8 @@ pub mod create_access_token_response;
 pub use self::create_access_token_response::CreateAccessTokenResponse;
 pub mod create_access_token_request;
 pub use self::create_access_token_request::CreateAccessTokenRequest;
+pub mod create_access_token_v2_request;
+pub use self::create_access_token_v2_request::CreateAccessTokenV2Request;
 pub mod bad_create_access_token_error;
 pub use self::bad_create_access_token_error::BadCreateAccessTokenError;
 pub mod invite_user_to_org_request;
