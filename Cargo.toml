@@ -35,3 +35,6 @@ openssl = "0.10.43"
 axum06 = ["dep:axum_06", "dep:tower"]
 axum07 = ["dep:axum_07", "dep:tower"]
 actix4 = ["dep:actix-web"]
+
+[lib]
+doctest = false
