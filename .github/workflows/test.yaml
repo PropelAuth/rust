@@ -11,7 +11,12 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - uses: actions-rs/cargo@v1
+      - name: Run tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+      - name: Build Library Release
+        uses: actions-rs/cargo@v1
         with:
           command: build
           args: --release --all-features
