@@ -162,7 +162,9 @@ mod tests {
     use crate::propelauth::options::RequiredOrg::{OrgId, OrgName};
     use crate::propelauth::options::UserRequirementsInOrg;
     use crate::propelauth::token::TokenService;
-    use crate::propelauth::token_models::{LoginMethod, OrgMemberInfo, User, UserAndOrgMemberInfo};
+    use crate::propelauth::token_models::{
+        LoginMethod, OrgMemberInfo, OrgRoleStructure, User, UserAndOrgMemberInfo,
+    };
 
     const ISSUER: &'static str = "https://testissuer.propelauthtest.com";
 
@@ -198,6 +200,43 @@ mod tests {
             last_name: Some("Egg".to_string()),
             username: None,
             org_id_to_org_member_info: get_org_id_to_org_member_info(),
+            legacy_user_id: Some("legacy_id".to_string()),
+            impersonator_user_id: None,
+            properties: None,
+            active_org_id: None,
+            metadata: HashMap::new(),
+            login_method: LoginMethod::Unknown,
+        };
+        let (jwt, token_verification_metadata) =
+            get_jwt_and_token_verification_metadata(expected_user.clone(), 24);
+        let token_service = get_token_service(&token_verification_metadata);
+        let auth_header = format!("Bearer {}", jwt);
+
+        let user = token_service
+            .validate_authorization_header(&auth_header)
+            .unwrap();
+
+        assert_eq!(user.user_id, expected_user.user_id);
+        assert_eq!(
+            user.org_id_to_org_member_info,
+            expected_user.org_id_to_org_member_info
+        );
+        assert_eq!(user.legacy_user_id, expected_user.legacy_user_id);
+        assert_eq!(user.email, expected_user.email);
+        assert_eq!(user.first_name, expected_user.first_name);
+        assert_eq!(user.last_name, expected_user.last_name);
+        assert_eq!(user.username, expected_user.username);
+    }
+
+    #[test]
+    fn validation_gets_user_with_orgs_back_multi_role() {
+        let expected_user = User {
+            user_id: "bf7b3bc0-739d-45a2-ba60-60655249a5b0".to_string(),
+            email: "easteregg@propelauth.com".to_string(),
+            first_name: Some("Easter".to_string()),
+            last_name: Some("Egg".to_string()),
+            username: None,
+            org_id_to_org_member_info: get_org_id_to_org_member_info_multi_role(),
             legacy_user_id: Some("legacy_id".to_string()),
             impersonator_user_id: None,
             properties: None,
@@ -567,6 +606,7 @@ mod tests {
                 org_name: "org_name_1".to_string(),
                 org_metadata: HashMap::new(),
                 url_safe_org_name: "org_name_1".to_string(),
+                org_role_structure: OrgRoleStructure::SingleRoleInHierarchy,
                 user_role: "Owner".to_string(),
                 inherited_user_roles_plus_current_role: vec![
                     "Owner".to_string(),
@@ -574,6 +614,7 @@ mod tests {
                     "Member".to_string(),
                 ],
                 user_permissions: vec!["custom_permission_for_owner".to_string()],
+                additional_roles: vec![],
             },
         );
         org_id_to_org_member_info.insert(
@@ -583,12 +624,14 @@ mod tests {
                 org_name: "org_name_2".to_string(),
                 org_metadata: HashMap::new(),
                 url_safe_org_name: "org_name_2".to_string(),
+                org_role_structure: OrgRoleStructure::SingleRoleInHierarchy,
                 user_role: "Admin".to_string(),
                 inherited_user_roles_plus_current_role: vec![
                     "Admin".to_string(),
                     "Member".to_string(),
                 ],
                 user_permissions: vec!["custom_permission_for_admin".to_string()],
+                additional_roles: vec![],
             },
         );
         org_id_to_org_member_info.insert(
@@ -598,9 +641,58 @@ mod tests {
                 org_name: "org_name_3".to_string(),
                 org_metadata: HashMap::new(),
                 url_safe_org_name: "org_name_3".to_string(),
+                org_role_structure: OrgRoleStructure::SingleRoleInHierarchy,
                 user_role: "Member".to_string(),
                 inherited_user_roles_plus_current_role: vec!["Member".to_string()],
                 user_permissions: vec!["custom_permission_for_member".to_string()],
+                additional_roles: vec![],
+            },
+        );
+        org_id_to_org_member_info
+    }
+
+    fn get_org_id_to_org_member_info_multi_role() -> HashMap<String, OrgMemberInfo> {
+        let mut org_id_to_org_member_info = HashMap::new();
+        org_id_to_org_member_info.insert(
+            "org_id_1".to_string(),
+            OrgMemberInfo {
+                org_id: "org_id_1".to_string(),
+                org_name: "org_name_1".to_string(),
+                org_metadata: HashMap::new(),
+                url_safe_org_name: "org_name_1".to_string(),
+                org_role_structure: OrgRoleStructure::MultiRole,
+                user_role: "Role A".to_string(),
+                inherited_user_roles_plus_current_role: vec!["Role A".to_string()],
+                user_permissions: vec!["custom_permission_for_owner".to_string()],
+                additional_roles: vec!["Role B".to_string(), "Role C".to_string()],
+            },
+        );
+        org_id_to_org_member_info.insert(
+            "org_id_2".to_string(),
+            OrgMemberInfo {
+                org_id: "org_id_2".to_string(),
+                org_name: "org_name_2".to_string(),
+                org_metadata: HashMap::new(),
+                url_safe_org_name: "org_name_2".to_string(),
+                org_role_structure: OrgRoleStructure::MultiRole,
+                user_role: "Role B".to_string(),
+                inherited_user_roles_plus_current_role: vec!["Role B".to_string()],
+                user_permissions: vec!["custom_permission_for_admin".to_string()],
+                additional_roles: vec!["Role C".to_string()],
+            },
+        );
+        org_id_to_org_member_info.insert(
+            "org_id_3".to_string(),
+            OrgMemberInfo {
+                org_id: "org_id_3".to_string(),
+                org_name: "org_name_3".to_string(),
+                org_metadata: HashMap::new(),
+                url_safe_org_name: "org_name_3".to_string(),
+                org_role_structure: OrgRoleStructure::MultiRole,
+                user_role: "Role C".to_string(),
+                inherited_user_roles_plus_current_role: vec!["Role C".to_string()],
+                user_permissions: vec!["custom_permission_for_member".to_string()],
+                additional_roles: vec![],
             },
         );
         org_id_to_org_member_info

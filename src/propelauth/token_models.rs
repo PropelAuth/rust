@@ -242,23 +242,42 @@ pub struct OrgMemberInfo {
     pub org_name: String,
     pub org_metadata: HashMap<String, Value>,
     pub url_safe_org_name: String,
+    pub org_role_structure: OrgRoleStructure,
     pub user_role: String,
     pub inherited_user_roles_plus_current_role: Vec<String>,
     pub user_permissions: Vec<String>,
+    pub additional_roles: Vec<String>,
+}
+
+#[derive(Debug, Default, Serialize, Deserialize, Clone, PartialEq)]
+pub enum OrgRoleStructure {
+    #[default]
+    #[serde(rename = "single_role_in_hierarchy")]
+    SingleRoleInHierarchy,
+    #[serde(rename = "multi_role")]
+    MultiRole,
 }
 
 impl OrgMemberInfo {
     pub fn is_role(&self, role: &str) -> bool {
-        self.user_role == role
+        match self.org_role_structure {
+            OrgRoleStructure::SingleRoleInHierarchy => self.user_role == role,
+            OrgRoleStructure::MultiRole => {
+                self.user_role == role || self.additional_roles.iter().any(|r| r == role)
+            }
+        }
     }
 
     pub fn is_at_least_role(&self, role: &str) -> bool {
-        for user_role in &self.inherited_user_roles_plus_current_role {
-            if user_role == role {
-                return true;
+        match self.org_role_structure {
+            OrgRoleStructure::SingleRoleInHierarchy => self
+                .inherited_user_roles_plus_current_role
+                .iter()
+                .any(|r| r == role),
+            OrgRoleStructure::MultiRole => {
+                self.user_role == role || self.additional_roles.iter().any(|r| r == role)
             }
         }
-        false
     }
 
     pub fn has_permission(&self, permission: &str) -> bool {
