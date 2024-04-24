@@ -126,6 +126,14 @@ async fn make_req(auth: web::Data<PropelAuth>) -> impl Responder {
 }
 ```
 
+## Rustls instead of OpenSSL
+
+If you'd rather use a pure Rust TLS implementation rather than OpenSSL disable the default features and enable rustls as so:
+
+```toml
+propelauth = { version >= "0.12.1", features = ["rustls"], default-features = false }
+```
+
 ## Other
 
 After initializing `auth`, you can verify [access tokens](https://docs.propelauth.com/overview/access-token/) by passing in the Authorization header (formatted `Bearer TOKEN`):

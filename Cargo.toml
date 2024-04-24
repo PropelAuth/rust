@@ -25,16 +25,19 @@ uuid = { version = "^1.0", features = ["serde"] }
 hex = "0.4.3"
 
 [dependencies.reqwest]
-version = "^0.11"
-features = ["json", "multipart"]
+version = "^0.12"
+default-features = false
 
 [dev-dependencies]
 openssl = "0.10.43"
 
 [features]
+default = ["reqwest/default", "__reqwest"]
+rustls = ["__reqwest", "reqwest/rustls-tls", "reqwest/http2", "reqwest/charset"]
 axum06 = ["dep:axum_06", "dep:tower"]
 axum07 = ["dep:axum_07", "dep:tower"]
 actix4 = ["dep:actix-web"]
+__reqwest = ["reqwest/json", "reqwest/multipart"]
 
 [lib]
 doctest = false
