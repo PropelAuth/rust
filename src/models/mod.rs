@@ -50,6 +50,8 @@ pub mod fetch_api_key_response;
 pub use self::fetch_api_key_response::FetchApiKeyResponse;
 pub mod fetch_api_keys_response;
 pub use self::fetch_api_keys_response::FetchApiKeysPagedResponse;
+pub mod fetch_custom_role_mappings_response;
+pub use self::fetch_custom_role_mappings_response::FetchCustomRoleMappingsResponse;
 pub mod fetch_org_order_by;
 pub use self::fetch_org_order_by::FetchOrgOrderBy;
 pub mod fetch_org_response;
