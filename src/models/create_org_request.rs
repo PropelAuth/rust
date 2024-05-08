@@ -23,6 +23,8 @@ pub struct CreateOrgRequest {
     pub members_must_have_matching_domain: Option<bool>,
     #[serde(rename = "max_users", skip_serializing_if = "Option::is_none")]
     pub max_users: Option<i32>,
+    #[serde(rename = "legacy_org_id", skip_serializing_if = "Option::is_none")]
+    pub legacy_org_id: Option<String>,
 }
 
 impl CreateOrgRequest {
@@ -33,6 +35,7 @@ impl CreateOrgRequest {
             enable_auto_joining_by_domain: None,
             members_must_have_matching_domain: None,
             max_users: None,
+            legacy_org_id: None,
         }
     }
 }

@@ -33,6 +33,8 @@ pub struct FetchOrgResponse {
     pub metadata: OrgMetadata,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub max_users: Option<i32>,
+    #[serde(default)]
+    pub legacy_org_id: Option<String>,
 }
 
 impl FetchOrgResponse {
@@ -48,6 +50,7 @@ impl FetchOrgResponse {
             metadata,
             is_saml_configured,
             max_users: None,
+            legacy_org_id: None,
         }
     }
 }
