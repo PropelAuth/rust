@@ -6,8 +6,6 @@ pub struct FetchCustomRoleMappingsResponse {
 
 #[derive(Deserialize)]
 pub struct CustomRoleMappingResponse {
-    #[serde(rename = "custom_role_mapping_id")]
-    pub custom_role_mapping_id: Option<String>,
     #[serde(rename = "custom_role_mapping_name")]
     pub custom_role_mapping_name: String,
     #[serde(rename = "num_orgs_subscribed")]

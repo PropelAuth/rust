@@ -248,7 +248,7 @@ impl OrgService<'_> {
     pub async fn subscribe_org_to_role_mapping(
         &self,
         org_id: String,
-        custom_role_mapping_id: Option<String>
+        custom_role_mapping_name: String
     ) -> Result<(), SubscribeOrgToRoleMappingError> {
         if !is_valid_id(&org_id) {
             return Err(SubscribeOrgToRoleMappingError::NotFound);
@@ -256,7 +256,7 @@ impl OrgService<'_> {
 
         let params = SubscribeOrgToRoleMappingParams {
             org_id,
-            update_org_request: SubscribeOrgToRoleMappingRequest { custom_role_mapping_id },
+            update_org_request: SubscribeOrgToRoleMappingRequest { custom_role_mapping_name },
         };
         crate::apis::org_service_api::subscribe_org_to_role_mapping(&self.config, params)
             .await
