@@ -1,6 +1,6 @@
 [package]
 name = "propelauth"
-version = "0.12.0"
+version = "0.12.1"
 authors = ["support@propelauth.com"]
 description = "A Rust crate for managing authentication and authorization with support for multi-tenant / B2B products, powered by PropelAuth"
 keywords = ["authentication", "auth", "authorization", "b2b", "tenant"]
