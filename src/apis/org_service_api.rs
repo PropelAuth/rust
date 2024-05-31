@@ -84,6 +84,13 @@ pub struct UpdateOrgParams {
     pub update_org_request: crate::models::UpdateOrgRequest
 }
 
+/// struct for passing parameters to the method [`subscribe_org_to_role_mapping`]
+#[derive(Clone, Debug, Default)]
+pub struct SubscribeOrgToRoleMappingParams {
+    pub org_id: String,
+    pub update_org_request: crate::models::SubscribeOrgToRoleMappingRequest
+}
+
 /// struct for passing parameters to the method [`delete_org`]
 #[derive(Clone, Debug, Default)]
 pub struct DeleteOrgParams {
@@ -187,6 +194,16 @@ pub enum RemoveUserFromOrgError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateOrgError {
+    Status400(crate::models::BadUpdateOrgRequest),
+    Status401(serde_json::Value),
+    Status404(serde_json::Value),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`update_org`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum SubscribeOrgToRoleMappingError {
     Status400(crate::models::BadUpdateOrgRequest),
     Status401(serde_json::Value),
     Status404(serde_json::Value),
@@ -603,6 +620,42 @@ pub async fn update_org(configuration: &configuration::Configuration, params: Up
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<UpdateOrgError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub async fn subscribe_org_to_role_mapping(configuration: &configuration::Configuration, params: SubscribeOrgToRoleMappingParams) -> Result<crate::models::SuccessfulResponse, Error<SubscribeOrgToRoleMappingError>> {
+    let local_var_configuration = configuration;
+
+    // unbox the parameters
+    let org_id = params.org_id;
+    let update_org_request = params.update_org_request;
+
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/api/backend/v1/org/{org_id}", local_var_configuration.base_path, org_id=crate::apis::urlencode(org_id));
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::PUT, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+    local_var_req_builder = local_var_req_builder.json(&update_org_request);
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<SubscribeOrgToRoleMappingError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }

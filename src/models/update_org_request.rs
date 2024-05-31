@@ -28,11 +28,6 @@ pub struct UpdateOrgRequest {
     pub autojoin_by_domain: Option<bool>,
     #[serde(rename = "restrict_to_domain", skip_serializing_if = "Option::is_none")]
     pub restrict_to_domain: Option<bool>,
-    #[serde(
-        rename = "custom_role_mapping_id",
-        skip_serializing_if = "Option::is_none"
-    )]
-    pub custom_role_mapping_id: Option<Option<String>>,
     // TODO: This should be added once supported in the FE.
     // #[serde(rename = "require_2fa_by", skip_serializing_if = "Option::is_none")]
     // pub require_2fa_by: Option<chrono::DateTime<chrono::Utc>>,
@@ -48,7 +43,6 @@ impl UpdateOrgRequest {
             domain: None,
             autojoin_by_domain: None,
             restrict_to_domain: None,
-            custom_role_mapping_id: None,
             // require_2fa_by: None,
         }
     }

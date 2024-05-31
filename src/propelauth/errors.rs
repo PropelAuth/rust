@@ -1,7 +1,8 @@
 use crate::models::{
-    BadCreateMagicLinkRequest, BadCreateOrgRequest, BadCreateUserRequest, BadFetchOrgQuery,
-    BadFetchUsersByQuery, BadFetchUsersInOrgQuery, BadMigrateUserRequest, BadUpdateOrgRequest,
-    BadUpdatePasswordRequest, BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest, BadCreateAccessTokenError,
+    BadCreateAccessTokenError, BadCreateMagicLinkRequest, BadCreateOrgRequest,
+    BadCreateUserRequest, BadFetchOrgQuery, BadFetchUsersByQuery, BadFetchUsersInOrgQuery,
+    BadMigrateUserRequest, BadUpdateOrgRequest, BadUpdatePasswordRequest,
+    BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest,
 };
 use thiserror::Error;
 
@@ -151,6 +152,21 @@ pub enum CreateMagicLinkError {
 
 #[derive(Error, Debug, PartialEq, Clone)]
 pub enum UpdateOrgError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Not found")]
+    NotFound,
+
+    #[error("Bad request")]
+    BadRequest(BadUpdateOrgRequest),
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
+pub enum SubscribeOrgToRoleMappingError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 

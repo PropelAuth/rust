@@ -66,6 +66,8 @@ pub mod migrate_user_request;
 pub use self::migrate_user_request::MigrateUserRequest;
 pub mod remove_user_from_org_request;
 pub use self::remove_user_from_org_request::RemoveUserFromOrgRequest;
+pub mod subscribe_org_to_role_mapping_request;
+pub use self::subscribe_org_to_role_mapping_request::SubscribeOrgToRoleMappingRequest;
 pub mod successful_response;
 pub use self::successful_response::SuccessfulResponse;
 pub mod update_email_request;
