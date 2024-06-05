@@ -96,3 +96,5 @@ pub mod bad_create_access_token_error;
 pub use self::bad_create_access_token_error::BadCreateAccessTokenError;
 pub mod invite_user_to_org_request;
 pub use self::invite_user_to_org_request::InviteUserToOrgRequest;
+pub mod resend_email_confirmation_request;
+pub use self::resend_email_confirmation_request::ResendEmailConfirmationRequest;
