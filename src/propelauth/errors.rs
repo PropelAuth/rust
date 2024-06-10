@@ -1,7 +1,8 @@
 use crate::models::{
-    BadCreateMagicLinkRequest, BadCreateOrgRequest, BadCreateUserRequest, BadFetchOrgQuery,
-    BadFetchUsersByQuery, BadFetchUsersInOrgQuery, BadMigrateUserRequest, BadUpdateOrgRequest,
-    BadUpdatePasswordRequest, BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest, BadCreateAccessTokenError,
+    BadCreateAccessTokenError, BadCreateMagicLinkRequest, BadCreateOrgRequest,
+    BadCreateUserRequest, BadFetchOrgQuery, BadFetchUsersByQuery, BadFetchUsersInOrgQuery,
+    BadMigrateUserRequest, BadUpdateOrgRequest, BadUpdatePasswordRequest,
+    BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest,
 };
 use thiserror::Error;
 
@@ -93,6 +94,24 @@ pub enum UpdateUserEmailError {
 
     #[error("Email sent too recently")]
     EmailSentTooRecently,
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
+pub enum ResendEmailConfirmationError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Bad request")]
+    BadRequest(String),
+
+    #[error("Too many requests")]
+    TooManyRequests,
+
+    #[error("Not found")]
+    NotFound,
 
     #[error("Unexpected exception, please try again")]
     UnexpectedException,
