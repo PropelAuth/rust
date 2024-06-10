@@ -184,6 +184,21 @@ pub enum UpdateOrgError {
 }
 
 #[derive(Error, Debug, PartialEq, Clone)]
+pub enum SubscribeOrgToRoleMappingError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Not found")]
+    NotFound,
+
+    #[error("Bad request")]
+    BadRequest(BadUpdateOrgRequest),
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
 pub enum CreateOrgError {
     #[error("Invalid API Key")]
     InvalidApiKey,
