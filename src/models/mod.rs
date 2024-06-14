@@ -64,6 +64,7 @@ pub mod magic_link;
 pub use self::magic_link::MagicLink;
 pub mod migrate_user_request;
 pub use self::migrate_user_request::MigrateUserRequest;
+pub use self::migrate_user_request::MigrateUserRequestV2;
 pub mod remove_user_from_org_request;
 pub use self::remove_user_from_org_request::RemoveUserFromOrgRequest;
 pub mod subscribe_org_to_role_mapping_request;
