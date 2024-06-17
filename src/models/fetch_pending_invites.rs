@@ -1,11 +1,5 @@
 use uuid::Uuid;
 
-// total_invites: i64,
-// current_page: i64,
-// page_size: i64,
-// has_more_results: bool,
-// invites: Vec<InviteToOrgResponse>,
-
 #[derive(Deserialize, Debug)]
 pub struct FetchPendingInvitesResponse {
     #[serde(rename = "total_invites")]
