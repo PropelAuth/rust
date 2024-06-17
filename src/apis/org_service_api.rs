@@ -9,7 +9,6 @@
  */
 
 use reqwest;
-use uuid::Uuid;
 
 use super::{configuration, Error};
 use crate::apis::ResponseContent;
@@ -65,7 +64,7 @@ pub struct FetchOrgsByQueryParams {
 pub struct FetchPendingInvitesParams {
     pub page_size: Option<i64>,
     pub page_number: Option<i64>,
-    pub org_id: Option<Uuid>,
+    pub org_id: Option<String>,
 }
 
 /// struct for passing parameters to the method [`fetch_users_in_org`]

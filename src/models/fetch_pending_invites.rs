@@ -1,5 +1,3 @@
-use uuid::Uuid;
-
 #[derive(Deserialize, Debug)]
 pub struct FetchPendingInvitesResponse {
     #[serde(rename = "total_invites")]
@@ -19,7 +17,7 @@ pub struct PendingInviteResponse {
     #[serde(rename = "invitee_email")]
     pub invitee_email: String,
     #[serde(rename = "org_id")]
-    pub org_id: Uuid,
+    pub org_id: String,
     #[serde(rename = "org_name")]
     pub org_name: String,
     #[serde(rename = "role_in_org")]
@@ -33,5 +31,5 @@ pub struct PendingInviteResponse {
     #[serde(rename = "inviter_email")]
     pub inviter_email: Option<String>,
     #[serde(rename = "inviter_user_id")]
-    pub inviter_user_id: Option<Uuid>,
+    pub inviter_user_id: Option<String>,
 }
