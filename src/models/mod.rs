@@ -1,4 +1,5 @@
 pub mod add_user_to_org_request;
+
 pub use self::add_user_to_org_request::AddUserToOrgRequest;
 pub mod auth_token_verification_metadata;
 pub use self::auth_token_verification_metadata::AuthTokenVerificationMetadata;
@@ -102,3 +103,5 @@ pub mod invite_user_to_org_request;
 pub use self::invite_user_to_org_request::InviteUserToOrgRequest;
 pub mod resend_email_confirmation_request;
 pub use self::resend_email_confirmation_request::ResendEmailConfirmationRequest;
+pub mod fetch_pending_invites;
+pub use self::fetch_pending_invites::FetchPendingInvitesResponse;
