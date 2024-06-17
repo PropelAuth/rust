@@ -22,14 +22,14 @@ pub struct PendingInviteResponse {
     pub org_name: String,
     #[serde(rename = "role_in_org")]
     pub role_in_org: String,
-    #[serde(rename = "additional_roles_in_org", default)]
+    #[serde(rename = "additional_roles_in_org")]
     pub additional_roles_in_org: Vec<String>,
     #[serde(rename = "created_at")]
     pub created_at: i64,
     #[serde(rename = "expires_at")]
     pub expires_at: i64,
-    #[serde(rename = "inviter_email")]
+    #[serde(rename = "inviter_email", default)]
     pub inviter_email: Option<String>,
-    #[serde(rename = "inviter_user_id")]
+    #[serde(rename = "inviter_user_id", default)]
     pub inviter_user_id: Option<String>,
 }
