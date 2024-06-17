@@ -8,7 +8,7 @@ pub struct FetchPendingInvitesResponse {
     pub page_size: i64,
     #[serde(rename = "has_more_results")]
     pub has_more_results: bool,
-    #[serde(rename = "invites", default)]
+    #[serde(rename = "invites")]
     pub invites: Vec<PendingInviteResponse>,
 }
 
