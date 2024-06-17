@@ -37,6 +37,8 @@ pub struct MigrateUserRequest {
     pub first_name: Option<String>,
     #[serde(rename = "last_name", skip_serializing_if = "Option::is_none")]
     pub last_name: Option<String>,
+    #[serde(rename = "picture_url", skip_serializing_if = "Option::is_none")]
+    pub picture_url: Option<String>,
     #[serde(rename = "properties", skip_serializing_if = "Option::is_none")]
     pub properties: Option<HashMap<String, Value>>,
     #[serde(
@@ -58,6 +60,7 @@ impl MigrateUserRequest {
             username: None,
             first_name: None,
             last_name: None,
+            picture_url: None,
             properties: None,
             update_password_required: None,
         }
