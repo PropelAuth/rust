@@ -70,6 +70,7 @@ where
         let clone = self.inner.clone();
         let mut inner = std::mem::replace(&mut self.inner, clone);
         let auth = self.auth.clone();
+        request.extensions_mut().insert(self.auth.clone());
 
         Box::pin(async move {
             match request
