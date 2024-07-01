@@ -13,7 +13,19 @@ pub struct FetchApiKeysPagedResponse {
 }
 
 impl FetchApiKeysPagedResponse {
-    pub fn new(api_keys: Vec<crate::models::FetchApiKeyResponse>, total_api_keys: i64, current_page: i64, page_size: i64, has_more_results: bool) -> Self {
-        Self { api_keys, total_api_keys, current_page, page_size, has_more_results }
+    pub fn new(
+        api_keys: Vec<crate::models::FetchApiKeyResponse>,
+        total_api_keys: i64,
+        current_page: i64,
+        page_size: i64,
+        has_more_results: bool,
+    ) -> Self {
+        Self {
+            api_keys,
+            total_api_keys,
+            current_page,
+            page_size,
+            has_more_results,
+        }
     }
 }

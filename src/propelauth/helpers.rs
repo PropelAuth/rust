@@ -6,10 +6,10 @@ where
     M: Fn(reqwest::StatusCode, Option<T>) -> U,
 {
     match err {
-        Error::Reqwest(_) => return unexpected_error,
-        Error::Serde(_) => return unexpected_error,
-        Error::Io(_) => return unexpected_error,
-        Error::Params(_) => return unexpected_error,
+        Error::Reqwest(_) => unexpected_error,
+        Error::Serde(_) => unexpected_error,
+        Error::Io(_) => unexpected_error,
+        Error::Params(_) => unexpected_error,
         Error::ResponseError(response_content) => {
             map(response_content.status, response_content.entity)
         }
