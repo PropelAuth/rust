@@ -18,10 +18,8 @@ pub struct PropelAuthLayer {
 }
 
 impl PropelAuthLayer {
-    pub fn new(auth: PropelAuth) -> PropelAuthLayer {
-        PropelAuthLayer {
-            auth: Arc::new(auth),
-        }
+    pub fn new<T: Into<Arc<PropelAuth>>>(auth: T) -> PropelAuthLayer {
+        PropelAuthLayer { auth: auth.into() }
     }
 }
 
