@@ -183,3 +183,5 @@ pub mod actix;
 
 #[cfg(feature = "tonic011")]
 pub mod tonic011;
+#[cfg(feature = "tonic012")]
+pub mod tonic012;
