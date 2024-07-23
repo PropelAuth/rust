@@ -37,6 +37,15 @@ pub struct FetchOrgResponse {
     pub custom_role_mapping_name: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub legacy_org_id: Option<String>,
+    pub url_safe_org_slug: String,
+    pub can_setup_saml: bool,
+    pub is_saml_in_test_mode: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub domain: Option<String>,
+    pub domain_autojoin: bool,
+    pub domain_restrict: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub legacy_org_id: Option<string>
 }
 
 impl FetchOrgResponse {
@@ -45,6 +54,11 @@ impl FetchOrgResponse {
         name: String,
         metadata: OrgMetadata,
         is_saml_configured: bool,
+        url_safe_org_slug: String,
+        can_setup_saml: bool,
+        is_saml_in_test_mode: bool,
+        domain_autojoin: bool,
+        domain_restrict: bool,
     ) -> FetchOrgResponse {
         FetchOrgResponse {
             org_id,
@@ -54,6 +68,14 @@ impl FetchOrgResponse {
             max_users: None,
             custom_role_mapping_name: None,
             legacy_org_id: None,
+            url_safe_org_slug,
+            can_setup_saml,
+            is_saml_in_test_mode,
+            domain: None,
+            domain_autojoin,
+            domain_restrict,
         }
     }
 }
+
+
