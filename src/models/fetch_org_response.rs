@@ -15,7 +15,7 @@ use serde_json::Value;
 #[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
 pub struct OrgMetadata {
     #[serde(flatten)]
-    metadata: HashMap<String, Value>,
+    pub metadata: HashMap<String, Value>,
 }
 
 impl OrgMetadata {
