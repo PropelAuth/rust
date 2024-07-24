@@ -44,8 +44,6 @@ pub struct FetchOrgResponse {
     pub domain: Option<String>,
     pub domain_autojoin: bool,
     pub domain_restrict: bool,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub legacy_org_id: Option<string>
 }
 
 impl FetchOrgResponse {
