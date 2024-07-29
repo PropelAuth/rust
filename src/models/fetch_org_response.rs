@@ -76,4 +76,40 @@ impl FetchOrgResponse {
     }
 }
 
+// A Simple org response is used for fetching multiple orgs until that API returns a full org object
+#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+pub struct FetchSimpleOrgResponse {
+    pub org_id: String,
+    pub name: String,
+    pub is_saml_configured: bool,
+    #[serde(default, skip_serializing_if = "OrgMetadata::is_empty")]
+    pub metadata: OrgMetadata,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub max_users: Option<i32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub custom_role_mapping_name: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub legacy_org_id: Option<String>,
+}
+
+impl crate::models::FetchSimpleOrgResponse {
+    pub fn new(
+        org_id: String,
+        name: String,
+        metadata: OrgMetadata,
+        is_saml_configured: bool,
+    ) -> crate::models::FetchSimpleOrgResponse {
+        crate::models::FetchSimpleOrgResponse {
+            org_id,
+            name,
+            metadata,
+            is_saml_configured,
+            max_users: None,
+            custom_role_mapping_name: None,
+            legacy_org_id: None,
+        }
+    }
+}
+
+
 
