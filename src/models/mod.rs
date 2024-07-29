@@ -57,7 +57,7 @@ pub mod fetch_org_order_by;
 pub use self::fetch_org_order_by::FetchOrgOrderBy;
 pub mod fetch_org_response;
 pub use self::fetch_org_response::FetchOrgResponse;
-pub use self::fetch_org_response::FetchSimpleOrgResponse;
+pub use self::fetch_org_response::FetchOrgBasicResponse;
 pub mod fetch_orgs_response;
 pub use self::fetch_orgs_response::FetchOrgsResponse;
 pub mod fetch_users_order_by;

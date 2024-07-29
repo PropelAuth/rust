@@ -78,7 +78,7 @@ impl FetchOrgResponse {
 
 // A Simple org response is used for fetching multiple orgs until that API returns a full org object
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct FetchSimpleOrgResponse {
+pub struct FetchOrgBasicResponse {
     pub org_id: String,
     pub name: String,
     pub is_saml_configured: bool,
@@ -92,14 +92,14 @@ pub struct FetchSimpleOrgResponse {
     pub legacy_org_id: Option<String>,
 }
 
-impl crate::models::FetchSimpleOrgResponse {
+impl crate::models::FetchOrgBasicResponse {
     pub fn new(
         org_id: String,
         name: String,
         metadata: OrgMetadata,
         is_saml_configured: bool,
-    ) -> crate::models::FetchSimpleOrgResponse {
-        crate::models::FetchSimpleOrgResponse {
+    ) -> crate::models::FetchOrgBasicResponse {
+        crate::models::FetchOrgBasicResponse {
             org_id,
             name,
             metadata,
