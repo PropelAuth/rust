@@ -199,6 +199,21 @@ pub enum SubscribeOrgToRoleMappingError {
 }
 
 #[derive(Error, Debug, PartialEq, Clone)]
+pub enum InviteUserToOrgError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Not found")]
+    NotFound,
+
+    #[error("Bad request")]
+    BadRequest(serde_json::Value),
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
 pub enum CreateOrgError {
     #[error("Invalid API Key")]
     InvalidApiKey,
