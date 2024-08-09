@@ -14,7 +14,7 @@
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct FetchOrgsResponse {
     #[serde(rename = "orgs")]
-    pub orgs: Vec<crate::models::FetchOrgResponse>,
+    pub orgs: Vec<crate::models::FetchOrgBasicResponse>,
     #[serde(rename = "total_orgs")]
     pub total_orgs: i64,
     #[serde(rename = "current_page")]
@@ -26,7 +26,7 @@ pub struct FetchOrgsResponse {
 }
 
 impl FetchOrgsResponse {
-    pub fn new(orgs: Vec<crate::models::FetchOrgResponse>, total_orgs: i64, current_page: i64, page_size: i64, has_more_results: bool) -> FetchOrgsResponse {
+    pub fn new(orgs: Vec<crate::models::FetchOrgBasicResponse>, total_orgs: i64, current_page: i64, page_size: i64, has_more_results: bool) -> FetchOrgsResponse {
         FetchOrgsResponse {
             orgs,
             total_orgs,
