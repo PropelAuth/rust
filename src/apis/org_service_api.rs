@@ -189,7 +189,7 @@ pub enum FetchPendingInvitesError {
 #[serde(untagged)]
 pub enum RevokePendingOrgInviteError {
     Status401(serde_json::Value),
-    Status404(serde_json::Value),
+    Status400(serde_json::Value),
     UnknownValue(serde_json::Value),
 }
 
