@@ -98,6 +98,7 @@ pub struct FetchUsersByQueryParams {
     pub order_by: Option<FetchUsersOrderBy>,
     pub email_or_username: Option<String>,
     pub include_orgs: Option<bool>,
+    pub legacy_user_id: Option<String>,
 }
 
 /// struct for passing parameters to the method [`fetch_users_by_usernames`]
@@ -972,6 +973,7 @@ pub async fn fetch_users_by_query(
     let order_by = params.order_by;
     let email_or_username = params.email_or_username;
     let include_orgs = params.include_orgs;
+    let legacy_user_id = params.legacy_user_id;
 
     let local_var_client = &local_var_configuration.client;
 
@@ -1001,6 +1003,10 @@ pub async fn fetch_users_by_query(
     if let Some(ref local_var_str) = include_orgs {
         local_var_req_builder =
             local_var_req_builder.query(&[("include_orgs", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = legacy_user_id {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("legacy_user_id", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =
