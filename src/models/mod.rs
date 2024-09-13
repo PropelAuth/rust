@@ -106,3 +106,5 @@ pub mod resend_email_confirmation_request;
 pub use self::resend_email_confirmation_request::ResendEmailConfirmationRequest;
 pub mod fetch_pending_invites;
 pub use self::fetch_pending_invites::FetchPendingInvitesResponse;
+pub mod revoke_pending_org_invite_request;
+pub use self::revoke_pending_org_invite_request::RevokePendingOrgInviteRequest;
