@@ -57,6 +57,7 @@ pub struct FetchOrgsByQueryParams {
     pub page_number: Option<i64>,
     pub order_by: Option<FetchOrgOrderBy>,
     pub name: Option<String>,
+    pub legacy_org_id: Option<String>,
 }
 
 /// struct for passing parameters to the method [`fetch_pending_invites`]
@@ -691,6 +692,7 @@ pub async fn fetch_orgs_by_query(
         page_number,
         order_by,
         name,
+        legacy_org_id,
     } = params;
 
     let local_var_client = &local_var_configuration.client;
@@ -717,6 +719,10 @@ pub async fn fetch_orgs_by_query(
     if let Some(ref local_var_str) = name {
         local_var_req_builder =
             local_var_req_builder.query(&[("name", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = legacy_org_id {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("legacy_org_id", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =
