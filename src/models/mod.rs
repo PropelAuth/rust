@@ -1,6 +1,7 @@
 pub mod add_user_to_org_request;
-
 pub use self::add_user_to_org_request::AddUserToOrgRequest;
+pub mod create_saml_connection_link_response;
+pub use self::create_saml_connection_link_response::CreateSamlConnectionLinkResponse;
 pub mod auth_token_verification_metadata;
 pub use self::auth_token_verification_metadata::AuthTokenVerificationMetadata;
 pub mod bad_create_magic_link_request;
@@ -56,8 +57,8 @@ pub use self::fetch_custom_role_mappings_response::FetchCustomRoleMappingsRespon
 pub mod fetch_org_order_by;
 pub use self::fetch_org_order_by::FetchOrgOrderBy;
 pub mod fetch_org_response;
-pub use self::fetch_org_response::FetchOrgResponse;
 pub use self::fetch_org_response::FetchOrgBasicResponse;
+pub use self::fetch_org_response::FetchOrgResponse;
 pub mod fetch_orgs_response;
 pub use self::fetch_orgs_response::FetchOrgsResponse;
 pub mod fetch_users_order_by;
