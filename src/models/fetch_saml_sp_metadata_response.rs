@@ -1,4 +1,4 @@
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Default, Deserialize)]
 pub struct FetchSamlSpMetadataResponse {
     #[serde(rename = "entity_id")]
     pub entity_id: String,

@@ -1,4 +1,4 @@
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct SetSamlIdpMetadataRequest {
     #[serde(rename = "org_id")]
     pub org_id: String,
@@ -8,4 +8,18 @@ pub struct SetSamlIdpMetadataRequest {
     pub idp_sso_url: String,
     #[serde(rename = "idp_certificate")]
     pub idp_certificate: String,
+    #[serde(rename = "provider")]
+    pub provider: SamlIdpProvider,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub enum SamlIdpProvider {
+    Google,
+    Rippling,
+    OneLogin,
+    JumpCloud,
+    Okta,
+    Azure,
+    Duo,
+    Generic,
 }
