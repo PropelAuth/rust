@@ -12,7 +12,7 @@ use reqwest;
 
 use super::{configuration, Error};
 use crate::apis::ResponseContent;
-use crate::models::FetchOrgOrderBy;
+use crate::models::{FetchOrgOrderBy, SuccessfulResponse};
 
 /// struct for passing parameters to the method [`add_user_to_org`]
 #[derive(Clone, Debug, Default)]
@@ -662,7 +662,7 @@ pub async fn set_saml_idp_metadata(
     let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(Error::from)
+        Ok(SuccessfulResponse::new())
     } else {
         let local_var_entity: Option<SetSamlIdpMetadataError> =
             serde_json::from_str(&local_var_content).ok();
@@ -705,7 +705,7 @@ pub async fn saml_go_live(
     let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(Error::from)
+        Ok(SuccessfulResponse::new())
     } else {
         let local_var_entity: Option<SamlGoLiveError> =
             serde_json::from_str(&local_var_content).ok();
@@ -748,7 +748,7 @@ pub async fn delete_saml_connection(
     let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(Error::from)
+        Ok(SuccessfulResponse::new())
     } else {
         let local_var_entity: Option<DeleteSamlConnectionError> =
             serde_json::from_str(&local_var_content).ok();
