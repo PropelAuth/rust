@@ -6,6 +6,7 @@ description = "A Rust crate for managing authentication and authorization with s
 keywords = ["authentication", "auth", "authorization", "b2b", "tenant"]
 categories = ["authentication"]
 homepage = "https://www.propelauth.com"
+repository = "https://github.com/PropelAuth/rust/"
 license = "MIT"
 edition = "2018"
 
