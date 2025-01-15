@@ -49,13 +49,32 @@ pub struct ValidateApiKeyParams {
 pub enum ApiKeyError {
     BadRequest(crate::models::BadUpdateOrgRequest),
     InvalidIntegrationAPIKey,
-    InvalidAPIKey,
+    InvalidAPIKey {
+        message: String,
+    },
+    RateLimited {
+        wait_seconds: f64,
+        user_facing_error: String,
+    },
     InvalidPersonalAPIKey,
     InvalidOrgAPIKey,
     NotFound,
     UnknownValue(serde_json::Value),
     UnknownError,
     UnexpectedExceptionWithSDK,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(untagged)]
+pub enum ApiKeyValidationErrorResponse {
+    InvalidEndUserApiKey {
+        api_key_id: String,
+    },
+    EndUserApiKeyRateLimited {
+        wait_seconds: f64,
+        error_code: String,
+        user_facing_error: String,
+    },
 }
 
 pub async fn fetch_current_api_keys(
@@ -340,7 +359,7 @@ pub async fn delete_api_key(
 pub async fn validate_api_key(
     configuration: &configuration::Configuration,
     params: ValidateApiKeyParams,
-) -> Result<crate::models::ValidateApiKeyResponse, Error<ApiKeyError>> {
+) -> Result<crate::models::ValidateApiKeyResponse, Error<ApiKeyValidationErrorResponse>> {
     if hex::decode(&params.api_key_token).is_err() {
         return Err(Error::Params("Invalid API key ID format".to_string()));
     }
@@ -371,7 +390,7 @@ pub async fn validate_api_key(
     if !status.is_client_error() && !status.is_server_error() {
         serde_json::from_str(&content).map_err(Error::from)
     } else {
-        let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
+        let entity: Option<ApiKeyValidationErrorResponse> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,
