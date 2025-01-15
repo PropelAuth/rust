@@ -147,6 +147,7 @@ impl ApiKeyService<'_> {
                         },
                         None => match status_code.as_u16() {
                             401 => ApiKeyError::InvalidIntegrationAPIKey,
+                            404 => ApiKeyError::NotFound,
                             _ => ApiKeyError::UnknownError,
                         },
                     },
