@@ -68,7 +68,7 @@ pub enum ApiKeyError {
 #[serde(untagged)]
 pub enum ApiKeyValidationErrorResponse {
     InvalidEndUserApiKey {
-        api_key_id: String,
+        api_key_token: String,
     },
     EndUserApiKeyRateLimited {
         wait_seconds: f64,
@@ -360,10 +360,6 @@ pub async fn validate_api_key(
     configuration: &configuration::Configuration,
     params: ValidateApiKeyParams,
 ) -> Result<crate::models::ValidateApiKeyResponse, Error<ApiKeyValidationErrorResponse>> {
-    if hex::decode(&params.api_key_token).is_err() {
-        return Err(Error::Params("Invalid API key ID format".to_string()));
-    }
-
     let client = &configuration.client;
 
     let uri = format!(

@@ -125,6 +125,12 @@ impl ApiKeyService<'_> {
         &self,
         params: ValidateApiKeyParams,
     ) -> Result<ValidateApiKeyResponse, ApiKeyError> {
+        if hex::decode(&params.api_key_token).is_err() {
+            return Err(ApiKeyError::InvalidAPIKey {
+                message: "Invalid API key format.".to_string()
+                });
+        }
+    
         crate::apis::api_key_service_api::validate_api_key(&self.config, params)
             .await
             .map_err(|err| {
@@ -133,9 +139,9 @@ impl ApiKeyService<'_> {
                     ApiKeyError::UnexpectedExceptionWithSDK,
                     |status_code, error_response_body| match error_response_body {
                         Some(ApiKeyValidationErrorResponse::InvalidEndUserApiKey {
-                            api_key_id,
+                            api_key_token,
                         }) => ApiKeyError::InvalidAPIKey {
-                            message: api_key_id,
+                            message: api_key_token,
                         },
                         Some(ApiKeyValidationErrorResponse::EndUserApiKeyRateLimited {
                             wait_seconds,
