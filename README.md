@@ -29,7 +29,8 @@ Want us to add support for another framework? Reach out at support@propelauth.co
 
 To use Axum, make sure to enable the `axum` feature in your Cargo.toml.
 
-Then, add PropelAuthLayer to your Router:
+### Using the `PropelAuthLayer` to validate access tokens from the frontend
+Add PropelAuthLayer to your Router:
 
 ```rust
 let auth_layer = PropelAuthLayer::new(auth);
@@ -61,6 +62,68 @@ async fn org_whoami(user: User,
 }
 ```
 
+### Using the `PropelAuthLayer` to validate access tokens and API keys
+
+You can also use the `PropelAuthLayer` to validate API keys. This is useful for APIs where you want to allow
+access to both authenticated users from your frontend that are using  [access tokens](https://docs.propelauth.com/overview/access-token/) and to other services that
+are using [API keys](https://docs.propelauth.com/overview/authentication/api-keys#api-token-types). Both personal and organization API keys are supported.
+
+Add PropelAuthLayer with a config to your Router:
+
+```rust
+// Set whichever types of keys you want to allow to true
+let auth_config = MultiAuthConfig {
+    allow_personal_key: true,
+    allow_org_key: true,
+};
+
+let auth_layer = PropelAuthLayer::new_with_config(auth.clone(), auth_config);
+
+let app = Router::new()
+    .route("/whoami", get(whoami))
+    .route("/org/:org_name/whoami", get(org_whoami))
+    .layer(auth_layer); // <-- here
+```
+
+You can then take `UserOrApiKey` in as an argument, which will look for an [access token](https://docs.propelauth.com/overview/access-token/) in the Authorization header, 
+and if that doesn't exist check validate the personal API key and then the org API key, depending on your configuration settings.
+
+```rust
+// UserOrApiKey will automatically return a 401 (Unauthorized) if a valid access token or API keys weren't provided
+async fn whoami(multi: UserOrApiKey) -> String {
+    if let Some(user) = multi.user {
+        user.user_id
+    } else if let Some(user_key_info) = multi.user_key_info {
+        user_key_info.user_id
+    } else if let Some(org_key_info) = multi.org_key_info {
+        "Org Key for org_id {}".format(org_key_info.org_id)
+    } else {
+        "Unknown user".to_string()
+    }
+}
+```
+
+You can also check which [organizations](https://docs.propelauth.com/overview/organizations/) the user is in, and which [roles and permissions](https://docs.propelauth.com/overview/rbac/) they have.
+If you chose to support organization API keys, you can also check which organization the API key belongs to.
+
+```rust
+// If the user isn't in the provided organization, a 403 is returned
+async fn org_whoami(multi: UserOrApiKey,
+                    Path(org_name): Path<String>) -> Result<String, UnauthorizedOrForbiddenError> {
+    if let Some(user) = multi.user {
+        let org = user.validate_org_membership(RequiredOrg::OrgName(&org_name), UserRequirementsInOrg::IsRole("Admin"))?;
+        Ok(format!("You are a {} in {}", org.user_role, org.org_name))
+    } else if let Some(user_key_info) = multi.user_key_info {
+        let org = user_key_info.validate_org_membership(RequiredOrg::OrgName(&org_name), UserRequirementsInOrg::IsRole("Admin"))?;
+        Ok(format!("You are a {} in {}", org.user_role, org.org_name))
+    } else if let Some(org_key_info) = multi.org_key_info {
+        // Note, there are no roles or permissions for org keys since they don't associate with a user
+        org_key_info.validate_org_membership(RequiredOrg::OrgName(&org_name))?;
+        Ok(format!("Org key for org_name {}", org_key_info.org_name))
+    } 
+}
+```
+### Using the Auth extension
 You can also get the full `auth` struct and make API calls with it:
 
 ```rust
@@ -73,6 +136,7 @@ async fn make_req(Extension(auth): Extension<Arc<PropelAuth>>) -> String {
     magic_link.url
 }
 ```
+
 ## Actix
 
 To use Actix, make sure to enable the `actix4` feature in your Cargo.toml.
