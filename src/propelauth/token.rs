@@ -166,7 +166,7 @@ mod tests {
         LoginMethod, OrgMemberInfo, OrgRoleStructure, User, UserAndOrgMemberInfo,
     };
 
-    const ISSUER: &'static str = "https://testissuer.propelauthtest.com";
+    const ISSUER: &str = "https://testissuer.propelauthtest.com";
 
     #[test]
     fn validation_gets_user_back() {
