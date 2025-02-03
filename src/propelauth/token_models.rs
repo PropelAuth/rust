@@ -310,7 +310,7 @@ pub struct UserAndOrgMemberInfo {
 #[derive(Debug)]
 pub struct UserOrApiKey {
     pub user: Option<User>,
-    pub user_key_info: Option<ValidatePersonalApiKeyResponse>,
+    pub personal_key_info: Option<ValidatePersonalApiKeyResponse>,
     pub org_key_info: Option<ValidateOrgApiKeyResponse>,
 }
 
@@ -318,7 +318,7 @@ impl UserOrApiKey {
     pub fn new() -> Self {
         Self {
             user: None,
-            user_key_info: None,
+            personal_key_info: None,
             org_key_info: None,
         }
     }
