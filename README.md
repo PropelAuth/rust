@@ -93,8 +93,8 @@ and if that doesn't exist check validate the personal API key and then the org A
 async fn whoami(multi: UserOrApiKey) -> String {
     if let Some(user) = multi.user {
         user.user_id
-    } else if let Some(user_key_info) = multi.user_key_info {
-        user_key_info.user_id
+    } else if let Some(personal_key_info) = multi.personal_key_info {
+        personal_key_info.user_id
     } else if let Some(org_key_info) = multi.org_key_info {
         "Org Key for org_id {}".format(org_key_info.org_id)
     } else {
@@ -113,8 +113,8 @@ async fn org_whoami(multi: UserOrApiKey,
     if let Some(user) = multi.user {
         let org = user.validate_org_membership(RequiredOrg::OrgName(&org_name), UserRequirementsInOrg::IsRole("Admin"))?;
         Ok(format!("You are a {} in {}", org.user_role, org.org_name))
-    } else if let Some(user_key_info) = multi.user_key_info {
-        let org = user_key_info.validate_org_membership(RequiredOrg::OrgName(&org_name), UserRequirementsInOrg::IsRole("Admin"))?;
+    } else if let Some(personal_key_info) = multi.personal_key_info {
+        let org = personal_key_info.validate_org_membership(RequiredOrg::OrgName(&org_name), UserRequirementsInOrg::IsRole("Admin"))?;
         Ok(format!("You are a {} in {}", org.user_role, org.org_name))
     } else if let Some(org_key_info) = multi.org_key_info {
         // Note, there are no roles or permissions for org keys since they don't associate with a user
