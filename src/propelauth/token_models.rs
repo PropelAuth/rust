@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-
+use crate::models::validate_api_key_response::{ValidateOrgApiKeyResponse, ValidatePersonalApiKeyResponse};
 use crate::propelauth::errors::DetailedForbiddenError;
 use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
 
@@ -304,4 +304,22 @@ impl OrgMemberInfo {
 pub struct UserAndOrgMemberInfo {
     pub user: User,
     pub org_member_info: OrgMemberInfo,
+}
+
+
+#[derive(Debug)]
+pub struct UserOrApiKey {
+    pub user: Option<User>,
+    pub user_key_info: Option<ValidatePersonalApiKeyResponse>,
+    pub org_key_info: Option<ValidateOrgApiKeyResponse>,
+}
+
+impl UserOrApiKey {
+    pub fn new() -> Self {
+        Self {
+            user: None,
+            user_key_info: None,
+            org_key_info: None,
+        }
+    }
 }
