@@ -69,11 +69,9 @@ impl Into<User> for DecodedUserFromToken {
             active_org_id = Some(org_member_info.org_id.clone());
             org_id_to_org_member_info
                 .insert(org_member_info.org_id.clone(), org_member_info.clone());
-        } else {
-            if let Some(org_id_to_org_member_info_from_token) = self.org_id_to_org_member_info {
-                for (org_id, org_member_info) in org_id_to_org_member_info_from_token {
-                    org_id_to_org_member_info.insert(org_id, org_member_info);
-                }
+        } else if let Some(org_id_to_org_member_info_from_token) = self.org_id_to_org_member_info {
+            for (org_id, org_member_info) in org_id_to_org_member_info_from_token {
+                org_id_to_org_member_info.insert(org_id, org_member_info);
             }
         }
         User {
