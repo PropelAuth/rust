@@ -41,6 +41,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -67,6 +68,7 @@ impl OrgService<'_> {
                             )),
                         ) => FetchOrgsByQueryError::BadRequest(bad_request),
                         (401, _) => FetchOrgsByQueryError::InvalidApiKey,
+                        (429, _) => FetchOrgsByQueryError::PropelAuthRateLimit,
                         _ => FetchOrgsByQueryError::UnexpectedException,
                     },
                 )
@@ -96,6 +98,7 @@ impl OrgService<'_> {
                             )),
                         ) => FetchUsersInOrgError::BadRequest(bad_request),
                         (401, _) => FetchUsersInOrgError::InvalidApiKey,
+                        (429, _) => FetchUsersInOrgError::PropelAuthRateLimit,
                         _ => FetchUsersInOrgError::UnexpectedException,
                     },
                 )
@@ -114,6 +117,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -133,6 +137,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -156,6 +161,7 @@ impl OrgService<'_> {
                     |status_code, _| match status_code.as_u16() {
                         400 => OrgMissingOrRoleError::UnknownRoleError,
                         401 => OrgMissingOrRoleError::InvalidApiKey,
+                        429 => OrgMissingOrRoleError::PropelAuthRateLimit,
                         404 => OrgMissingOrRoleError::NotFound,
                         _ => OrgMissingOrRoleError::UnexpectedException,
                     },
@@ -180,6 +186,7 @@ impl OrgService<'_> {
                     |status_code, _| match status_code.as_u16() {
                         400 => OrgMissingOrRoleError::UnknownRoleError,
                         401 => OrgMissingOrRoleError::InvalidApiKey,
+                        429 => OrgMissingOrRoleError::PropelAuthRateLimit,
                         404 => OrgMissingOrRoleError::NotFound,
                         _ => OrgMissingOrRoleError::UnexpectedException,
                     },
@@ -203,6 +210,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -230,6 +238,7 @@ impl OrgService<'_> {
                             )),
                         ) => CreateOrgError::BadRequest(bad_request),
                         (401, _) => CreateOrgError::InvalidApiKey,
+                        (429, _) => CreateOrgError::PropelAuthRateLimit,
                         _ => CreateOrgError::UnexpectedException,
                     },
                 )
@@ -264,6 +273,7 @@ impl OrgService<'_> {
                             )),
                         ) => UpdateOrgError::BadRequest(bad_request),
                         (401, _) => UpdateOrgError::InvalidApiKey,
+                        (429, _) => UpdateOrgError::PropelAuthRateLimit,
                         (404, _) => UpdateOrgError::NotFound,
                         _ => UpdateOrgError::UnexpectedException,
                     },
@@ -301,6 +311,7 @@ impl OrgService<'_> {
                             )),
                         ) => SubscribeOrgToRoleMappingError::BadRequest(bad_request),
                         (401, _) => SubscribeOrgToRoleMappingError::InvalidApiKey,
+                        (429, _) => SubscribeOrgToRoleMappingError::PropelAuthRateLimit,
                         (404, _) => SubscribeOrgToRoleMappingError::NotFound,
                         _ => SubscribeOrgToRoleMappingError::UnexpectedException,
                     },
@@ -325,6 +336,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -349,6 +361,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -373,6 +386,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -396,6 +410,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -419,6 +434,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -440,6 +456,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -461,6 +478,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -484,6 +502,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -515,6 +534,7 @@ impl OrgService<'_> {
                             )),
                         ) => InviteUserToOrgError::BadRequest(bad_request),
                         (401, _) => InviteUserToOrgError::InvalidApiKey,
+                        (429, _) => InviteUserToOrgError::PropelAuthRateLimit,
                         (404, _) => InviteUserToOrgError::NotFound,
                         _ => InviteUserToOrgError::UnexpectedException,
                     },
@@ -538,6 +558,7 @@ impl OrgService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
