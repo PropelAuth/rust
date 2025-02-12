@@ -14,6 +14,9 @@ pub enum InitializationError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Unexpected exception, please try again")]
     UnexpectedException,
 }
@@ -22,6 +25,9 @@ pub enum InitializationError {
 pub enum ErrorsWithNotFound {
     #[error("Invalid API Key")]
     InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
 
     #[error("Not found")]
     NotFound,
@@ -35,6 +41,9 @@ pub enum BatchFetchError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Bad request: {0}")]
     BadRequest(String),
 
@@ -46,6 +55,9 @@ pub enum BatchFetchError {
 pub enum FetchByQueryError {
     #[error("Invalid API Key")]
     InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
 
     #[error("Bad request")]
     BadRequest(BadFetchUsersByQuery),
@@ -59,6 +71,9 @@ pub enum CreateUserError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Bad request")]
     BadRequest(BadCreateUserRequest),
 
@@ -70,6 +85,9 @@ pub enum CreateUserError {
 pub enum UpdateUserMetadataError {
     #[error("Invalid API Key")]
     InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
 
     #[error("Bad request")]
     BadRequest(BadUpdateUserMetadataRequest),
@@ -122,6 +140,9 @@ pub enum UpdatePasswordError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Bad request")]
     BadRequest(BadUpdatePasswordRequest),
 
@@ -137,6 +158,9 @@ pub enum ClearPasswordError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Not found")]
     NotFound,
 
@@ -148,6 +172,9 @@ pub enum ClearPasswordError {
 pub enum MigrateUserError {
     #[error("Invalid API Key")]
     InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
 
     #[error("Bad request")]
     BadRequest(BadMigrateUserRequest),
@@ -161,6 +188,9 @@ pub enum CreateMagicLinkError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Bad request")]
     BadRequest(BadCreateMagicLinkRequest),
 
@@ -172,6 +202,9 @@ pub enum CreateMagicLinkError {
 pub enum UpdateOrgError {
     #[error("Invalid API Key")]
     InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
 
     #[error("Not found")]
     NotFound,
@@ -188,6 +221,9 @@ pub enum SubscribeOrgToRoleMappingError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Not found")]
     NotFound,
 
@@ -202,6 +238,9 @@ pub enum SubscribeOrgToRoleMappingError {
 pub enum InviteUserToOrgError {
     #[error("Invalid API Key")]
     InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
 
     #[error("Not found")]
     NotFound,
@@ -218,6 +257,9 @@ pub enum CreateOrgError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Bad request")]
     BadRequest(BadCreateOrgRequest),
 
@@ -229,6 +271,9 @@ pub enum CreateOrgError {
 pub enum OrgMissingOrRoleError {
     #[error("Invalid API Key")]
     InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
 
     #[error("Unknown role")]
     UnknownRoleError,
@@ -245,6 +290,9 @@ pub enum FetchUsersInOrgError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Bad request")]
     BadRequest(BadFetchUsersInOrgQuery),
 
@@ -257,6 +305,9 @@ pub enum FetchOrgsByQueryError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
     #[error("Bad request")]
     BadRequest(BadFetchOrgQuery),
 
@@ -268,6 +319,9 @@ pub enum FetchOrgsByQueryError {
 pub enum CreateAccessTokenError {
     #[error("Invalid API Key")]
     InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
 
     #[error("Unexpected exception, please try again")]
     UnexpectedException,

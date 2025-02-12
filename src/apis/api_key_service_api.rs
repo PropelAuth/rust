@@ -56,6 +56,7 @@ pub enum ApiKeyError {
         wait_seconds: f64,
         user_facing_error: String,
     },
+    PropelAuthRateLimit,
     InvalidPersonalAPIKey,
     InvalidOrgAPIKey,
     NotFound,
