@@ -12,6 +12,7 @@ use reqwest;
 
 use super::{configuration, Error, UserFacingError};
 use crate::models::{FetchUsersOrderBy, ResendEmailConfirmationRequest};
+use crate::propelauth::auth::AUTH_HOSTNAME_HEADER;
 use crate::{apis::ResponseContent, models::InviteUserToOrgRequest};
 
 /// struct for passing parameters to the method [`create_magic_link`]
@@ -357,6 +358,11 @@ pub async fn create_magic_link(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&create_magic_link_request);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -401,6 +407,11 @@ pub async fn create_user(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&create_user_request);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -449,6 +460,10 @@ pub async fn delete_user(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -496,6 +511,10 @@ pub async fn disable_user(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -541,6 +560,11 @@ pub async fn resend_email_confirmation(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&request);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -586,6 +610,10 @@ pub async fn logout_all_user_sessions(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -633,6 +661,10 @@ pub async fn disable_user2fa(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -680,6 +712,10 @@ pub async fn enable_user(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -732,6 +768,10 @@ pub async fn fetch_user_by_email(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -784,6 +824,10 @@ pub async fn fetch_user_by_id(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -836,6 +880,10 @@ pub async fn fetch_user_by_username(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -887,6 +935,11 @@ pub async fn fetch_users_by_emails(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&emails_query);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -939,6 +992,11 @@ pub async fn fetch_users_by_ids(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&user_ids_query);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -1015,6 +1073,10 @@ pub async fn fetch_users_by_query(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -1066,6 +1128,11 @@ pub async fn fetch_users_by_usernames(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&usernames_query);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -1113,6 +1180,11 @@ pub async fn migrate_user(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&migrate_user_request);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -1162,6 +1234,11 @@ pub async fn update_user_email(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&update_email_request);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -1211,6 +1288,11 @@ pub async fn update_user_metadata(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&update_metadata_request);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -1260,6 +1342,11 @@ pub async fn update_user_password(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&update_password_request);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -1305,6 +1392,10 @@ pub async fn clear_user_password(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -1349,6 +1440,10 @@ pub async fn enable_user_can_create_orgs(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -1393,6 +1488,10 @@ pub async fn disable_user_can_create_orgs(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -1439,6 +1538,11 @@ pub async fn invite_user_to_org(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&invite_user_to_org_request);
 
     let local_var_req = local_var_req_builder.build()?;
