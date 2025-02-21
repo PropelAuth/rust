@@ -36,6 +36,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -59,6 +60,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -78,6 +80,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -107,6 +110,7 @@ impl UserService<'_> {
                             }
                         }
                         (401, _) => BatchFetchError::InvalidApiKey,
+                        (429, _) => BatchFetchError::PropelAuthRateLimit,
                         _ => BatchFetchError::UnexpectedException,
                     },
                 )
@@ -139,6 +143,7 @@ impl UserService<'_> {
                             }
                         }
                         (401, _) => BatchFetchError::InvalidApiKey,
+                        (429, _) => BatchFetchError::PropelAuthRateLimit,
                         _ => BatchFetchError::UnexpectedException,
                     },
                 )
@@ -171,6 +176,7 @@ impl UserService<'_> {
                             }
                         }
                         (401, _) => BatchFetchError::InvalidApiKey,
+                        (429, _) => BatchFetchError::PropelAuthRateLimit,
                         _ => BatchFetchError::UnexpectedException,
                     },
                 )
@@ -197,6 +203,7 @@ impl UserService<'_> {
                             FetchByQueryError::BadRequest(bad_request)
                         }
                         (401, _) => FetchByQueryError::InvalidApiKey,
+                        (429, _) => FetchByQueryError::PropelAuthRateLimit,
                         _ => FetchByQueryError::UnexpectedException,
                     },
                 )
@@ -224,6 +231,7 @@ impl UserService<'_> {
                             )),
                         ) => CreateUserError::BadRequest(bad_request),
                         (401, _) => CreateUserError::InvalidApiKey,
+                        (429, _) => CreateUserError::PropelAuthRateLimit,
                         _ => CreateUserError::UnexpectedException,
                     },
                 )
@@ -244,6 +252,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -266,6 +275,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -290,6 +300,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -312,6 +323,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -344,6 +356,7 @@ impl UserService<'_> {
                             ),
                         ) => UpdateUserMetadataError::BadRequest(bad_request),
                         (401, _) => UpdateUserMetadataError::InvalidApiKey,
+                        (429, _) => UpdateUserMetadataError::PropelAuthRateLimit,
                         (404, _) => UpdateUserMetadataError::NotFound,
                         _ => UpdateUserMetadataError::UnexpectedException,
                     },
@@ -407,6 +420,7 @@ impl UserService<'_> {
                             ),
                         ) => UpdatePasswordError::BadRequest(bad_request),
                         (401, _) => UpdatePasswordError::InvalidApiKey,
+                        (429, _) => UpdatePasswordError::PropelAuthRateLimit,
                         (404, _) => UpdatePasswordError::NotFound,
                         _ => UpdatePasswordError::UnexpectedException,
                     },
@@ -428,6 +442,7 @@ impl UserService<'_> {
                     ClearPasswordError::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ClearPasswordError::InvalidApiKey,
+                        429 => ClearPasswordError::PropelAuthRateLimit,
                         404 => ClearPasswordError::NotFound,
                         _ => ClearPasswordError::UnexpectedException,
                     },
@@ -450,6 +465,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -520,6 +536,7 @@ impl UserService<'_> {
                             )),
                         ) => MigrateUserError::BadRequest(bad_request),
                         (401, _) => MigrateUserError::InvalidApiKey,
+                        (429, _) => MigrateUserError::PropelAuthRateLimit,
                         _ => MigrateUserError::UnexpectedException,
                     },
                 )
@@ -547,6 +564,7 @@ impl UserService<'_> {
                             )),
                         ) => CreateMagicLinkError::BadRequest(bad_request),
                         (401, _) => CreateMagicLinkError::InvalidApiKey,
+                        (429, _) => CreateMagicLinkError::PropelAuthRateLimit,
                         _ => CreateMagicLinkError::UnexpectedException,
                     },
                 )
@@ -569,6 +587,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
@@ -593,6 +612,7 @@ impl UserService<'_> {
                     ErrorsWithNotFound::UnexpectedException,
                     |status_code, _| match status_code.as_u16() {
                         401 => ErrorsWithNotFound::InvalidApiKey,
+                        429 => ErrorsWithNotFound::PropelAuthRateLimit,
                         404 => ErrorsWithNotFound::NotFound,
                         _ => ErrorsWithNotFound::UnexpectedException,
                     },
