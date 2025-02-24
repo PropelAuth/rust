@@ -7,7 +7,7 @@
 use hex;
 use reqwest;
 
-use crate::apis::ResponseContent;
+use crate::{apis::ResponseContent, propelauth::auth::AUTH_HOSTNAME_HEADER};
 
 use super::{configuration, Error};
 
@@ -113,6 +113,7 @@ pub async fn fetch_current_api_keys(
     if let Some(ref bearer_token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(bearer_token.to_owned());
     }
+    req_builder = req_builder.header(AUTH_HOSTNAME_HEADER, configuration.auth_hostname.to_owned());
 
     let req = req_builder.build()?;
     let resp = client.execute(req).await?;
@@ -168,6 +169,7 @@ pub async fn fetch_archived_api_keys(
     if let Some(ref bearer_token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(bearer_token.to_owned());
     }
+    req_builder = req_builder.header(AUTH_HOSTNAME_HEADER, configuration.auth_hostname.to_owned());
 
     let req = req_builder.build()?;
     let resp = client.execute(req).await?;
@@ -210,6 +212,7 @@ pub async fn fetch_api_key(
     if let Some(ref bearer_token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(bearer_token.to_owned());
     }
+    req_builder = req_builder.header(AUTH_HOSTNAME_HEADER, configuration.auth_hostname.to_owned());
 
     let req = req_builder.build()?;
     let resp = client.execute(req).await?;
@@ -248,6 +251,7 @@ pub async fn create_api_key(
     if let Some(ref bearer_token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(bearer_token.to_owned());
     }
+    req_builder = req_builder.header(AUTH_HOSTNAME_HEADER, configuration.auth_hostname.to_owned());
 
     req_builder = req_builder.json(&params);
 
@@ -293,6 +297,7 @@ pub async fn update_api_key(
     if let Some(ref bearer_token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(bearer_token.to_owned());
     }
+    req_builder = req_builder.header(AUTH_HOSTNAME_HEADER, configuration.auth_hostname.to_owned());
 
     req_builder = req_builder.json(&params);
 
@@ -337,6 +342,7 @@ pub async fn delete_api_key(
     if let Some(ref bearer_token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(bearer_token.to_owned());
     }
+    req_builder = req_builder.header(AUTH_HOSTNAME_HEADER, configuration.auth_hostname.to_owned());
 
     let req = req_builder.build()?;
     let resp = client.execute(req).await?;
@@ -375,6 +381,7 @@ pub async fn validate_api_key(
     if let Some(ref bearer_token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(bearer_token.to_owned());
     }
+    req_builder = req_builder.header(AUTH_HOSTNAME_HEADER, configuration.auth_hostname.to_owned());
 
     req_builder = req_builder.json(&params);
 
