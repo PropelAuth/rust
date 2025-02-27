@@ -12,6 +12,9 @@ use crate::propelauth::org::OrgService;
 use crate::propelauth::token::TokenService;
 use crate::propelauth::user::UserService;
 
+static BACKEND_API_BASE_URL: &str = "https://propelauth-api.com";
+pub(crate) static AUTH_HOSTNAME_HEADER: &str = "X-Propelauth-url";
+
 /// The main entrypoint of this library.
 /// All authentication, authorization and API requests starts from this struct
 #[derive(Debug, Clone)]
@@ -25,9 +28,12 @@ impl PropelAuth {
     /// Initializes the PropelAuth library without making any external requests. This contrasts
     /// with `fetch_and_init` which will fetch the metadata needed to validate access tokens
     pub fn init(opts: AuthOptionsWithTokenVerification) -> Result<PropelAuth, InitializationError> {
-        let auth_url = validate_auth_url(&opts.auth_url)?;
+        let auth_hostname = validate_auth_url_extract_hostname(&opts.auth_url)?;
+        let issuer = "https://".to_string() + &auth_hostname;
+
         let configuration = Configuration {
-            base_path: auth_url.clone(),
+            base_path: BACKEND_API_BASE_URL.to_string(),
+            auth_hostname,
             bearer_access_token: Some(opts.api_key),
             ..Default::default()
         };
@@ -35,16 +41,19 @@ impl PropelAuth {
         Ok(PropelAuth {
             config: configuration,
             token_verification_metadata: opts.manual_token_verification_metadata,
-            issuer: auth_url,
+            issuer,
         })
     }
 
     /// Initializes the PropelAuth library by making a single external request. This contrasts
     /// with `init` where you manually specify the metadata needed to validate access tokens
     pub async fn fetch_and_init(opts: AuthOptions) -> Result<PropelAuth, InitializationError> {
-        let auth_url = validate_auth_url(&opts.auth_url)?;
+        let auth_hostname = validate_auth_url_extract_hostname(&opts.auth_url)?;
+        let issuer = "https://".to_string() + &auth_hostname;
+
         let configuration = Configuration {
-            base_path: auth_url.clone(),
+            base_path: BACKEND_API_BASE_URL.to_string(),
+            auth_hostname,
             bearer_access_token: Some(opts.api_key),
             ..Default::default()
         };
@@ -66,7 +75,7 @@ impl PropelAuth {
         Ok(PropelAuth {
             config: configuration,
             token_verification_metadata,
-            issuer: auth_url,
+            issuer,
         })
     }
 
@@ -107,45 +116,43 @@ impl PropelAuth {
     }
 }
 
-fn validate_auth_url(auth_url: &str) -> Result<String, InitializationError> {
+fn validate_auth_url_extract_hostname(auth_url: &str) -> Result<String, InitializationError> {
     Ok(Url::parse(auth_url)
         .map_err(|_| InitializationError::InvalidAuthUrl)?
-        .origin()
-        .ascii_serialization())
+        .host_str()
+        .ok_or(InitializationError::InvalidAuthUrl)?
+        .to_string())
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::propelauth::auth::validate_auth_url;
+    use crate::propelauth::auth::validate_auth_url_extract_hostname;
     use crate::propelauth::errors::InitializationError;
 
     #[test]
     fn bad_auth_url_is_rejected() {
         assert_eq!(
             Some(InitializationError::InvalidAuthUrl),
-            validate_auth_url("not.a.url").err()
+            validate_auth_url_extract_hostname("not.a.url").err()
         );
         assert_eq!(
             Some(InitializationError::InvalidAuthUrl),
-            validate_auth_url("fake").err()
+            validate_auth_url_extract_hostname("fake").err()
         );
     }
 
     #[test]
-    fn auth_urls_are_canonicalized() {
+    fn test_extract_hostname() {
         assert_eq!(
-            Some("https://blah.com".to_string()),
-            validate_auth_url("https://blah.com").ok()
+            Some("blah.com".to_string()),
+            validate_auth_url_extract_hostname("https://blah.com").ok()
         );
 
-        assert_eq!(
-            Some("https://www.blah.com".to_string()),
-            validate_auth_url("https://www.blah.com/").ok()
-        );
+        assert!(validate_auth_url_extract_hostname("blah").is_err());
 
         assert_eq!(
-            Some("https://app.blah.co.uk".to_string()),
-            validate_auth_url("https://app.blah.co.uk/more").ok()
+            Some("app.blah.co.uk".to_string()),
+            validate_auth_url_extract_hostname("https://app.blah.co.uk/more").ok()
         );
     }
 }

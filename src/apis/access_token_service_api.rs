@@ -1,7 +1,7 @@
 use reqwest;
 
 use super::{configuration, Error};
-use crate::apis::ResponseContent;
+use crate::{apis::ResponseContent, propelauth::auth::AUTH_HOSTNAME_HEADER};
 
 /// struct for passing parameters to the method [`create_access_token`]
 #[derive(Clone, Debug, Default)]
@@ -49,6 +49,11 @@ pub async fn create_access_token(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&create_access_token_request);
 
     let local_var_req = local_var_req_builder.build()?;
@@ -96,6 +101,11 @@ pub async fn create_access_token_v2(
     if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
     local_var_req_builder = local_var_req_builder.json(&create_access_token_request);
 
     let local_var_req = local_var_req_builder.build()?;
