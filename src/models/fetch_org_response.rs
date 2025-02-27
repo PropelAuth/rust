@@ -42,6 +42,7 @@ pub struct FetchOrgResponse {
     pub is_saml_in_test_mode: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub domain: Option<String>,
+    pub extra_domains: Vec<String>,
     pub domain_autojoin: bool,
     pub domain_restrict: bool,
 }
@@ -70,6 +71,7 @@ impl FetchOrgResponse {
             can_setup_saml,
             is_saml_in_test_mode,
             domain: None,
+            extra_domains: Vec::new(),
             domain_autojoin,
             domain_restrict,
         }
@@ -110,6 +112,3 @@ impl crate::models::FetchOrgBasicResponse {
         }
     }
 }
-
-
-
