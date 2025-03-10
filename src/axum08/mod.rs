@@ -3,20 +3,18 @@ use std::pin::Pin;
 use std::sync::Arc;
 use std::task::{Context, Poll};
 
-use axum_07::async_trait;
-use axum_07::extract::FromRequestParts;
-use axum_07::http::header::AUTHORIZATION;
-use axum_07::http::request::Parts;
-use axum_07::http::StatusCode;
-use axum_07::response::IntoResponse;
-use axum_07::{body::Body, http::Request, response::Response};
+use axum_08::extract::FromRequestParts;
+use axum_08::http::header::AUTHORIZATION;
+use axum_08::http::request::Parts;
+use axum_08::http::StatusCode;
+use axum_08::response::IntoResponse;
+use axum_08::{body::Body, http::Request, response::Response};
 use tower::{Layer, Service};
 use crate::apis::api_key_service_api::ValidateApiKeyParams;
 use crate::propelauth::auth::PropelAuth;
 use crate::propelauth::errors::{UnauthorizedError, UnauthorizedOrForbiddenError};
 use crate::propelauth::token_models::{User, UserOrApiKey};
 
-#[async_trait]
 impl<S> FromRequestParts<S> for User
 where
     S: Send + Sync,
@@ -44,11 +42,11 @@ where
     }
 }
 
-#[async_trait]
 impl<S> FromRequestParts<S> for UserOrApiKey
 where
     S: Send + Sync,
 {
+    // If extraction fails, Axum will produce a 401 automatically.
     type Rejection = (StatusCode, &'static str);
 
     async fn from_request_parts(parts: &mut Parts, _: &S) -> Result<Self, Self::Rejection> {
@@ -130,6 +128,7 @@ pub struct PropelAuthLayer {
     auth_config: MultiAuthConfig,
 }
 
+
 impl PropelAuthLayer {
     pub fn new(auth: PropelAuth) -> PropelAuthLayer {
         PropelAuthLayer {
@@ -173,7 +172,7 @@ where
     type Response = S::Response;
     type Error = S::Error;
     type Future =
-    Pin<Box<dyn Future<Output = Result<Self::Response, Self::Error>> + Send + 'static>>;
+        Pin<Box<dyn Future<Output = Result<Self::Response, Self::Error>> + Send + 'static>>;
 
     fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
         self.inner.poll_ready(cx)

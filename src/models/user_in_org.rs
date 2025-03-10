@@ -32,3 +32,45 @@ pub struct UserInOrg {
     #[serde(rename = "additional_roles")]
     pub additional_roles: Vec<String>,
 }
+
+impl UserInOrg {
+    pub fn is_role(&self, role: &str) -> bool {
+        match self.org_role_structure {
+            OrgRoleStructure::SingleRoleInHierarchy => self.user_role == role,
+            OrgRoleStructure::MultiRole => {
+                self.user_role == role || self.additional_roles.iter().any(|r| r == role)
+            }
+        }
+    }
+
+    pub fn is_at_least_role(&self, role: &str) -> bool {
+        match self.org_role_structure {
+            OrgRoleStructure::SingleRoleInHierarchy => self
+                .inherited_user_roles_plus_current_role
+                .iter()
+                .any(|r| r == role),
+            OrgRoleStructure::MultiRole => {
+                self.user_role == role || self.additional_roles.iter().any(|r| r == role)
+            }
+        }
+    }
+
+    pub fn has_permission(&self, permission: &str) -> bool {
+        for user_permission in &self.user_permissions {
+            if user_permission == permission {
+                return true;
+            }
+        }
+        false
+    }
+
+    pub fn has_all_permissions(&self, permissions: Vec<&str>) -> bool {
+        // This is n^2, but for small number of permissions should be fine
+        for permission in permissions {
+            if !self.has_permission(permission) {
+                return false;
+            }
+        }
+        true
+    }
+}
