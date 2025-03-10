@@ -27,7 +27,7 @@
 //!
 //! ## Axum
 //!
-//! To use Axum, make sure to enable the `axum_07` (or `axum_06`) feature in your Cargo.toml.
+//! To use Axum, make sure to enable the `axum_08` (or `axum_07` or `axum_06`) feature in your Cargo.toml.
 //!
 //! Then, add PropelAuthLayer to your Router:
 //!
@@ -177,6 +177,9 @@ pub mod axum06;
 
 #[cfg(feature = "axum07")]
 pub mod axum07;
+
+#[cfg(feature = "axum08")]
+pub mod axum08;
 
 #[cfg(feature = "actix4")]
 pub mod actix;
