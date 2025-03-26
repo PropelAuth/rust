@@ -16,7 +16,7 @@ axum_06 = { package = "axum", version = "^0.6", optional = true }
 axum_07 = { package = "axum", version = "^0.7", optional = true }
 axum_08 = { package = "axum", version = "^0.8", optional = true }
 chrono = "0.4.39"
-jsonwebtoken = "8.3.0"
+jsonwebtoken = "9.3.0"
 serde = "^1.0"
 serde_derive = "^1.0"
 serde_json = "^1.0"
