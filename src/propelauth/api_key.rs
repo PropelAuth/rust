@@ -203,6 +203,7 @@ impl ApiKeyService<'_> {
         Ok(ValidatePersonalApiKeyResponse {
             metadata: resp.metadata,
             user: resp.user.unwrap(),
+            empty_map: Default::default(),
         })
     }
 
