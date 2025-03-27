@@ -135,6 +135,7 @@ impl TokenService<'_> {
 
         let mut validation = Validation::new(Algorithm::RS256);
         validation.set_issuer(&[self.issuer]);
+        validation.validate_aud = false;
 
         let decoded_user =
             decode::<DecodedUserFromToken>(&bearer_token, &decoding_key, &validation)
