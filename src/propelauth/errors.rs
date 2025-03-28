@@ -1,7 +1,7 @@
 use crate::models::{
     BadCreateAccessTokenError, BadCreateMagicLinkRequest, BadCreateOrgRequest,
     BadCreateUserRequest, BadFetchOrgQuery, BadFetchUsersByQuery, BadFetchUsersInOrgQuery,
-    BadMigrateUserRequest, BadUpdateOrgRequest, BadUpdatePasswordRequest,
+    BadMigrateUserRequest, BadMigrateUserPasswordRequest, BadUpdateOrgRequest, BadUpdatePasswordRequest,
     BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest,
 };
 use thiserror::Error;
@@ -178,6 +178,21 @@ pub enum MigrateUserError {
 
     #[error("Bad request")]
     BadRequest(BadMigrateUserRequest),
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
+pub enum MigrateUserPasswordError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
+    #[error("Bad request")]
+    BadRequest(BadMigrateUserPasswordRequest),
 
     #[error("Unexpected exception, please try again")]
     UnexpectedException,

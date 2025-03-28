@@ -116,6 +116,12 @@ pub struct MigrateUserParams {
     pub migrate_user_request: crate::models::MigrateUserRequest,
 }
 
+/// struct for passing parameters to the method [`migrate_user_password`]
+#[derive(Clone, Debug, Default)]
+pub struct MigrateUserPasswordParams {
+    pub migrate_user_password_request: crate::models::MigrateUserPasswordRequest,
+}
+
 /// struct for passing parameters to the method [`update_user_email`]
 #[derive(Clone, Debug, Default)]
 pub struct UpdateUserEmailParams {
@@ -279,6 +285,15 @@ pub enum FetchUsersByUsernamesError {
 #[serde(untagged)]
 pub enum MigrateUserError {
     Status400(crate::models::BadMigrateUserRequest),
+    Status401(serde_json::Value),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`migrate_user_password`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum MigrateUserPasswordError {
+    Status400(crate::models::BadMigrateUserPasswordRequest),
     Status401(serde_json::Value),
     UnknownValue(serde_json::Value),
 }
@@ -1197,6 +1212,58 @@ pub async fn migrate_user(
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<MigrateUserError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub async fn migrate_user_password(
+    configuration: &configuration::Configuration,
+    params: MigrateUserPasswordParams,
+) -> Result<crate::models::SuccessfulResponse, Error<MigrateUserPasswordError>> {
+    let local_var_configuration = configuration;
+
+    // unbox the parameters
+    let migrate_user_password_request = params.migrate_user_password_request;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/api/backend/v1/migrate_user/password",
+        local_var_configuration.base_path
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
+    local_var_req_builder = local_var_req_builder.json(&migrate_user_password_request);
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<MigrateUserPasswordError> =
             serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent {
             status: local_var_status,
