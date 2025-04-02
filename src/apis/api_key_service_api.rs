@@ -35,6 +35,7 @@ pub struct CreateApiKeyParams {
 pub struct UpdateApiKeyParams {
     pub expires_at_seconds: Option<i64>,
     pub metadata: Option<serde_json::Value>,
+    pub set_to_never_expire: Option<bool>,
 }
 
 /// struct for passing parameters to the method [`validate_api_key`]
