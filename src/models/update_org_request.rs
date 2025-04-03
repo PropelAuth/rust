@@ -31,7 +31,7 @@ pub struct UpdateOrgRequest {
     #[serde(rename = "legacy_org_id", skip_serializing_if = "Option::is_none")]
     pub legacy_org_id: Option<String>,
     #[serde(rename = "require_2fa_by", skip_serializing_if = "Option::is_none")]
-    pub require_2fa_by: Option<chrono::DateTime<chrono::Utc>>,
+    pub require_2fa_by: Option<String>,
     #[serde(rename = "extra_domains", skip_serializing_if = "Option::is_none")]
     pub extra_domains: Option<Vec<String>>,
 }
