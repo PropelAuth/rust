@@ -33,7 +33,7 @@ pub struct UpdateOrgRequest {
     #[serde(rename = "require_2fa_by", skip_serializing_if = "Option::is_none")]
     pub require_2fa_by: Option<chrono::DateTime<chrono::Utc>>,
     #[serde(rename = "extra_domains", skip_serializing_if = "Option::is_none")]
-    pub extra_domains: Vec<String>,
+    pub extra_domains: Option<Vec<String>>,
 }
 
 impl UpdateOrgRequest {
