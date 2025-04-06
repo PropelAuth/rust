@@ -1,11 +1,17 @@
-# PropelAuth
+<p align="center">
+  <a href="https://www.propelauth.com?ref=github" target="_blank" align="center">
+    <img src="https://www.propelauth.com/imgs/lockup.svg" width="200">
+  </a>
+</p>
+
+# PropelAuth Rust Library
 
 Add authentication and authorization to your application.
 
 This library is meant to be used with a [PropelAuth](https://www.propelauth.com/) account.
 You can sign up and get started for free.
 
-# Initialize
+## Initialize
 
 First, you'll need to initialize the library. You can either call `PropelAuth::init`
 or `PropelAuth::fetch_and_init` (which will fetch any unspecified metadata).
@@ -17,7 +23,7 @@ let auth = PropelAuth::fetch_and_init(AuthOptions {
 }).await.expect("Unable to initialize authentication");
 ```
 
-# Usage / Protecting APIs
+## Usage / Protecting APIs
 
 - [Axum](#axum)
 - [Actix](#actix)
@@ -41,7 +47,7 @@ let app = Router::new()
     .layer(auth_layer); // <-- here
 ```
 
-You can then take `User` in as an argument, which will look for an [access token](https://docs.propelauth.com/overview/access-token/) in the Authorization header.
+You can then take `User` in as an argument, which will look for an [access token](https://docs.propelauth.com/guides-and-examples/guides/access-tokens) in the Authorization header.
 
 ```rust
 // User will automatically return a 401 (Unauthorized) if a valid access token wasn't provided
@@ -50,7 +56,7 @@ async fn whoami(user: User) -> String {
 }
 ```
 
-You can also check which [organizations](https://docs.propelauth.com/overview/organizations/) the user is in, and which [roles and permissions](https://docs.propelauth.com/overview/rbac/) they have.
+You can also check which [organizations](https://docs.propelauth.com/overview/organizations/) the user is in, and which [roles and permissions](https://docs.propelauth.com/overview/authorization/rbac) they have.
 
 ```rust
 // If the user isn't in the provided organization, a 403 is returned
@@ -154,7 +160,7 @@ HttpServer::new(move || {
 })
 ```
 
-You can then take `User` in as an argument, which will look for an [access token](https://docs.propelauth.com/overview/access-token/) in the Authorization header.
+You can then take `User` in as an argument, which will look for an [access token](https://docs.propelauth.com/guides-and-examples/guides/access-tokens) in the Authorization header.
 
 ```rust
 // User will automatically return a 401 (Unauthorized) if a valid access token wasn't provided
@@ -164,7 +170,7 @@ async fn whoami(user: User) -> impl Responder {
 }
 ```
 
-You can also check which [organizations](https://docs.propelauth.com/overview/organizations/) the user is in, and which [roles and permissions](https://docs.propelauth.com/overview/rbac/) they have.
+You can also check which [organizations](https://docs.propelauth.com/overview/organizations/) the user is in, and which [roles and permissions](https://docs.propelauth.com/overview/authorization/rbac) they have.
 
 ```rust
 // If the user isn't in the provided organization, a 403 is returned
@@ -200,7 +206,7 @@ propelauth = { version >= "0.12.1", features = ["rustls"], default-features = fa
 
 ## Other
 
-After initializing `auth`, you can verify [access tokens](https://docs.propelauth.com/overview/access-token/) by passing in the Authorization header (formatted `Bearer TOKEN`):
+After initializing `auth`, you can verify [access tokens](https://docs.propelauth.com/guides-and-examples/guides/access-tokens) by passing in the Authorization header (formatted `Bearer TOKEN`):
 
 ```rust
 let result = auth.verify().validate_authorization_header(&authorization_header);
@@ -209,7 +215,7 @@ match result {
     Err(_) => { /* invalid access token, typically we return a 401 Unauthorized here */ }
 }
 ```
-You can also check which [organizations](https://docs.propelauth.com/overview/organizations/) the user is in, and which [roles and permissions](https://docs.propelauth.com/overview/rbac/) they have.
+You can also check which [organizations](https://docs.propelauth.com/overview/organizations/) the user is in, and which [roles and permissions](https://docs.propelauth.com/overview/authorization/rbac) they have.
 
 ```rust
 let org = auth.validate_org_membership(
@@ -227,7 +233,7 @@ let org = user.validate_org_membership(
 
 And finally, you can make API calls directly from `auth.user()` and `auth.org()`
 
-# Where do the access tokens come from?
+## Where do the access tokens come from?
 
 They come from your frontend.
-You can read more about integrating your frontend [here](https://docs.propelauth.com/getting-started/frontend-integration/).
+You can read more about integrating your frontend [here](https://docs.propelauth.com/getting-started/quickstart-fe).
