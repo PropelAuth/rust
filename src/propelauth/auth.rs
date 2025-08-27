@@ -82,28 +82,28 @@ impl PropelAuth {
     }
 
     /// API requests related to users
-    pub fn user(&self) -> UserService {
+    pub fn user(&self) -> UserService<'_> {
         UserService {
             config: &self.config,
         }
     }
 
     /// API requests related to organizations
-    pub fn org(&self) -> OrgService {
+    pub fn org(&self) -> OrgService<'_> {
         OrgService {
             config: &self.config,
         }
     }
 
     /// API requests related to organizations
-    pub fn api_key(&self) -> ApiKeyService {
+    pub fn api_key(&self) -> ApiKeyService<'_> {
         ApiKeyService {
             config: &self.config,
         }
     }
 
     /// Verify access tokens from your frontend
-    pub fn verify(&self) -> TokenService {
+    pub fn verify(&self) -> TokenService<'_> {
         TokenService {
             token_verification_metadata: &self.token_verification_metadata,
             issuer: &self.issuer,
@@ -111,7 +111,7 @@ impl PropelAuth {
     }
 
     /// API requests related to access tokens.
-    pub fn access_token(&self) -> AccessTokenService {
+    pub fn access_token(&self) -> AccessTokenService<'_> {
         AccessTokenService {
             config: &self.config,
         }
