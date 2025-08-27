@@ -7,7 +7,13 @@ use serde_json::Value;
 use crate::propelauth::errors::DetailedForbiddenError;
 use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
 
+#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+use schemars::JsonSchema;
+#[cfg(feature = "schemars09")]
+use std::convert::TryFrom;
+
 #[derive(Debug, Deserialize, Clone, PartialEq, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct LoginMethodForAccessToken {
     pub login_method: String,
     #[serde(default)]
@@ -17,6 +23,7 @@ pub struct LoginMethodForAccessToken {
 }
 
 #[derive(Debug, Serialize, Deserialize, Hash, Eq, PartialEq, Copy, Clone)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 #[serde(rename_all = "snake_case")]
 pub enum SocialLoginType {
     Google,
@@ -48,6 +55,7 @@ impl std::str::FromStr for SocialLoginType {
 }
 
 #[derive(Serialize, Deserialize, Copy, Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub enum IdentityProvider {
     Google,
     Rippling,
@@ -78,6 +86,7 @@ impl std::str::FromStr for IdentityProvider {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub enum LoginMethod {
     Password,
     MagicLink,
@@ -118,6 +127,7 @@ impl Into<LoginMethod> for LoginMethodForAccessToken {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct User {
     pub user_id: String,
 
@@ -237,6 +247,7 @@ impl User {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct OrgMemberInfo {
     pub org_id: String,
     pub org_name: String,
@@ -250,6 +261,7 @@ pub struct OrgMemberInfo {
 }
 
 #[derive(Debug, Default, Serialize, Deserialize, Clone, PartialEq)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub enum OrgRoleStructure {
     #[default]
     #[serde(rename = "single_role_in_hierarchy")]
@@ -301,6 +313,7 @@ impl OrgMemberInfo {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct UserAndOrgMemberInfo {
     pub user: User,
     pub org_member_info: OrgMemberInfo,

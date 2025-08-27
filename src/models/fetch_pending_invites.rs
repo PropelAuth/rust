@@ -1,4 +1,10 @@
+#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+use schemars::JsonSchema;
+#[cfg(feature = "schemars09")]
+use std::convert::TryFrom;
+
 #[derive(Deserialize, Debug)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct FetchPendingInvitesResponse {
     #[serde(rename = "total_invites")]
     pub total_invites: i64,
@@ -13,6 +19,7 @@ pub struct FetchPendingInvitesResponse {
 }
 
 #[derive(Deserialize, Debug)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct PendingInviteResponse {
     #[serde(rename = "invitee_email")]
     pub invitee_email: String,

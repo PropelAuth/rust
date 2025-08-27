@@ -1,4 +1,10 @@
+#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+use schemars::JsonSchema;
+#[cfg(feature = "schemars09")]
+use std::convert::TryFrom;
+
 #[derive(Clone, Debug, PartialEq, Serialize)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct SetSamlIdpMetadataRequest {
     #[serde(rename = "org_id")]
     pub org_id: String,
@@ -13,6 +19,7 @@ pub struct SetSamlIdpMetadataRequest {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub enum SamlIdpProvider {
     Google,
     Rippling,

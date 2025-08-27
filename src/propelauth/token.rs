@@ -11,6 +11,12 @@ use crate::propelauth::token_models::{OrgMemberInfo, User, UserAndOrgMemberInfo}
 
 use super::token_models::LoginMethodForAccessToken;
 
+#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+use schemars::JsonSchema;
+#[cfg(feature = "schemars09")]
+use std::convert::TryFrom;
+
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct TokenService<'a> {
     pub(crate) token_verification_metadata: &'a AuthTokenVerificationMetadata,
     pub(crate) issuer: &'a str,
@@ -584,7 +590,7 @@ mod tests {
 
     fn get_token_service(
         token_verification_metadata: &AuthTokenVerificationMetadata,
-    ) -> TokenService {
+    ) -> TokenService<'_> {
         TokenService {
             token_verification_metadata,
             issuer: ISSUER,

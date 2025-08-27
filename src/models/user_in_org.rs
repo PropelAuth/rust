@@ -13,7 +13,13 @@ use std::collections::HashMap;
 
 use crate::propelauth::token_models::OrgRoleStructure;
 
+#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+use schemars::JsonSchema;
+#[cfg(feature = "schemars09")]
+use std::convert::TryFrom;
+
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct UserInOrg {
     #[serde(rename = "org_id")]
     pub org_id: String,

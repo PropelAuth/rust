@@ -15,38 +15,49 @@ use crate::apis::ResponseContent;
 use crate::models::{FetchOrgOrderBy, SuccessfulResponse};
 use crate::propelauth::auth::AUTH_HOSTNAME_HEADER;
 
+#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+use schemars::JsonSchema;
+#[cfg(feature = "schemars09")]
+use std::convert::TryFrom;
+
 /// struct for passing parameters to the method [`add_user_to_org`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct AddUserToOrgParams {
     pub add_user_to_org_request: crate::models::AddUserToOrgRequest,
 }
 
 /// struct for passing parameters to the method [`allow_org_to_enable_saml`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct AllowOrgToEnableSamlParams {
     pub org_id: String,
 }
 
 /// struct for passing parameters to the method [`change_user_role_in_org`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct ChangeUserRoleInOrgParams {
     pub change_user_role_in_org_request: crate::models::ChangeUserRoleInOrgRequest,
 }
 
 /// struct for passing parameters to the method [`create_org`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct CreateOrgParams {
     pub create_org_request: crate::models::CreateOrgRequest,
 }
 
 /// struct for passing parameters to the method [`disallow_saml`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct DisallowSamlParams {
     pub org_id: String,
 }
 
 /// struct for passing parameters to the method [`create_saml_connection_link`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct CreateSamlConnectionLinkParams {
     pub org_id: String,
     pub expires_in_seconds: Option<i64>,
@@ -54,12 +65,14 @@ pub struct CreateSamlConnectionLinkParams {
 
 /// struct for passing parameters to the method [`fetch_org`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct FetchOrgParams {
     pub org_id: String,
 }
 
 /// struct for passing parameters to the method [`fetch_orgs_by_query`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct FetchOrgsByQueryParams {
     pub page_size: Option<i64>,
     pub page_number: Option<i64>,
@@ -71,6 +84,7 @@ pub struct FetchOrgsByQueryParams {
 
 /// struct for passing parameters to the method [`fetch_pending_invites`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct FetchPendingInvitesParams {
     pub page_size: Option<i64>,
     pub page_number: Option<i64>,
@@ -79,6 +93,7 @@ pub struct FetchPendingInvitesParams {
 
 /// struct for passing parameters to the method [`fetch_users_in_org`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct FetchUsersInOrgParams {
     pub org_id: String,
     pub page_size: Option<i64>,
@@ -90,12 +105,14 @@ pub struct FetchUsersInOrgParams {
 
 /// struct for passing parameters to the method [`remove_user_from_org`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct RemoveUserFromOrgParams {
     pub remove_user_from_org_request: crate::models::RemoveUserFromOrgRequest,
 }
 
 /// struct for passing parameters to the method [`update_org`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct UpdateOrgParams {
     pub org_id: String,
     pub update_org_request: crate::models::UpdateOrgRequest,
@@ -103,6 +120,7 @@ pub struct UpdateOrgParams {
 
 /// struct for passing parameters to the method [`subscribe_org_to_role_mapping`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct SubscribeOrgToRoleMappingParams {
     pub org_id: String,
     pub update_org_request: crate::models::SubscribeOrgToRoleMappingRequest,
@@ -110,12 +128,14 @@ pub struct SubscribeOrgToRoleMappingParams {
 
 /// struct for passing parameters to the method [`delete_org`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct DeleteOrgParams {
     pub org_id: String,
 }
 
 /// struct for passing parameters to the method [`revoke_pending_org_invite`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct RevokePendingOrgInviteParams {
     pub revoke_pending_org_invite_request: crate::models::RevokePendingOrgInviteRequest,
 }

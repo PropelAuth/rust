@@ -3,13 +3,20 @@ use reqwest;
 use super::{configuration, Error};
 use crate::{apis::ResponseContent, propelauth::auth::AUTH_HOSTNAME_HEADER};
 
+#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+use schemars::JsonSchema;
+#[cfg(feature = "schemars09")]
+use std::convert::TryFrom;
+
 /// struct for passing parameters to the method [`create_access_token`]
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct CreateAccessTokenParams {
     pub create_access_token_request: crate::models::CreateAccessTokenRequest,
 }
 
 #[derive(Clone, Debug, Default)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct CreateAccessTokenV2Params {
     pub create_access_token_request: crate::models::CreateAccessTokenV2Request,
 }

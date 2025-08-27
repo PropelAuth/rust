@@ -1,5 +1,11 @@
 use crate::models::AuthTokenVerificationMetadata;
 
+#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+use schemars::JsonSchema;
+#[cfg(feature = "schemars09")]
+use std::convert::TryFrom;
+
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct AuthOptionsWithTokenVerification {
     pub auth_url: String,
     pub api_key: String,
@@ -14,6 +20,7 @@ pub struct AuthOptionsWithTokenVerification {
     pub manual_token_verification_metadata: AuthTokenVerificationMetadata,
 }
 
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct AuthOptions {
     pub auth_url: String,
     pub api_key: String,

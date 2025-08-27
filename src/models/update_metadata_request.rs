@@ -15,7 +15,13 @@ use std::collections::HashMap;
 
 use serde_json::Value;
 
+#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+use schemars::JsonSchema;
+#[cfg(feature = "schemars09")]
+use std::convert::TryFrom;
+
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
 pub struct UpdateMetadataRequest {
     #[serde(rename = "username", skip_serializing_if = "Option::is_none")]
     pub username: Option<String>,
