@@ -3,11 +3,11 @@ use {
     std::convert::TryFrom,
     schemars09 as schemars,
 };
-#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+#[cfg(any(feature = "schemars09", feature = "schemars1"))]
 use schemars::JsonSchema;
 
 #[derive(Clone, Debug, PartialEq, Default, Deserialize)]
-#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars1"), derive(JsonSchema))]
 pub struct FetchSamlSpMetadataResponse {
     #[serde(rename = "entity_id")]
     pub entity_id: String,

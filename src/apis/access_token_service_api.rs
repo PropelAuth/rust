@@ -8,18 +8,18 @@ use {
     std::convert::TryFrom,
     schemars09 as schemars,
 };
-#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+#[cfg(any(feature = "schemars09", feature = "schemars1"))]
 use schemars::JsonSchema;
 
 /// struct for passing parameters to the method [`create_access_token`]
 #[derive(Clone, Debug, Default)]
-#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars1"), derive(JsonSchema))]
 pub struct CreateAccessTokenParams {
     pub create_access_token_request: crate::models::CreateAccessTokenRequest,
 }
 
 #[derive(Clone, Debug, Default)]
-#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars1"), derive(JsonSchema))]
 pub struct CreateAccessTokenV2Params {
     pub create_access_token_request: crate::models::CreateAccessTokenV2Request,
 }

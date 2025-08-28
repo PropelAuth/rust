@@ -8,13 +8,13 @@ use {
     std::convert::TryFrom,
     schemars09 as schemars,
 };
-#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+#[cfg(any(feature = "schemars09", feature = "schemars1"))]
 use schemars::JsonSchema;
 
 pub type OrgRole = String;
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars1"), derive(JsonSchema))]
 pub struct ValidateApiKeyResponse {
     pub metadata: Option<serde_json::Value>,
     pub user: Option<UserMetadata>,
@@ -25,14 +25,14 @@ pub struct ValidateApiKeyResponse {
 }
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
-#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars1"), derive(JsonSchema))]
 pub struct ValidatePersonalApiKeyResponse {
     pub metadata: Option<serde_json::Value>,
     pub user: UserMetadata,
 }
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
-#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars1"), derive(JsonSchema))]
 pub struct ValidateOrgApiKeyResponse {
     pub metadata: Option<serde_json::Value>,
     pub user: Option<UserMetadata>,
@@ -41,7 +41,7 @@ pub struct ValidateOrgApiKeyResponse {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars1"), derive(JsonSchema))]
 pub struct OrgMetadata {
     pub org_id: Uuid,
     pub org_name: String,

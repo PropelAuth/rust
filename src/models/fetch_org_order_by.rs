@@ -10,12 +10,12 @@
 
 #[cfg(feature = "schemars09")]
 use schemars09 as schemars;
-#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+#[cfg(any(feature = "schemars09", feature = "schemars1"))]
 use schemars::JsonSchema;
 
 /// 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars1"), derive(JsonSchema))]
 pub enum FetchOrgOrderBy {
     #[serde(rename = "CREATED_AT_ASC")]
     CreatedAtAsc,

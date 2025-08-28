@@ -16,10 +16,10 @@ use {
     std::convert::TryFrom,
     schemars09 as schemars,
 };
-#[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
+#[cfg(any(feature = "schemars09", feature = "schemars1"))]
 use schemars::JsonSchema;
 
-#[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]
+#[cfg_attr(any(feature = "schemars09", feature = "schemars1"), derive(JsonSchema))]
 pub struct TokenService<'a> {
     pub(crate) token_verification_metadata: &'a AuthTokenVerificationMetadata,
     pub(crate) issuer: &'a str,

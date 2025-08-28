@@ -46,7 +46,7 @@ axum08 = ["dep:axum_08", "dep:tower"]
 actix4 = ["dep:actix-web"]
 __reqwest = ["reqwest/json", "reqwest/multipart"]
 schemars09 = ["dep:schemars09"]
-schemars-latest = ["dep:schemars"]
+schemars1 = ["dep:schemars"]
 
 [lib]
 doctest = false
