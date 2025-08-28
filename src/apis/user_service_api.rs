@@ -15,10 +15,13 @@ use crate::models::{FetchUsersOrderBy, ResendEmailConfirmationRequest};
 use crate::propelauth::auth::AUTH_HOSTNAME_HEADER;
 use crate::{apis::ResponseContent, models::InviteUserToOrgRequest};
 
+#[cfg(feature = "schemars09")]
+use {
+    std::convert::TryFrom,
+    schemars09 as schemars,
+};
 #[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
 use schemars::JsonSchema;
-#[cfg(feature = "schemars09")]
-use std::convert::TryFrom;
 
 /// struct for passing parameters to the method [`create_magic_link`]
 #[derive(Clone, Debug, Default)]

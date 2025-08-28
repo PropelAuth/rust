@@ -11,10 +11,13 @@
 use std::collections::HashMap;
 
 use serde_json::Value;
+#[cfg(feature = "schemars09")]
+use {
+    std::convert::TryFrom,
+    schemars09 as schemars,
+};
 #[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
 use schemars::JsonSchema;
-#[cfg(feature = "schemars09")]
-use std::convert::TryFrom;
 
 #[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
 #[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]

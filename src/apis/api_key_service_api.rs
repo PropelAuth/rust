@@ -11,10 +11,13 @@ use crate::{apis::ResponseContent, propelauth::auth::AUTH_HOSTNAME_HEADER};
 
 use super::{configuration, Error};
 
+#[cfg(feature = "schemars09")]
+use {
+    std::convert::TryFrom,
+    schemars09 as schemars,
+};
 #[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
 use schemars::JsonSchema;
-#[cfg(feature = "schemars09")]
-use std::convert::TryFrom;
 
 
 /// struct for passing parameters to the method [`fetch_api_keys`, `fetch_archived_api_keys`]

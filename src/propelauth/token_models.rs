@@ -7,10 +7,13 @@ use serde_json::Value;
 use crate::propelauth::errors::DetailedForbiddenError;
 use crate::propelauth::options::{RequiredOrg, UserRequirementsInOrg};
 
+#[cfg(feature = "schemars09")]
+use {
+    std::convert::TryFrom,
+    schemars09 as schemars,
+};
 #[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
 use schemars::JsonSchema;
-#[cfg(feature = "schemars09")]
-use std::convert::TryFrom;
 
 #[derive(Debug, Deserialize, Clone, PartialEq, Default)]
 #[cfg_attr(any(feature = "schemars09", feature = "schemars-latest"), derive(JsonSchema))]

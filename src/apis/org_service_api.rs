@@ -15,10 +15,13 @@ use crate::apis::ResponseContent;
 use crate::models::{FetchOrgOrderBy, SuccessfulResponse};
 use crate::propelauth::auth::AUTH_HOSTNAME_HEADER;
 
+#[cfg(feature = "schemars09")]
+use {
+    std::convert::TryFrom,
+    schemars09 as schemars,
+};
 #[cfg(any(feature = "schemars09", feature = "schemars-latest"))]
 use schemars::JsonSchema;
-#[cfg(feature = "schemars09")]
-use std::convert::TryFrom;
 
 /// struct for passing parameters to the method [`add_user_to_org`]
 #[derive(Clone, Debug, Default)]
