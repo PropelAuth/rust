@@ -140,6 +140,31 @@ If you'd rather use a pure Rust TLS implementation rather than OpenSSL disable t
 propelauth = { version >= "0.12.1", features = ["rustls"], default-features = false }
 ```
 
+## JSON Schemas (schemars)
+
+This crate can optionally derive JSON Schemas for its request/response types using the schemars crate. This is useful if you want to automatically generate API documentation (e.g., OpenAPI) for endpoints that return or accept PropelAuth types, using libraries like aide.
+
+There are two feature flags to support both the 0.9 and 1.x lines of schemars:
+
+- schemars09 — enables schemars = 0.9.x compatibility
+- schemars-latest — enables schemars = 1.x compatibility
+
+Only enable one of these features at a time.
+
+Enabling schemars in your Cargo.toml:
+
+```toml
+# Choose one of the following feature flags
+propelauth = { version = "^0", features = ["schemars-latest"] }
+# or, if your project is still on schemars 0.9
+# propelauth = { version = "^0", features = ["schemars09"] }
+```
+
+What you get when enabled:
+
+- The crate's data models (for example: User, UserInOrg, CreateMagicLinkRequest, CreateAccessTokenResponse, and many others) will derive schemars::JsonSchema behind the selected feature flag.
+- You can then use those types with OpenAPI generators that rely on schemars, such as aide, utoipa-with-schemars adapter, or custom schema generation code.
+
 ## Other
 
 After initializing `auth`, you can verify [access tokens](https://docs.propelauth.com/guides-and-examples/guides/access-tokens) by passing in the Authorization header (formatted `Bearer TOKEN`):
