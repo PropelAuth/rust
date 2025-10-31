@@ -21,6 +21,8 @@ pub struct CreateMagicLinkRequest {
     pub expires_in_hours: Option<i64>,
     #[serde(rename = "create_new_user_if_one_doesnt_exist", skip_serializing_if = "Option::is_none")]
     pub create_new_user_if_one_doesnt_exist: Option<bool>,
+    #[serde(rename = "expire_after_first_use", skip_serializing_if = "Option::is_none")]
+    pub expire_after_first_use: Option<bool>,
 }
 
 impl CreateMagicLinkRequest {
@@ -30,6 +32,7 @@ impl CreateMagicLinkRequest {
             redirect_to_url: None,
             expires_in_hours: None,
             create_new_user_if_one_doesnt_exist: None,
+            expire_after_first_use: None,
         }
     }
 }
