@@ -441,3 +441,73 @@ pub enum VerifyStepUpTotpChallengeError {
     #[error("Unexpected exception, please try again")]
     UnexpectedException,
 }
+
+#[derive(Error, Debug, PartialEq, Clone)]
+pub enum VerifyStepUpGrantError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
+    #[error("Bad request: {0}")]
+    BadRequest(String),
+
+    #[error("This feature isn't available on your current pricing plan")]
+    FeatureGated,
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
+pub enum SendSmsCodeError {
+     #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
+    #[error("User not found")]
+    UserNotFound,
+
+    #[error("MFA not enabled for this user")]
+    MfaNotEnabled,
+
+    #[error("Bad request: {0}")]
+    BadRequest(String),
+
+    #[error("This feature isn't available on your current pricing plan")]
+    FeatureGated,
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
+#[derive(Error, Debug, PartialEq, Clone)]
+pub enum VerifySmsChallengeError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
+    #[error("User not found")]
+    UserNotFound,
+
+    #[error("MFA not enabled for this user")]
+    MfaNotEnabled,
+
+    #[error("Incorrect MFA code")]
+    IncorrectMfaCode,
+
+    #[error("Bad request: {0}")]
+    BadRequest(String),
+
+    #[error("This feature isn't available on your current pricing plan")]
+    FeatureGated,
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
