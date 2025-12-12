@@ -23,16 +23,19 @@ pub struct FetchOrgsResponse {
     pub page_size: i64,
     #[serde(rename = "has_more_results")]
     pub has_more_results: bool,
+    #[serde(rename = "isolated")]
+    pub isolated: bool,
 }
 
 impl FetchOrgsResponse {
-    pub fn new(orgs: Vec<crate::models::FetchOrgBasicResponse>, total_orgs: i64, current_page: i64, page_size: i64, has_more_results: bool) -> FetchOrgsResponse {
+    pub fn new(orgs: Vec<crate::models::FetchOrgBasicResponse>, total_orgs: i64, current_page: i64, page_size: i64, has_more_results: bool, isolated: bool) -> FetchOrgsResponse {
         FetchOrgsResponse {
             orgs,
             total_orgs,
             current_page,
             page_size,
             has_more_results,
+            isolated
         }
     }
 }

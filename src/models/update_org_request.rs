@@ -34,6 +34,8 @@ pub struct UpdateOrgRequest {
     pub require_2fa_by: Option<String>,
     #[serde(rename = "extra_domains", skip_serializing_if = "Option::is_none")]
     pub extra_domains: Option<Vec<String>>,
+    #[serde(rename = "sso_trust_level", skip_serializing_if = "Option::is_none")]
+    pub sso_trust_level: Option<String>,
 }
 
 impl UpdateOrgRequest {
@@ -49,6 +51,7 @@ impl UpdateOrgRequest {
             legacy_org_id: None,
             require_2fa_by: None,
             extra_domains: None,
+            sso_trust_level: None
         }
     }
 }
