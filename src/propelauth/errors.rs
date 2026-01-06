@@ -300,6 +300,25 @@ pub enum OrgMissingOrRoleError {
     UnexpectedException,
 }
 
+
+#[derive(Error, Debug, Eq, PartialEq, Copy, Clone)]
+pub enum OrgMissingOrMigrateError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
+    #[error("Migrate Org Exception")]
+    MigrateOrgToIsolatedException,
+
+    #[error("Not found")]
+    NotFound,
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
+
 #[derive(Error, Debug, PartialEq, Clone)]
 pub enum FetchUsersInOrgError {
     #[error("Invalid API Key")]

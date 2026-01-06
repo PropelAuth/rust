@@ -48,6 +48,8 @@ pub struct UserMetadata {
     pub metadata: Option<HashMap<String, Value>>,
     #[serde(rename = "properties", skip_serializing_if = "Option::is_none")]
     pub properties: Option<HashMap<String, Value>>,
+    #[serde(rename = "isolated_org_id", skip_serializing_if = "Option::is_none")]
+    pub isolated_org_id: Option<String>,
     /// `role_in_org` is only returned when using `fetch_users_in_org`
     /// and is their role for the org specified in the query.
     #[serde(rename = "role_in_org", default)]
@@ -88,6 +90,7 @@ impl UserMetadata {
             legacy_user_id: None,
             metadata: None,
             properties: None,
+            isolated_org_id: None,
             role_in_org: None,
             additional_roles_in_org: None,
         }

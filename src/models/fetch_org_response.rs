@@ -45,6 +45,7 @@ pub struct FetchOrgResponse {
     pub extra_domains: Vec<String>,
     pub domain_autojoin: bool,
     pub domain_restrict: bool,
+    pub isolated: bool
 }
 
 impl FetchOrgResponse {
@@ -58,6 +59,7 @@ impl FetchOrgResponse {
         is_saml_in_test_mode: bool,
         domain_autojoin: bool,
         domain_restrict: bool,
+        isolated: bool,
     ) -> FetchOrgResponse {
         FetchOrgResponse {
             org_id,
@@ -74,6 +76,7 @@ impl FetchOrgResponse {
             extra_domains: Vec::new(),
             domain_autojoin,
             domain_restrict,
+            isolated
         }
     }
 }

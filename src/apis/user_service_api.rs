@@ -57,6 +57,7 @@ pub struct FetchUserByEmailParams {
     pub email: String,
     /// Defaults to false
     pub include_orgs: Option<bool>,
+    pub isolated_org_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`fetch_user_by_id`]
@@ -85,6 +86,7 @@ pub struct FetchUserByUsernameParams {
     pub username: String,
     /// Defaults to false
     pub include_orgs: Option<bool>,
+    pub isolated_org_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`fetch_users_by_emails`]
@@ -112,6 +114,7 @@ pub struct FetchUsersByQueryParams {
     pub email_or_username: Option<String>,
     pub include_orgs: Option<bool>,
     pub legacy_user_id: Option<String>,
+    pub isolated_org_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`fetch_users_by_usernames`]
@@ -773,6 +776,7 @@ pub async fn fetch_user_by_email(
     // unbox the parameters
     let email = params.email;
     let include_orgs = params.include_orgs;
+    let isolated_org_id = params.isolated_org_id;
 
     let local_var_client = &local_var_configuration.client;
 
@@ -787,6 +791,10 @@ pub async fn fetch_user_by_email(
     if let Some(ref local_var_str) = include_orgs {
         local_var_req_builder =
             local_var_req_builder.query(&[("include_orgs", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = isolated_org_id {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("isolated_org_id", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =
@@ -885,6 +893,7 @@ pub async fn fetch_user_by_username(
     // unbox the parameters
     let username = params.username;
     let include_orgs = params.include_orgs;
+    let isolated_org_id = params.isolated_org_id;
 
     let local_var_client = &local_var_configuration.client;
 
@@ -898,6 +907,10 @@ pub async fn fetch_user_by_username(
     if let Some(ref local_var_str) = include_orgs {
         local_var_req_builder =
             local_var_req_builder.query(&[("include_orgs", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = isolated_org_id {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("isolated_org_id", &local_var_str.to_string())]);
     }
     local_var_req_builder = local_var_req_builder.query(&[("username", &username.to_string())]);
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -1059,6 +1072,7 @@ pub async fn fetch_users_by_query(
     let email_or_username = params.email_or_username;
     let include_orgs = params.include_orgs;
     let legacy_user_id = params.legacy_user_id;
+    let isolated_org_id = params.isolated_org_id;
 
     let local_var_client = &local_var_configuration.client;
 
@@ -1092,6 +1106,10 @@ pub async fn fetch_users_by_query(
     if let Some(ref local_var_str) = legacy_user_id {
         local_var_req_builder =
             local_var_req_builder.query(&[("legacy_user_id", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = isolated_org_id {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("isolated_org_id", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =
