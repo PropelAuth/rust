@@ -1,12 +1,13 @@
+pub mod access_token;
 pub mod api_key;
 pub mod auth;
+pub mod employee;
 pub mod errors;
 pub(crate) mod helpers;
+pub mod mfa;
 pub mod options;
 pub mod org;
+pub mod reports;
 pub mod token;
 pub mod token_models;
 pub mod user;
-pub mod access_token;
-pub mod employee;
-pub mod mfa;
