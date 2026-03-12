@@ -7,7 +7,7 @@ pub(crate) mod helpers;
 pub mod mfa;
 pub mod options;
 pub mod org;
-pub mod reports;
 pub mod token;
 pub mod token_models;
 pub mod user;
+pub mod user_insights;

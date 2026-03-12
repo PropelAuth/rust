@@ -12,15 +12,16 @@ use reqwest;
 
 use super::{configuration, Error};
 use crate::apis::ResponseContent;
-use crate::models::reports::{
-    FetchReportQuery, OrgReport, OrgReportType, UserReportPage, UserReportType,
+use crate::models::user_insights::{
+    ChartData, ChartMetric, FetchChartDataQuery, FetchReportQuery, OrgReport, OrgReportType,
+    UserReportPage, UserReportType,
 };
 use crate::propelauth::auth::AUTH_HOSTNAME_HEADER;
 
 /// struct for typed errors of methods [`fetch_user_report`] or [`fetch_org_report`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum FetchReportRequestError {
+pub enum FetchUserInsightsDataRequestError {
     Status401(serde_json::Value),
     Status400(serde_json::Value),
     Status429(serde_json::Value),
@@ -31,7 +32,7 @@ pub(crate) async fn fetch_user_report(
     configuration: &configuration::Configuration,
     report_key: UserReportType,
     params: FetchReportQuery,
-) -> Result<UserReportPage, Error<FetchReportRequestError>> {
+) -> Result<UserReportPage, Error<FetchUserInsightsDataRequestError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -67,9 +68,9 @@ pub(crate) async fn fetch_user_report(
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<FetchReportRequestError> =
+        let local_var_entity: Option<FetchUserInsightsDataRequestError> =
             serde_json::from_str(&local_var_content).ok();
-        let local_var_error: crate::apis::ResponseContent<FetchReportRequestError> =
+        let local_var_error: crate::apis::ResponseContent<FetchUserInsightsDataRequestError> =
             ResponseContent {
                 status: local_var_status,
                 content: local_var_content,
@@ -83,7 +84,7 @@ pub(crate) async fn fetch_org_report(
     configuration: &configuration::Configuration,
     report_key: OrgReportType,
     params: FetchReportQuery,
-) -> Result<OrgReport, Error<FetchReportRequestError>> {
+) -> Result<OrgReport, Error<FetchUserInsightsDataRequestError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -119,9 +120,61 @@ pub(crate) async fn fetch_org_report(
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<FetchReportRequestError> =
+        let local_var_entity: Option<FetchUserInsightsDataRequestError> =
             serde_json::from_str(&local_var_content).ok();
-        let local_var_error: crate::apis::ResponseContent<FetchReportRequestError> =
+        let local_var_error: crate::apis::ResponseContent<FetchUserInsightsDataRequestError> =
+            ResponseContent {
+                status: local_var_status,
+                content: local_var_content,
+                entity: local_var_entity,
+            };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub(crate) async fn fetch_chart_metric_data(
+    configuration: &configuration::Configuration,
+    chart_metric: ChartMetric,
+    params: FetchChartDataQuery,
+) -> Result<ChartData, Error<FetchUserInsightsDataRequestError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/api/backend/v1/chart_metrics/{chart_metric}",
+        local_var_configuration.base_path,
+        chart_metric = chart_metric.as_str(),
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    local_var_req_builder = local_var_req_builder.query(&params);
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<FetchUserInsightsDataRequestError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error: crate::apis::ResponseContent<FetchUserInsightsDataRequestError> =
             ResponseContent {
                 status: local_var_status,
                 content: local_var_content,

@@ -166,3 +166,57 @@ pub struct UserReportPage {
     pub has_more_results: bool,
     pub report_time: i64,
 }
+// chart metrics types
+
+#[derive(Clone, Debug, PartialEq, Deserialize)]
+pub enum ChartMetric {
+    Signups,
+    OrgsCreated,
+    ActiveUsers,
+    ActiveOrgs,
+}
+
+impl ChartMetric {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            ChartMetric::Signups => "signups",
+            ChartMetric::OrgsCreated => "orgs_created",
+            ChartMetric::ActiveUsers => "active_users",
+            ChartMetric::ActiveOrgs => "active_orgs",
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub enum ChartMetricCadence {
+    #[serde(rename = "Daily")]
+    Daily,
+    #[serde(rename = "Weekly")]
+    Weekly,
+    #[serde(rename = "Monthly")]
+    Monthly,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct ChartDataPoint {
+    pub result: i64,
+    pub date: String, // YYYY-MM-DD format date, 24 hours in UTC timezone
+    pub cadence_completed: bool,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct ChartData {
+    pub metrics: Vec<ChartDataPoint>,
+    pub chart_type: ChartMetric,
+    pub cadence: ChartMetricCadence,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct FetchChartDataQuery {
+    #[serde(skip_serializing_if = "Option::is_none", rename = "cadence")]
+    pub cadence: Option<ChartMetricCadence>,
+    #[serde(skip_serializing_if = "Option::is_none", rename = "start_date")]
+    pub start_date: Option<String>, // YYYY-MM-DD format date
+    #[serde(skip_serializing_if = "Option::is_none", rename = "end_date")]
+    pub end_date: Option<String>, // YYYY-MM-DD format date
+}

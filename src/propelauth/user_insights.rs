@@ -1,23 +1,24 @@
 use crate::apis::configuration::Configuration;
-use crate::apis::Error;
-use crate::models::reports::{
-    AttritionReportInterval, ChampionReportInterval, ChurnReportInterval, FetchReportQuery,
-    GrowthReportInterval, OrgReportType, ReengagementReportInterval, ReportInterval,
-    ReportPagination, TopInviterReportInterval, UserReportPage, UserReportType,
+use crate::apis::{user_insights_service_api, Error};
+use crate::models::user_insights::{
+    AttritionReportInterval, ChampionReportInterval, ChartMetric, ChurnReportInterval,
+    FetchChartDataQuery, FetchReportQuery, GrowthReportInterval, OrgReportType,
+    ReengagementReportInterval, ReportInterval, ReportPagination, TopInviterReportInterval,
+    UserReportPage, UserReportType,
 };
-use crate::propelauth::errors::FetchReportError;
+use crate::propelauth::errors::FetchUserInsightsError;
 
-pub struct ReportService<'a> {
+pub struct UserInsightsService<'a> {
     pub(crate) config: &'a Configuration,
 }
 
-impl ReportService<'_> {
+impl UserInsightsService<'_> {
     pub async fn fetch_user_top_inviter_report(
         &self,
         report_interval: TopInviterReportInterval,
         pagination: ReportPagination,
-    ) -> Result<UserReportPage, FetchReportError> {
-        let result = crate::apis::report_service_api::fetch_user_report(
+    ) -> Result<UserReportPage, FetchUserInsightsError> {
+        let result = user_insights_service_api::fetch_user_report(
             &self.config,
             UserReportType::TopInviter,
             FetchReportQuery {
@@ -32,14 +33,14 @@ impl ReportService<'_> {
             Ok(response) => Ok(response),
             Err(Error::ResponseError(response)) => {
                 if response.status == 401 {
-                    return Err(FetchReportError::InvalidApiKey);
+                    return Err(FetchUserInsightsError::InvalidApiKey);
                 } else if response.status == 429 {
-                    return Err(FetchReportError::PropelAuthRateLimit);
+                    return Err(FetchUserInsightsError::PropelAuthRateLimit);
                 } else {
-                    Err(FetchReportError::UnexpectedException)
+                    Err(FetchUserInsightsError::UnexpectedException)
                 }
             }
-            Err(_) => Err(FetchReportError::UnexpectedException),
+            Err(_) => Err(FetchUserInsightsError::UnexpectedException),
         }
     }
 
@@ -47,8 +48,8 @@ impl ReportService<'_> {
         &self,
         report_interval: ChampionReportInterval,
         pagination: ReportPagination,
-    ) -> Result<UserReportPage, FetchReportError> {
-        let result = crate::apis::report_service_api::fetch_user_report(
+    ) -> Result<UserReportPage, FetchUserInsightsError> {
+        let result = user_insights_service_api::fetch_user_report(
             &self.config,
             UserReportType::Champion,
             FetchReportQuery {
@@ -63,14 +64,14 @@ impl ReportService<'_> {
             Ok(response) => Ok(response),
             Err(Error::ResponseError(response)) => {
                 if response.status == 401 {
-                    return Err(FetchReportError::InvalidApiKey);
+                    return Err(FetchUserInsightsError::InvalidApiKey);
                 } else if response.status == 429 {
-                    return Err(FetchReportError::PropelAuthRateLimit);
+                    return Err(FetchUserInsightsError::PropelAuthRateLimit);
                 } else {
-                    Err(FetchReportError::UnexpectedException)
+                    Err(FetchUserInsightsError::UnexpectedException)
                 }
             }
-            Err(_) => Err(FetchReportError::UnexpectedException),
+            Err(_) => Err(FetchUserInsightsError::UnexpectedException),
         }
     }
 
@@ -78,8 +79,8 @@ impl ReportService<'_> {
         &self,
         report_interval: ReengagementReportInterval,
         pagination: ReportPagination,
-    ) -> Result<UserReportPage, FetchReportError> {
-        let result = crate::apis::report_service_api::fetch_user_report(
+    ) -> Result<UserReportPage, FetchUserInsightsError> {
+        let result = user_insights_service_api::fetch_user_report(
             &self.config,
             UserReportType::Reengagement,
             FetchReportQuery {
@@ -94,14 +95,14 @@ impl ReportService<'_> {
             Ok(response) => Ok(response),
             Err(Error::ResponseError(response)) => {
                 if response.status == 401 {
-                    return Err(FetchReportError::InvalidApiKey);
+                    return Err(FetchUserInsightsError::InvalidApiKey);
                 } else if response.status == 429 {
-                    return Err(FetchReportError::PropelAuthRateLimit);
+                    return Err(FetchUserInsightsError::PropelAuthRateLimit);
                 } else {
-                    Err(FetchReportError::UnexpectedException)
+                    Err(FetchUserInsightsError::UnexpectedException)
                 }
             }
-            Err(_) => Err(FetchReportError::UnexpectedException),
+            Err(_) => Err(FetchUserInsightsError::UnexpectedException),
         }
     }
 
@@ -109,8 +110,8 @@ impl ReportService<'_> {
         &self,
         report_interval: ChurnReportInterval,
         pagination: ReportPagination,
-    ) -> Result<UserReportPage, FetchReportError> {
-        let result = crate::apis::report_service_api::fetch_user_report(
+    ) -> Result<UserReportPage, FetchUserInsightsError> {
+        let result = user_insights_service_api::fetch_user_report(
             &self.config,
             UserReportType::Churn,
             FetchReportQuery {
@@ -125,14 +126,14 @@ impl ReportService<'_> {
             Ok(response) => Ok(response),
             Err(Error::ResponseError(response)) => {
                 if response.status == 401 {
-                    return Err(FetchReportError::InvalidApiKey);
+                    return Err(FetchUserInsightsError::InvalidApiKey);
                 } else if response.status == 429 {
-                    return Err(FetchReportError::PropelAuthRateLimit);
+                    return Err(FetchUserInsightsError::PropelAuthRateLimit);
                 } else {
-                    Err(FetchReportError::UnexpectedException)
+                    Err(FetchUserInsightsError::UnexpectedException)
                 }
             }
-            Err(_) => Err(FetchReportError::UnexpectedException),
+            Err(_) => Err(FetchUserInsightsError::UnexpectedException),
         }
     }
 
@@ -140,8 +141,8 @@ impl ReportService<'_> {
         &self,
         report_interval: AttritionReportInterval,
         pagination: ReportPagination,
-    ) -> Result<crate::models::reports::OrgReport, FetchReportError> {
-        let result = crate::apis::report_service_api::fetch_org_report(
+    ) -> Result<crate::models::user_insights::OrgReport, FetchUserInsightsError> {
+        let result = user_insights_service_api::fetch_org_report(
             &self.config,
             OrgReportType::Attrition,
             FetchReportQuery {
@@ -156,14 +157,14 @@ impl ReportService<'_> {
             Ok(response) => Ok(response),
             Err(Error::ResponseError(response)) => {
                 if response.status == 401 {
-                    return Err(FetchReportError::InvalidApiKey);
+                    return Err(FetchUserInsightsError::InvalidApiKey);
                 } else if response.status == 429 {
-                    return Err(FetchReportError::PropelAuthRateLimit);
+                    return Err(FetchUserInsightsError::PropelAuthRateLimit);
                 } else {
-                    Err(FetchReportError::UnexpectedException)
+                    Err(FetchUserInsightsError::UnexpectedException)
                 }
             }
-            Err(_) => Err(FetchReportError::UnexpectedException),
+            Err(_) => Err(FetchUserInsightsError::UnexpectedException),
         }
     }
 
@@ -171,8 +172,8 @@ impl ReportService<'_> {
         &self,
         report_interval: GrowthReportInterval,
         pagination: ReportPagination,
-    ) -> Result<crate::models::reports::OrgReport, FetchReportError> {
-        let result = crate::apis::report_service_api::fetch_org_report(
+    ) -> Result<crate::models::user_insights::OrgReport, FetchUserInsightsError> {
+        let result = user_insights_service_api::fetch_org_report(
             &self.config,
             OrgReportType::Growth,
             FetchReportQuery {
@@ -187,14 +188,14 @@ impl ReportService<'_> {
             Ok(response) => Ok(response),
             Err(Error::ResponseError(response)) => {
                 if response.status == 401 {
-                    return Err(FetchReportError::InvalidApiKey);
+                    return Err(FetchUserInsightsError::InvalidApiKey);
                 } else if response.status == 429 {
-                    return Err(FetchReportError::PropelAuthRateLimit);
+                    return Err(FetchUserInsightsError::PropelAuthRateLimit);
                 } else {
-                    Err(FetchReportError::UnexpectedException)
+                    Err(FetchUserInsightsError::UnexpectedException)
                 }
             }
-            Err(_) => Err(FetchReportError::UnexpectedException),
+            Err(_) => Err(FetchUserInsightsError::UnexpectedException),
         }
     }
 
@@ -202,8 +203,8 @@ impl ReportService<'_> {
         &self,
         report_interval: ReengagementReportInterval,
         pagination: ReportPagination,
-    ) -> Result<crate::models::reports::OrgReport, FetchReportError> {
-        let result = crate::apis::report_service_api::fetch_org_report(
+    ) -> Result<crate::models::user_insights::OrgReport, FetchUserInsightsError> {
+        let result = user_insights_service_api::fetch_org_report(
             &self.config,
             OrgReportType::Reengagement,
             FetchReportQuery {
@@ -218,14 +219,14 @@ impl ReportService<'_> {
             Ok(response) => Ok(response),
             Err(Error::ResponseError(response)) => {
                 if response.status == 401 {
-                    return Err(FetchReportError::InvalidApiKey);
+                    return Err(FetchUserInsightsError::InvalidApiKey);
                 } else if response.status == 429 {
-                    return Err(FetchReportError::PropelAuthRateLimit);
+                    return Err(FetchUserInsightsError::PropelAuthRateLimit);
                 } else {
-                    Err(FetchReportError::UnexpectedException)
+                    Err(FetchUserInsightsError::UnexpectedException)
                 }
             }
-            Err(_) => Err(FetchReportError::UnexpectedException),
+            Err(_) => Err(FetchUserInsightsError::UnexpectedException),
         }
     }
 
@@ -233,8 +234,8 @@ impl ReportService<'_> {
         &self,
         report_interval: ChurnReportInterval,
         pagination: ReportPagination,
-    ) -> Result<crate::models::reports::OrgReport, FetchReportError> {
-        let result = crate::apis::report_service_api::fetch_org_report(
+    ) -> Result<crate::models::user_insights::OrgReport, FetchUserInsightsError> {
+        let result = user_insights_service_api::fetch_org_report(
             &self.config,
             OrgReportType::Churn,
             FetchReportQuery {
@@ -249,14 +250,38 @@ impl ReportService<'_> {
             Ok(response) => Ok(response),
             Err(Error::ResponseError(response)) => {
                 if response.status == 401 {
-                    return Err(FetchReportError::InvalidApiKey);
+                    return Err(FetchUserInsightsError::InvalidApiKey);
                 } else if response.status == 429 {
-                    return Err(FetchReportError::PropelAuthRateLimit);
+                    return Err(FetchUserInsightsError::PropelAuthRateLimit);
                 } else {
-                    Err(FetchReportError::UnexpectedException)
+                    Err(FetchUserInsightsError::UnexpectedException)
                 }
             }
-            Err(_) => Err(FetchReportError::UnexpectedException),
+            Err(_) => Err(FetchUserInsightsError::UnexpectedException),
+        }
+    }
+
+    pub async fn fetch_chart_metric_data(
+        &self,
+        chart_metric: ChartMetric,
+        params: FetchChartDataQuery,
+    ) -> Result<crate::models::user_insights::ChartData, FetchUserInsightsError> {
+        let result =
+            user_insights_service_api::fetch_chart_metric_data(&self.config, chart_metric, params)
+                .await;
+
+        match result {
+            Ok(response) => Ok(response),
+            Err(Error::ResponseError(response)) => {
+                if response.status == 401 {
+                    return Err(FetchUserInsightsError::InvalidApiKey);
+                } else if response.status == 429 {
+                    return Err(FetchUserInsightsError::PropelAuthRateLimit);
+                } else {
+                    Err(FetchUserInsightsError::UnexpectedException)
+                }
+            }
+            Err(_) => Err(FetchUserInsightsError::UnexpectedException),
         }
     }
 }

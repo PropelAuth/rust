@@ -512,7 +512,7 @@ pub enum VerifySmsChallengeError {
 }
 
 #[derive(Error, Debug, PartialEq, Clone)]
-pub enum FetchReportError {
+pub enum FetchUserInsightsError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 

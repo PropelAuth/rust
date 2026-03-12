@@ -75,7 +75,7 @@ pub mod auth_service_api;
 pub mod employee_service_api;
 pub mod mfa_service_api;
 pub mod org_service_api;
-pub(crate) mod report_service_api;
+pub(crate) mod user_insights_service_api;
 pub mod user_service_api;
 
 pub mod configuration;
