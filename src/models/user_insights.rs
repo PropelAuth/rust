@@ -211,7 +211,7 @@ pub struct ChartData {
     pub cadence: ChartMetricCadence,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Default)]
 pub struct FetchChartDataQuery {
     #[serde(skip_serializing_if = "Option::is_none", rename = "cadence")]
     pub cadence: Option<ChartMetricCadence>,

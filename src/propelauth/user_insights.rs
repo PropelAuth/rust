@@ -266,6 +266,28 @@ impl UserInsightsService<'_> {
         chart_metric: ChartMetric,
         params: FetchChartDataQuery,
     ) -> Result<crate::models::user_insights::ChartData, FetchUserInsightsError> {
+        if let Some(start_date_raw) = &params.start_date {
+            if let Ok(start_date) = chrono::NaiveDate::parse_from_str(start_date_raw, "%Y-%m-%d") {
+                if start_date > chrono::Utc::now().naive_utc().date() {
+                    return Err(FetchUserInsightsError::InvalidParams(
+                        "start_date cannot be in the future",
+                    ));
+                }
+            } else {
+                return Err(FetchUserInsightsError::InvalidParams(
+                    "start_date must be in YYYY-MM-DD format",
+                ));
+            }
+        }
+
+        if let Some(end_date_raw) = &params.end_date {
+            if chrono::NaiveDate::parse_from_str(end_date_raw, "%Y-%m-%d").is_err() {
+                return Err(FetchUserInsightsError::InvalidParams(
+                    "end_date must be in YYYY-MM-DD format",
+                ));
+            }
+        }
+
         let result =
             user_insights_service_api::fetch_chart_metric_data(&self.config, chart_metric, params)
                 .await;

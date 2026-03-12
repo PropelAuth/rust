@@ -516,6 +516,9 @@ pub enum FetchUserInsightsError {
     #[error("Invalid API Key")]
     InvalidApiKey,
 
+    #[error("Invalid parameters: {0}")]
+    InvalidParams(&'static str),
+
     #[error("Rate limited by PropelAuth")]
     PropelAuthRateLimit,
 
