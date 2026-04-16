@@ -13,6 +13,7 @@ use crate::propelauth::org::OrgService;
 use crate::propelauth::token::TokenService;
 use crate::propelauth::user::UserService;
 use crate::propelauth::employee::EmployeeService;
+use crate::propelauth::scim::ScimService;
 
 static BACKEND_API_BASE_URL: &str = "https://propelauth-api.com";
 pub(crate) static AUTH_HOSTNAME_HEADER: &str = "X-Propelauth-url";
@@ -127,6 +128,13 @@ impl PropelAuth {
     /// API requests related to employees.
     pub fn mfa(&self) -> MfaService {
         MfaService {
+            config: &self.config,
+        }
+    }
+    
+    /// API requests related to scim.
+    pub fn scim(&self) -> ScimService {
+        ScimService {
             config: &self.config,
         }
     }

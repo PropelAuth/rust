@@ -28,6 +28,7 @@ pub struct CreateApiKeyParams {
     pub metadata: Option<serde_json::Value>,
     pub user_id: Option<String>,
     pub org_id: Option<String>,
+    pub display_name: Option<String>,
 }
 
 /// struct for passing parameters to the method [`import_api_key`]
@@ -38,6 +39,7 @@ pub struct ImportApiKeyParams {
     pub metadata: Option<serde_json::Value>,
     pub user_id: Option<String>,
     pub org_id: Option<String>,
+    pub display_name: Option<String>,
 }
 
 /// struct for passing parameters to the method [`update_api_key`]

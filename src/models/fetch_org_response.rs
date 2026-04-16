@@ -45,6 +45,9 @@ pub struct FetchOrgResponse {
     pub extra_domains: Vec<String>,
     pub domain_autojoin: bool,
     pub domain_restrict: bool,
+    pub password_rotation_enabled: bool,
+    pub password_rotation_history_size: i32,
+    pub password_rotation_period: i32
 }
 
 impl FetchOrgResponse {
@@ -58,6 +61,9 @@ impl FetchOrgResponse {
         is_saml_in_test_mode: bool,
         domain_autojoin: bool,
         domain_restrict: bool,
+        password_rotation_enabled: bool,
+        password_rotation_history_size: i32,
+        password_rotation_period: i32,
     ) -> FetchOrgResponse {
         FetchOrgResponse {
             org_id,
@@ -74,6 +80,9 @@ impl FetchOrgResponse {
             extra_domains: Vec::new(),
             domain_autojoin,
             domain_restrict,
+            password_rotation_enabled,
+            password_rotation_history_size,
+            password_rotation_period,
         }
     }
 }
@@ -92,6 +101,7 @@ pub struct FetchOrgBasicResponse {
     pub custom_role_mapping_name: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub legacy_org_id: Option<String>,
+    pub created_at: i64,
 }
 
 impl crate::models::FetchOrgBasicResponse {
@@ -100,6 +110,7 @@ impl crate::models::FetchOrgBasicResponse {
         name: String,
         metadata: OrgMetadata,
         is_saml_configured: bool,
+        created_at: i64
     ) -> crate::models::FetchOrgBasicResponse {
         crate::models::FetchOrgBasicResponse {
             org_id,
@@ -109,6 +120,7 @@ impl crate::models::FetchOrgBasicResponse {
             max_users: None,
             custom_role_mapping_name: None,
             legacy_org_id: None,
+            created_at
         }
     }
 }

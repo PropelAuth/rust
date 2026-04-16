@@ -6,10 +6,11 @@ pub struct FetchApiKeyResponse {
     pub metadata: Option<serde_json::Value>,
     pub user_id: Option<String>,
     pub org_id: Option<String>,
+    pub display_name: Option<String>,
 }
 
 impl FetchApiKeyResponse {
-    pub fn new(api_key_id: String, created_at: i32, expires_at_seconds: Option<i64>, metadata: Option<serde_json::Value>, user_id: Option<String>, org_id: Option<String>) -> Self {
-        Self { api_key_id, created_at, expires_at_seconds, metadata, user_id, org_id }
+    pub fn new(api_key_id: String, created_at: i32, expires_at_seconds: Option<i64>, metadata: Option<serde_json::Value>, user_id: Option<String>, org_id: Option<String>, display_name: Option<String>) -> Self {
+        Self { api_key_id, created_at, expires_at_seconds, metadata, user_id, org_id, display_name }
     }
 }
