@@ -28,6 +28,8 @@ pub struct FetchOrgScimGroupsRequest {
 pub struct FetchScimGroupRequest {
     pub org_id: String,
     pub group_id: String,
+    pub members_page_size: Option<i64>,
+    pub members_page_number: Option<i64>,
 }
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
@@ -167,6 +169,8 @@ pub async fn fetch_scim_group(
     let FetchScimGroupRequest {
         org_id,
         group_id,
+        members_page_number,
+        members_page_size
     } = params;
 
     let local_var_client = &local_var_configuration.client;
@@ -179,6 +183,15 @@ pub async fn fetch_scim_group(
     );
     let mut local_var_req_builder =
         local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+    
+    if let Some(ref local_var_str) = members_page_size {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("members_page_size", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = members_page_number {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("members_page_number", &local_var_str.to_string())]);
+    }
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =
