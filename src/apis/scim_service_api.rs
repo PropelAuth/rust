@@ -36,8 +36,8 @@ pub struct ScimGroupResult {
     pub group_id: String,
     #[serde(rename = "display_name")]
     pub display_name: String,
-    #[serde(rename = "external_id_from")]
-    pub external_id_from: Option<String>,
+    #[serde(rename = "external_id_from_idp")]
+    pub external_id_from_idp: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
@@ -64,8 +64,8 @@ pub struct ScimGroup {
     pub group_id: String,
     #[serde(rename = "display_name")]
     pub display_name: String,
-    #[serde(rename = "external_id_from")]
-    pub external_id_from: Option<String>,
+    #[serde(rename = "external_id_from_idp")]
+    pub external_id_from_idp: Option<String>,
     #[serde(rename = "members")]
     pub members: Vec<ScimGroupMember>,
 }
