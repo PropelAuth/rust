@@ -133,7 +133,7 @@ pub struct OrgReportRecord {
     pub extra_properties: Option<serde_json::Value>,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct OrgReport {
     pub org_reports: Vec<OrgReportRecord>,
     pub current_page: i64,
@@ -157,7 +157,7 @@ pub struct UserReportRecord {
     pub org_data: serde_json::Value,
     pub extra_properties: Option<serde_json::Value>,
 }
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct UserReportPage {
     pub user_reports: Vec<UserReportRecord>,
     pub current_page: i64,
