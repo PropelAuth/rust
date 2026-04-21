@@ -304,6 +304,16 @@ pub enum DeleteOrgError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`set_oidc_idp_metadata`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum SetOidcIdpMetadataError {
+    Status400(serde_json::Value),
+    Status401(serde_json::Value),
+    Status404(serde_json::Value),
+    UnknownValue(serde_json::Value),
+}
+
 pub async fn add_user_to_org(
     configuration: &configuration::Configuration,
     params: AddUserToOrgParams,
@@ -1325,6 +1335,54 @@ pub async fn subscribe_org_to_role_mapping(
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<SubscribeOrgToRoleMappingError> =
+            serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent {
+            status: local_var_status,
+            content: local_var_content,
+            entity: local_var_entity,
+        };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+pub async fn set_oidc_idp_metadata(
+    configuration: &configuration::Configuration,
+    set_idp_request: crate::models::SetOidcIdpMetadataRequest,
+) -> Result<crate::models::SuccessfulResponse, Error<SetOidcIdpMetadataError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!(
+        "{}/api/backend/v1/oidc_idp_metadata",
+        local_var_configuration.base_path,
+    );
+    let mut local_var_req_builder =
+        local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder =
+            local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent);
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token);
+    };
+    local_var_req_builder = local_var_req_builder.header(
+        AUTH_HOSTNAME_HEADER,
+        local_var_configuration.auth_hostname.to_owned(),
+    );
+    local_var_req_builder = local_var_req_builder.json(&set_idp_request);
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        Ok(SuccessfulResponse::new())
+    } else {
+        let local_var_entity: Option<SetOidcIdpMetadataError> =
             serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent {
             status: local_var_status,

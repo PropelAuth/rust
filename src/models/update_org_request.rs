@@ -34,6 +34,12 @@ pub struct UpdateOrgRequest {
     pub require_2fa_by: Option<String>,
     #[serde(rename = "extra_domains", skip_serializing_if = "Option::is_none")]
     pub extra_domains: Option<Vec<String>>,
+    #[serde(rename = "password_rotation_enabled", skip_serializing_if = "Option::is_none")]
+    pub password_rotation_enabled: Option<bool>,
+    #[serde(rename = "password_rotation_history_size", skip_serializing_if = "Option::is_none")]
+    pub password_rotation_history_size: Option<i32>,
+    #[serde(rename = "password_rotation_period", skip_serializing_if = "Option::is_none")]
+    pub password_rotation_period: Option<i32>,
 }
 
 impl UpdateOrgRequest {
@@ -49,6 +55,9 @@ impl UpdateOrgRequest {
             legacy_org_id: None,
             require_2fa_by: None,
             extra_domains: None,
+            password_rotation_enabled: None,
+            password_rotation_history_size: None,
+            password_rotation_period: None,
         }
     }
 }

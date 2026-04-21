@@ -11,3 +11,4 @@ pub mod token;
 pub mod token_models;
 pub mod user;
 pub mod user_insights;
+pub mod scim;

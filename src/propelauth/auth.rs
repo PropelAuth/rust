@@ -13,6 +13,7 @@ use crate::propelauth::options::{AuthOptions, AuthOptionsWithTokenVerification};
 use crate::propelauth::org::OrgService;
 use crate::propelauth::token::TokenService;
 use crate::propelauth::user::UserService;
+use crate::propelauth::scim::ScimService;
 use crate::propelauth::user_insights::UserInsightsService;
 
 static BACKEND_API_BASE_URL: &str = "https://propelauth-api.com";
@@ -128,6 +129,13 @@ impl PropelAuth {
     /// API requests related to mfa.
     pub fn mfa(&self) -> MfaService {
         MfaService {
+            config: &self.config,
+        }
+    }
+    
+    /// API requests related to scim.
+    pub fn scim(&self) -> ScimService {
+        ScimService {
             config: &self.config,
         }
     }
