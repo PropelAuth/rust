@@ -13,7 +13,6 @@ use crate::propelauth::options::{AuthOptions, AuthOptionsWithTokenVerification};
 use crate::propelauth::org::OrgService;
 use crate::propelauth::token::TokenService;
 use crate::propelauth::user::UserService;
-use crate::propelauth::employee::EmployeeService;
 use crate::propelauth::scim::ScimService;
 use crate::propelauth::user_insights::UserInsightsService;
 
