@@ -89,6 +89,7 @@ pub mod user_ids_query;
 pub use self::user_ids_query::UserIdsQuery;
 pub mod user_in_org;
 pub use self::user_in_org::UserInOrg;
+pub mod user_insights;
 pub mod user_metadata;
 pub use self::user_metadata::UserMetadata;
 pub mod user_paged_response;

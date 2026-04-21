@@ -1,8 +1,8 @@
 use crate::models::{
     BadCreateAccessTokenError, BadCreateMagicLinkRequest, BadCreateOrgRequest,
     BadCreateUserRequest, BadFetchOrgQuery, BadFetchUsersByQuery, BadFetchUsersInOrgQuery,
-    BadMigrateUserRequest, BadMigrateUserPasswordRequest, BadUpdateOrgRequest, BadUpdatePasswordRequest,
-    BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest,
+    BadMigrateUserPasswordRequest, BadMigrateUserRequest, BadUpdateOrgRequest,
+    BadUpdatePasswordRequest, BadUpdateUserEmailRequest, BadUpdateUserMetadataRequest,
 };
 use thiserror::Error;
 
@@ -462,7 +462,7 @@ pub enum VerifyStepUpGrantError {
 
 #[derive(Error, Debug, PartialEq, Clone)]
 pub enum SendSmsCodeError {
-     #[error("Invalid API Key")]
+    #[error("Invalid API Key")]
     InvalidApiKey,
 
     #[error("Rate limited by PropelAuth")]
@@ -511,3 +511,17 @@ pub enum VerifySmsChallengeError {
     UnexpectedException,
 }
 
+#[derive(Error, Debug, PartialEq, Clone)]
+pub enum FetchUserInsightsError {
+    #[error("Invalid API Key")]
+    InvalidApiKey,
+
+    #[error("Invalid parameters: {0}")]
+    InvalidParams(&'static str),
+
+    #[error("Rate limited by PropelAuth")]
+    PropelAuthRateLimit,
+
+    #[error("Unexpected exception, please try again")]
+    UnexpectedException,
+}
