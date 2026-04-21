@@ -13,82 +13,11 @@ use reqwest;
 use super::{configuration, Error};
 use crate::propelauth::auth::AUTH_HOSTNAME_HEADER;
 use crate::apis::ResponseContent;
-
-/// struct for passing parameters to the method [`fetch_org_scim_groups`]
-#[derive(Clone, Debug, Default)]
-pub struct FetchOrgScimGroupsRequest {
-    pub org_id: String,
-    pub user_id: Option<String>,
-    pub page_size: Option<i64>,
-    pub page_number: Option<i64>,
-}
-
-/// struct for passing parameters to the method [`fetch_scim_group`]
-#[derive(Clone, Debug, Default)]
-pub struct FetchScimGroupRequest {
-    pub org_id: String,
-    pub group_id: String,
-    pub members_page_size: Option<i64>,
-    pub members_page_number: Option<i64>,
-}
-
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct ScimGroupResult {
-    #[serde(rename = "group_id")]
-    pub group_id: String,
-    #[serde(rename = "display_name")]
-    pub display_name: String,
-    #[serde(rename = "external_id_from_idp")]
-    pub external_id_from_idp: Option<String>,
-}
-
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct ScimGroupResultPage {
-    #[serde(rename = "groups")]
-    pub groups: Vec<ScimGroupResult>,
-    #[serde(rename = "total_groups")]
-    pub total_groups: i64,
-    #[serde(rename = "page_number")]
-    pub page_number: i64,
-    #[serde(rename = "page_size")]
-    pub page_size: i64,
-}
-
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct ScimGroupMember {
-    #[serde(rename = "user_id")]
-    pub user_id: String
-}
-
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct ScimGroup {
-    #[serde(rename = "group_id")]
-    pub group_id: String,
-    #[serde(rename = "display_name")]
-    pub display_name: String,
-    #[serde(rename = "external_id_from_idp")]
-    pub external_id_from_idp: Option<String>,
-    #[serde(rename = "members")]
-    pub members: Vec<ScimGroupMember>,
-}
-
-/// struct for typed errors of method [`fetch_org_scim_groups`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum FetchOrgScimGroupsError {
-    Status401(serde_json::Value),
-    Status404(serde_json::Value),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed errors of method [`fetch_scim_group`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum FetchScimGroupError {
-    Status401(serde_json::Value),
-    Status404(serde_json::Value),
-    UnknownValue(serde_json::Value),
-}
+use crate::models::{
+    FetchOrgScimGroupsError, FetchOrgScimGroupsRequest,
+    FetchScimGroupError, FetchScimGroupRequest,
+    ScimGroup, ScimGroupResultPage,
+};
 
 
 pub async fn fetch_org_scim_groups(
