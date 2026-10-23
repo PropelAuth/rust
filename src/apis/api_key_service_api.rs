@@ -232,7 +232,7 @@ pub async fn fetch_api_key(
     api_key_id: String,
 ) -> Result<crate::models::FetchApiKeyResponse, Error<ApiKeyError>> {
     if hex::decode(&api_key_id).is_err() {
-        return Err(Error::Params("Invalid API key ID format".to_string()));
+        return parse_fetch_api_key_response(reqwest::StatusCode::NOT_FOUND, String::new());
     }
 
     let client = &configuration.client;
@@ -257,16 +257,72 @@ pub async fn fetch_api_key(
     let status = resp.status();
     let content = resp.text().await?;
 
-    if !status.is_client_error() && !status.is_server_error() {
-        serde_json::from_str(&content).map_err(Error::from)
-    } else {
+    parse_fetch_api_key_response(status, content)
+}
+
+fn parse_fetch_api_key_response(
+    status: reqwest::StatusCode,
+    content: String,
+) -> Result<crate::models::FetchApiKeyResponse, Error<ApiKeyError>> {
+    if status.is_client_error() || status.is_server_error() {
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,
             entity,
         };
-        Err(Error::ResponseError(error))
+        return Err(Error::ResponseError(error));
+    }
+
+    if status.is_success() && content.trim() == "null" {
+        return Err(Error::ResponseError(ResponseContent {
+            status: reqwest::StatusCode::NOT_FOUND,
+            content,
+            entity: None,
+        }));
+    }
+
+    serde_json::from_str(&content).map_err(Error::from)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::parse_fetch_api_key_response;
+    use crate::apis::Error;
+    use reqwest::StatusCode;
+
+    #[test]
+    fn null_response_maps_to_not_found_and_preserves_content() {
+        let error = parse_fetch_api_key_response(StatusCode::OK, " null \n".to_string())
+            .unwrap_err();
+
+        assert!(matches!(
+            error,
+            Error::ResponseError(response)
+                if response.status == StatusCode::NOT_FOUND
+                    && response.content == " null \n"
+                    && response.entity.is_none()
+        ));
+    }
+
+    #[test]
+    fn valid_response_deserializes() {
+        let response = parse_fetch_api_key_response(
+            StatusCode::OK,
+            r#"{"api_key_id":"abcd","created_at":123}"#.to_string(),
+        )
+        .unwrap();
+
+        assert_eq!(response.api_key_id, "abcd");
+        assert_eq!(response.created_at, 123);
+    }
+
+    #[test]
+    fn invalid_json_returns_serde_error() {
+        assert!(matches!(
+            parse_fetch_api_key_response(StatusCode::OK, "{".to_string()),
+            Err(Error::Serde(_))
+        ));
     }
 }
 
