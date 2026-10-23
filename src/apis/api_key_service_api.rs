@@ -315,7 +315,7 @@ pub async fn update_api_key(
     configuration: &configuration::Configuration,
     api_key_id: String,
     params: UpdateApiKeyParams,
-) -> Result<crate::models::SuccessfulResponse, Error<ApiKeyError>> {
+) -> Result<(), Error<ApiKeyError>> {
     if hex::decode(&api_key_id).is_err() {
         return Err(Error::Params("Invalid API key ID format".to_string()));
     }
@@ -342,11 +342,13 @@ pub async fn update_api_key(
     let resp = client.execute(req).await?;
 
     let status = resp.status();
-    let content = resp.text().await?;
 
+    // Unlike the other end_user_api_keys endpoints, PATCH returns 200 with an
+    // empty body on success — there is nothing to deserialize here.
     if !status.is_client_error() && !status.is_server_error() {
-        serde_json::from_str(&content).map_err(Error::from)
+        Ok(())
     } else {
+        let content = resp.text().await?;
         let entity: Option<ApiKeyError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
