@@ -43,5 +43,8 @@ axum08 = ["dep:axum_08", "dep:tower"]
 actix4 = ["dep:actix-web"]
 __reqwest = ["reqwest/json", "reqwest/multipart"]
 
+[package.metadata.docs.rs]
+all-features = true
+
 [lib]
 doctest = false
